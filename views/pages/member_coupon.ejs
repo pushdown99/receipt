@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<form>
+<div class="form-row"> 
+  <div class="form-group col-md-2">
+  <label for="member">Members</label>
+  </div>
+  <div class="form-group col-md-3">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Email</div></div>
+      <input id="email" type="text" class="form-control" name="email" value="" placeholder="email">
+    </div>
+  </div>
+  <div class="form-group offset-md-1 col-md-3">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Name</div></div>
+      <input type="text" class="form-control" name="name" value="" placeholder="member name">
+    </div>
+  </div>
+  <div class="form-group offset-md-1 col-md-2">
+  </div>
+
+  <div class="form-group col-md-2">
+  <label for="coupon">Coupon</label>
+  </div>
+  <div class="form-group col-md-3">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Type</div></div>
+      <button id="btnCoupon" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All</button>
+      <div id="dropCoupon" class="dropdown-menu">
+        <a class="dropdown-item" href="#">All</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Reward</a>
+        <a class="dropdown-item" href="#">Stamp</a>
+        <a class="dropdown-item" href="#">Promotion</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group offset-md-1 col-md-3">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Coupon</div></div>
+      <input type="text" class="form-control" name="coupon" value="" placeholder="coupon name">
+    </div>
+  </div>
+  <div class="form-group offset-md-1 col-md-2">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Used</div></div>
+      <button id="btnUsed" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All</button>
+      <div id="dropUsed" class="dropdown-menu">
+        <a class="dropdown-item">All</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item">Yes</a>
+        <a class="dropdown-item">No</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group offset-md-10 col-md-1">
+    <button type="reset" class="btn btn-default pull-right w-100">Cancel</button>
+  </div>
+  <div class="form-group col-md-1">
+    <button name="search" id="search" type="button" class="btn btn-primary w-100">Search</button>
+  </div>
+<div class="col-md-12">
+<div id="result"></div>
+</div>
+</form>
+

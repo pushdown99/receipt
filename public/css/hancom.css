@@ -1,0 +1,9 @@
+body {
+  font-family: 'Ropa Sans', sans-serif;
+}
+
+.login-box, .register-box
+{
+  margin: 7% auto;
+}
+

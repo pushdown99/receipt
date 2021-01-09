@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Receipt</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <link rel="stylesheet" href="/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <link rel="stylesheet" href="/plugins/bs-stepper/css/bs-stepper.min.css">
+  <link rel="stylesheet" href="/plugins/dropzone/min/dropzone.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/css/hancom.css">
+  <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet" media="all">
+</head>
+
+<body>
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+ 
+
+<form>
+<div class="form-row"> 
+  <div class="form-group col-md-2">
+  <label for="member">Members</label>
+  </div>
+  <div class="form-group col-md-3">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Email</div></div>
+      <input id="email" type="text" class="form-control" name="email" value="" placeholder="email">
+    </div>
+  </div>
+  <div class="form-group offset-md-1 col-md-3">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Name</div></div>
+      <input type="text" class="form-control" name="name" value="" placeholder="member name">
+    </div>
+  </div>
+  <div class="form-group offset-md-1 col-md-2">
+  </div>
+
+  <div class="form-group col-md-2">
+  <label for="coupon">Coupon</label>
+  </div>
+  <div class="form-group col-md-3">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Type</div></div>
+      <button id="btnCoupon" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All</button>
+      <div id="dropCoupon" class="dropdown-menu">
+        <a class="dropdown-item" href="#">All</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Reward</a>
+        <a class="dropdown-item" href="#">Stamp</a>
+        <a class="dropdown-item" href="#">Promotion</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group offset-md-1 col-md-3">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Coupon</div></div>
+      <input type="text" class="form-control" name="coupon" value="" placeholder="coupon name">
+    </div>
+  </div>
+  <div class="form-group offset-md-1 col-md-2">
+    <div class="input-group">
+      <div class="input-group-prepend"><div class="input-group-text">Used</div></div>
+      <button id="btnUsed" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All</button>
+      <div id="dropUsed" class="dropdown-menu">
+        <a class="dropdown-item">All</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item">Yes</a>
+        <a class="dropdown-item">No</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group offset-md-10 col-md-1">
+    <button type="reset" class="btn btn-default pull-right w-100">Cancel</button>
+  </div>
+  <div class="form-group col-md-1">
+    <button name="search" id="search" type="button" class="btn btn-primary w-100">Search</button>
+  </div>
+<div class="col-md-12">
+<div id="result"></div>
+</div>
+</form>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<script src="/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+<script src="/plugins/dropzone/min/dropzone.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/dist/js/demo.js"></script>
+<script src="/js/hancom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+$(function(){
+  console.log("ready");
+
+  $("#dropCoupon").on('click', "a", function(){
+    $("#btnCoupon").text($(this).text());
+  });
+  $("#dropUsed").on('click', "a", function(){
+    $("#btnUsed").text($(this).text());
+  });
+
+  var pagelength = 10;
+
+  $("#search").on('click', function(){
+    $.getJSON("/admin/get-receipts", function(data) {
+      console.log(data);
+      blocks = data;
+      var info  = document.getElementById("result");
+      var w = $(document).width();
+
+      html = '<div class="table-responsive">';
+      html += '<table id="receipt-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+      html += '<thead>';
+      html += '<tr>';
+      html += '<th>id</th>';
+      html += '<th>email</th>';
+      html += '<th>name</th>';
+      html += '<th>tel</th>';
+      html += '<th>pdf</th>';
+      html += '<th>total</th>';
+      html += '<th>ts</th>';
+      html += '</tr>';
+      html += '</thead>';
+      html += '<tbody>';
+      $.each(data, function(i, t) {
+        html += '<tr>';
+        html += '<td>' + t.id + '</td>';
+        html += '<td>' + t.email + '</td>';
+        html += '<td>' + t.name + '</td>';
+        html += '<td>' + t.tel + '</td>';
+        html += '<td>' + t.pdf + '</td>';
+        html += '<td>' + t.total + '</td>';
+        html += '<td>' + moment(t.ts).format('MM/DD HH:mm:ss') + '</td>';
+        html += '</tr>';
+      });
+      html += '</tbody>';
+      html += '</table>';
+      html += '</div>';
+
+      //////////////////////////////////////////////////////////////////////////////////////
+      info.innerHTML = html;
+      $('#receipt-table').DataTable({
+        "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+        "order": [[ 0, "desc" ]],
+        "pageLength": pagelength
+      });
+    });
+  });
+
+});
+</script>
+
+</div>
+</div>
+</div>
+</body>
+</html>
