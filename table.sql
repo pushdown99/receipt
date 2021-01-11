@@ -50,6 +50,38 @@ CREATE TABLE IF NOT EXISTS license (
   ts             timestamp NOT NULL           -- 사용자등록시간
 );
 
+DROP TABLE member;
+CREATE TABLE IF NOT EXISTS member (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email          varchar(64) NOT NULL,
+  passwd         varchar(64) NOT NULL,        -- 패스워드
+  name           varchar(64) NOT NULL,
+  register       varchar(32) NOT NULL,        -- 사업자등록번호
+  owner          varchar(64),
+  divtype        varchar(64),
+  biztype        varchar(64),
+  tel            varchar(32),
+  opendate       timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  address        varchar(32),
+
+  logo           varchar(64),
+  description    varchar(64),
+  holiday        int,
+  opening        varchar(32),
+  closing        varchar(32),
+  image          varchar(64),
+  manager        varchar(64),
+  managertel     varchar(64),
+  used           int DEFAULT 1,
+  enroll         varchar(32),
+  ts             timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO member (email, passwd, name, tel, register) VALUES ('aaa@gmail.com', 'xyz', '스타벅스 전주한옥마을점', '010-1234-5678', '125-12-5678');
+INSERT INTO member (email, passwd, name, tel, register) VALUES ('bbb@naver.com', 'xyz', '은행나무 게스트하우스', '010-1234-5678', '125-12-5678');
+INSERT INTO member (email, passwd, name, tel, register) VALUES ('ccc@hanmail.com', 'xyz', '이디야 전주교대점', '010-1234-5678', '125-12-5678');
+INSERT INTO member (email, passwd, name, tel, register) VALUES ('ddd@hotmail.com', 'xyz', '삼산마트', '010-1234-5678', '125-12-5678');
+
 DROP TABLE coupon;
 CREATE TABLE IF NOT EXISTS coupon (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<form>
+<form method="post">
 <div class="form-row"> 
   <div class="form-group col-md-2">
-  <label for="member">Members</label>
+  <label for="member">Members1</label>
   </div>
   <div class="form-group col-md-3">
     <div class="input-group">
       <div class="input-group-prepend"><div class="input-group-text">Email</div></div>
-      <input id="email" type="text" class="form-control" name="email" value="" placeholder="email">
+      <input type="text" class="form-control" name="email" value="" placeholder="email">
     </div>
   </div>
   <div class="form-group offset-md-1 col-md-3">
@@ -25,8 +24,8 @@
   <div class="form-group col-md-3">
     <div class="input-group">
       <div class="input-group-prepend"><div class="input-group-text">Type</div></div>
-      <button id="btnCoupon" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All</button>
-      <div id="dropCoupon" class="dropdown-menu">
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All</button>
+      <div class="dropdown-menu">
         <a class="dropdown-item" href="#">All</a>
         <div role="separator" class="dropdown-divider"></div>
         <a class="dropdown-item" href="#">Reward</a>
@@ -45,12 +44,12 @@
   <div class="form-group offset-md-1 col-md-2">
     <div class="input-group">
       <div class="input-group-prepend"><div class="input-group-text">Used</div></div>
-      <button id="btnUsed" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All</button>
-      <div id="dropUsed" class="dropdown-menu">
-        <a class="dropdown-item">All</a>
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All</button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">All</a>
         <div role="separator" class="dropdown-divider"></div>
-        <a class="dropdown-item">Yes</a>
-        <a class="dropdown-item">No</a>
+        <a class="dropdown-item" href="#">Yes</a>
+        <a class="dropdown-item" href="#">No</a>
       </div>
     </div>
   </div>
@@ -59,10 +58,34 @@
     <button type="reset" class="btn btn-default pull-right w-100">Cancel</button>
   </div>
   <div class="form-group col-md-1">
-    <button name="search" id="search" type="button" class="btn btn-primary w-100">Search</button>
+<!--
+    <button type="submit" id="btn" class="btn btn-primary w-100" onclick="window.Update($(this));"><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i>Search</button>
+-->
+    <button type="submit" class="btn btn-primary w-100"><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i>Search</button>
   </div>
-<div class="col-md-12">
-<div id="result"></div>
+<div class="form-row"> 
 </div>
 </form>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script>
+
+function getQueryString() {
+  var queryStringKeyValue = window.parent.location.search.replace('?', '').split('&');
+  var qsJsonObject = {};
+  if (queryStringKeyValue != '') {
+    for (i = 0; i < queryStringKeyValue.length; i++) {
+      qsJsonObject[queryStringKeyValue[i].split('=')[0]] = queryStringKeyValue[i].split('=')[1];
+    }
+  }
+  return qsJsonObject;
+}
+
+$("#main").load(function (){
+  console.log("main");
+});
+//$( window ).on( "load", function() {
+//  console.log(getQueryString().email);
+//});
+</script>
 

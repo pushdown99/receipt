@@ -1,7 +1,9 @@
 'use strict';
 
-const dotenv  = require('dotenv').config()
-const verbose = ((process.env.VERBOSE || 'false') == 'true')
+const formdata = require('form-data');
+const request  = require('request');
+const dotenv   = require('dotenv').config();
+const verbose  = ((process.env.VERBOSE || 'false') == 'true')
 
 const utils = require('./utils.js');
 const mysql = require('./mysql.js');
@@ -127,6 +129,31 @@ module.exports = {
     app.get ('/', function(req, res) {
       pageInfo.page ='member_coupon';
       res.render('page', pageInfo);
+    });
+    app.get ('/utils/juso/:keyword', function(req, res) {
+       let keyword = req.params.keyword;
+
+       let formData = {
+         currentPage: 1,
+         countPerPage: 100,
+         keyword: keyword,
+         confmKey: 'devU01TX0FVVEgyMDIxMDExMDE0MDQzNzExMDY0ODU=',
+         resultType: 'json',
+       };
+ 
+       request.post({url:'https://www.juso.go.kr/addrlink/addrLinkApiJsonp.do', formData: formData}, function(err, httpResponse, body) {
+         if (err) {
+           return console.error('upload failed:', err);
+         }
+         //let data = body.replace(/()/g, "");
+         //console.log (data);
+         //var  obj = JSON.parse(data);
+         //console.log('Upload successful!  Server responded with:', obj);
+         body = body.replace(/[()]+/gi,"");
+         let obj = JSON.parse(body);
+         res.send (body);
+       });
+
     });
     app.get ('/test', function(req, res) {
       res.render('pages/test');

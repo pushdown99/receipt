@@ -95,7 +95,7 @@ module.exports = {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  getIssue: function() {
+  getIssue: function(record) {
     return this.query("SELECT * FROM issue", record);
   },
   getIssueEmail: function(record) {
@@ -179,4 +179,8 @@ module.exports = {
     return this.query("INSERT INTO coupon (email, cpcode, used, g_coupon_id, name, register, title, genre, begins, ends) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", record);
   },
 
+  //////////////////////////////////////////////////////////////////////////////////
+  getMember: function (record) {
+    return this.query("SELECT * FROM member", record);
+  },
 }
