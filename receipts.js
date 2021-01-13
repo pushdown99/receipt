@@ -36,7 +36,10 @@ module.exports = function(app) {
     let dat = escp(req.body.Data);
 
     var result = mysql.getIssueLicense ([pos]);
-    if(result.length < 1) return response(req, res, 404);
+    if(result.length < 1) {
+      return res.send(req.body.Data);
+      //return response(req, res, 404);
+    }
 
     let email  = result[0].email;
 

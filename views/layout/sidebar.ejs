@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <a href="/" class="brand-link">
     <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -8,10 +9,10 @@
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-        <li class="nav-item"><a href="#" class="nav-parent nav-link active"><p>가맹점쿠폰관리<i class="right fas fa-angle-left"></i></p></a>
+        <li class="nav-item"><a href="#" id="sidebar-page-member-coupon" class="nav-parent nav-link"><p>가맹점쿠폰관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="#" class="nav-child nav-link active"><i class="far fa-circle nav-icon"></i><p>가맹점쿠폰조회</p></a></li>
-            <li class="nav-item"><a href="#" class="nav-child nav-link"><i class="far fa-circle nav-icon"></i><p>가맹점쿠폰등록</p></a></li>
+            <li class="nav-item"><a href="/admin/member/coupon/search" id="sidebar-page-member-coupon-search" class="nav-child nav-link active"><i class="far fa-circle nav-icon"></i><p>가맹점쿠폰조회</p></a></li>
+            <li class="nav-item"><a href="/admin/member/coupon/register" id="sidebar-page-member-coupon-register" class="nav-child nav-link"><i class="far fa-circle nav-icon"></i><p>가맹점쿠폰등록</p></a></li>
           </ul>
         </li>
 
@@ -62,10 +63,10 @@
           </ul>
         </li>
 
-        <li class="nav-item"><a href="#" class="nav-parent nav-link "><p>관리자관리<i class="right fas fa-angle-left"></i></p></a>
+        <li class="nav-item"><a href="#" id="sidebar-page-member-user" class="nav-parent nav-link "><p>관리자관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="#" class="nav-child nav-link"><i class="far fa-circle nav-icon"></i><p>관리자조회</p></a></li>
-            <li class="nav-item"><a href="#" class="nav-child nav-link"><i class="far fa-circle nav-icon"></i><p>관리자등록</p></a></li>
+            <li class="nav-item"><a href="/admin/member/user/search" id="sidebar-page-member-user-search" class="nav-child nav-link"><i class="far fa-circle nav-icon"></i><p>관리자조회</p></a></li>
+            <li class="nav-item"><a href="/admin/member/user/register" id="sidebar-page-member-user-register" class="nav-child nav-link"><i class="far fa-circle nav-icon"></i><p>관리자등록</p></a></li>
           </ul>
         </li>
 
