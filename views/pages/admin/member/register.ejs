@@ -1,206 +1,132 @@
 <!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+        <form>
+          <h5>가맹점 정보</h5>
+          <table class="table">
+          <tbody>
+            <tr>
+              <th class="label">사업자번호</th>
+              <td><input class="input_member" type="text"></td>
+            </tr>
+            <tr>
+              <th class="label">가맹점상호</th>
+              <td><input class="input_member" type="text"></td>
+            </tr>
+            <tr>
+              <th class="label">대표자명</th>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+            </tr>
+            <tr>
+              <th class="label">업태/업종</th>
+              <td>업태&nbsp;&nbsp;<input class="input_member" type="text">&nbsp;&nbsp;업종&nbsp;&nbsp;<input class="input_member" type="text"></td>
+            </tr>
+            <tr>
+              <th class="label">업종 분류코드</th>
+              <td>
+              <select class="form-select" aria-label="Default select example">
+                <option value="카페">카페</option>
+                <option value="음식점">음식점</option>
+              </select>
+              </td>
+            </tr>
+            <tr>
+              <th class="label">개업년월일</th>
+              <td>
+                  <div class="input-group">
+                    <input id="coupon-begin-date" type="text" class="form-control float-right input_date" value="" placeholder="YYYY.MM.DD">
+                    <div class="input-group-append" data-target="#coupon-begin-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
+                  </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="label">주소</th>
+              <td><input class="input_address" type="text"></td>
+            </tr>
+          </tbody>
+          <table>
 
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card card-primary card-outline">
-          <div class="card-body">
-            <h4 class="card-title">가맹점등록</h4>
-            <p class="card-text">
+          <h5>가맹점 부가정보</h5>
+          <table class="table">
+          <tbody>
+            <tr>
+              <th class="label">가맹점로고</th>
+              <td>
+               <input type="file" name="sampleFile" />
+              </td>
+            </tr>
+            <tr>
+              <th class="label">가맹점소개</th>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+            </tr>
+            <tr>
+              <th class="label">휴일</th>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+            </tr>
+            <tr>
+              <th class="label">영업시간</th>
+              <td>
+              <input class="input_member" type="text">&nbsp;&nbsp;~&nbsp;&nbsp;<input class="input_member" type="text">
+              </td>
+            </tr>
+            <tr>
+              <th class="label">가맹점이미지</th>
+              <td>
+               <input type="file" name="sampleFile" />
+              </td>
+            </tr>
+          </tbody>
+          <table>
 
-<form>
-<div class="form-row"> 
-  <div class="form-group col-md-4">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">가맹점 ID</div></div>
-      <input id="email" type="text" class="form-control" name="email" value="" placeholder="email">
-    </div>
-  </div>
-  <div class="form-group col-md-2">
-    <div class="input-group"><button type="button" class="btn btn-default pull-right w-100">중복확인</button></div>
-  </div>
-  <div class="form-group offset-md-6"></div>
+          <h5>가맹점 담당자정보</h5>
+          <table class="table">
+          <tbody>
+            <tr>
+              <th class="label">담당자명</th>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+            </tr>
+            <tr>
+              <th class="label">담당자연락처</th>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+            </tr>
+            <tr>
+              <th class="label">담당자이메일</th>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+            </tr>
+          </tbody>
+          <table>
 
-  <div class="form-group col-md-4">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">가맹점 상호</div></div>
-      <input id="email" type="text" class="form-control" name="email" value="" placeholder="name">
-    </div>
-  </div>
-  <div class="form-group offset-md-8"></div>
 
-  <div class="form-group col-md-4">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">사업자 번호</div></div>
-      <input id="email" type="text" class="form-control" name="email" value="" placeholder="register">
-    </div>
-  </div>
-  <div class="form-group col-md-2">
-    <div class="input-group"><button type="button" class="btn btn-default pull-right w-100">사업자번호확인</button></div>
-  </div>
-  <div class="form-group offset-md-6"></div>
-
-  <div class="form-group col-md-4">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">대표자명</div></div>
-      <input id="email" type="text" class="form-control" name="email" value="" placeholder="name">
-    </div>
-  </div>
-  <div class="form-group offset-md-8"></div>
-
-  <div class="form-group col-md-8">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">업태/업종</div></div>
-      <div class="input-subgroup-text text-left">업태 |</div>
-      <input id="email" type="text" class="form-control" name="email" value="" placeholder="register">
-      <div class="input-subgroup-text text-left">업종 |</div>
-      <input id="email" type="text" class="form-control" name="email" value="" placeholder="register">
-    </div>
-  </div>
-  <div class="form-group offset-md-4"></div>
-
-  <div class="form-group col-md-4">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">연락처</div></div>
-      <input id="email" type="text" class="form-control" name="email" value="" placeholder="name">
-    </div>
-  </div>
-  <div class="form-group offset-md-8"></div>
-
-  <div class="form-group col-md-4">
-    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-      <div class="input-group-prepend"><div class="input-group-text text-left">개업년월일</div></div>
-      <input id="openingDate" type="text" class="form-control datetimepicker-input"" data-target="#reservationdate" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
-      <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-        <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
-      </div>
-    </div>
-  </div>
-  <div class="form-group offset-md-8"></div>
-
-  <div class="form-group col-md-8">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">주소</div></div>
-      <input id="email" type="text" class="form-control" name="address" value="" placeholder="name">
-      <div class="input-group-append">
 <!--
-        <div id="call-search-juso" class="input-subgroup-text"><a class="dropdown-item" href="javascript:void(0);"><i class="fa fa-search"></i></a></div>
--->
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-search-juso"><i class="fa fa-search"></i></button>
-      </div>
-    </div>
-  </div>
-  <div class="form-group offset-md-4"></div>
-
-  <div class="form-group col-md-12"></div>
-  <div class="form-group col-md-12"></div>
-  <div class="form-group col-md-12">
-    <h4 class="card-title">가맹점 부가정보</h4>
-  </div>
-
-  <div class="form-group col-md-4">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">가맹점 로고</div></div>
-      <input id="file" type="file" class="form-control form-subcontrol" name="sampleFile">
-    </div>
-  </div>
-  <div class="form-group offset-md-8"></div>
-
-  <div class="form-group col-md-8">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">가맹점 소개</div></div>
-      <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-    </div>
-  </div>
-  <div class="form-group offset-md-4"></div>
-
-  <div class="form-group col-md-4">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">휴일</div></div>
-      <button id="btnOffDuty" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">무휴</button>
-      <div id="dropOffDuty" class="dropdown-menu">
-        <a class="dropdown-item" href="#">무휴</a>
-        <div role="separator" class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">월요일</a>
-        <a class="dropdown-item" href="#">화요일</a>
-        <a class="dropdown-item" href="#">수요일</a>
-        <a class="dropdown-item" href="#">목요일</a>
-        <a class="dropdown-item" href="#">금요일</a>
-        <a class="dropdown-item" href="#">토요일</a>
-        <a class="dropdown-item" href="#">일요일</a>
-      </div>
-    </div>
-  </div>
-  <div class="form-group offset-md-8"></div>
-
-  <div class="form-group col-md-4">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">영업시간</div></div>
-      <input id="openingTime" type="text" class="form-control" value="" placeholder="00:00" data-inputmask='"mask": "99:99"' data-mask>
-&nbsp;<input id="closingTime" type="text" class="form-control" value="" placeholder="23:59" data-inputmask='"mask": "99:99"' data-mask>
-    </div>
-  </div>
-  <div class="form-group offset-md-8"></div>
-
-  <div class="form-group col-md-4">
-    <div class="input-group">
-      <div class="input-group-prepend"><div class="input-group-text text-left">가맹점 이미지</div></div>
-      <input id="file" type="file" class="form-control form-subcontrol" name="sampleFile">
-    </div>
-  </div>
-  <div class="form-group offset-md-8"></div>
-
-  <div class="form-group offset-md-11 col-md-1">
-    <button name="search" id="search" type="button" class="btn btn-primary w-100">등록</button>
-  </div>
-
-
-
-</div>
-</form>
-
-            </p>
+          <div class="row">
+          <div class="col-lg-2"><button id="form-member-list" type="button" class="btn btn-default pull-left" style="float: left;">목록</button></div>
+          <div class="offset-lg-8 col-lg-2"><button id="form-member-register" type="submit" class="btn btn-primary pull-right" style="float: right;">등록</button></div>
           </div>
+-->
+          <button id="form-member-list" type="button" class="btn btn-default" style="float: left;">목록</button>
+          <button id="form-member-register" type="submit" class="btn btn-primary" style="float: right;">등록</button>
+        </form>
         </div>
       </div>
     </div>
-  </div>
+  </div> <!-- row -->
 </div>
+<div id="results"></div>
+<div id="description" style="display: none;">page-member-search</div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="modal-search-juso" tabindex="-1" role="dialog" aria-labelledby="modal-search-juso-label" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal-search-juso-label">도로명주소검색</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form name="form-search-juso">
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="input-group">
-                <input id="input-search-juso" type="text" class="form-control" name="email" value="" placeholder="예) 한누리대로 411, 국립중앙박물관, 상암동 1595, 초성검색">
-                <div class="input-group-append">
-                  <div id="search-juso" class="input-subgroup-text"><a class="dropdown-item" href="javascript:void(0);"><i class="fa fa-search"></i></a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-        <form name="form-search-juso-result">
-          <div id="search-juso-message"></div> 
-          <div id="search-juso-result"></div> 
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 

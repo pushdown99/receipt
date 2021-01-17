@@ -152,4 +152,129 @@ CREATE TABLE IF NOT EXISTS fcm (
   ts             timestamp NOT NULL
 );
 
+DROP TABLE city;
+CREATE TABLE IF NOT EXISTS city (
+  dong_cd        varchar(11) NOT NULL,
+  sido_nm        varchar(45) NOT NULL,
+  sigungu_nm     varchar(45) NOT NULL,
+  dong_nm        varchar(45) NOT NULL,
+  dong_cd2       varchar(11) NOT NULL,
+  dong_nm2       varchar(45) NOT NULL,
+  base_year      varchar(8)  NOT NULL
+);
+
+
+DROP TABLE admin_group;
+CREATE TABLE IF NOT EXISTS admin_group (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  group_name     varchar(32) NOT NULL,
+  group_type     varchar(32) NOT NULL,
+  updater        varchar(32) NOT NULL,
+  updated        timestamp NOT NULL,
+  register       varchar(32) NOT NULL,
+  refid          int NOT NULL,
+  ts             timestamp NOT NULL
+);
+
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('시스템관리자', '시스템', '관리자A', NOW(), '관리자A', 0, NOW());
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('운영관리자',   '시스템', '관리자A', NOW(), '관리자A', 1, NOW());
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('서비스관리자', '시스템', '관리자A', NOW(), '관리자A', 1, NOW());
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('가맹관리자',   '시스템', '관리자A', NOW(), '관리자A', 1, NOW());
+
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('서울관리자',   '관리자', '관리자B', NOW(), '관리자B', 3, NOW());
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('강남구',       '관리자', '관리자C', NOW(), '관리자C', 5, NOW());
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('강남구외 전체','관리자', '관리자C', NOW(), '관리자C', 5, NOW());
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('전북관리자',   '관리자', '관리자A', NOW(), '관리자A', 1, NOW());
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('서울관리자',   '관리자', '관리자D', NOW(), '관리자D', 4, NOW());
+INSERT INTO admin_group (group_name, group_type, updater, updated, register, refid, ts) VALUES ('전분관리자',   '관리자', '관리자D', NOW(), '관리자D', 4, NOW());
+
+DROP TABLE admin_member;
+CREATE TABLE IF NOT EXISTS admin_member (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  member_name    varchar(32) NOT NULL,
+  member_rcn     varchar(32) NOT NULL,
+  status         varchar(8) NOT NULL,
+  tel            varchar(32) NOT NULL,
+  updater        varchar(32) NOT NULL,
+  updated        timestamp NOT NULL,
+  register       varchar(32) NOT NULL,
+  ts             timestamp NOT NULL
+);
+
+INSERT INTO admin_member (member_name, member_rcn, status, tel, updater, updated, register, ts) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', '가입', '010-1234-5678', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_member (member_name, member_rcn, status, tel, updater, updated, register, ts) VALUES ('은행나무 게스트하우스', '125-12-12341', '해지', '010-1234-5678', '관리자B', NOW(), '관리자B', NOW());
+INSERT INTO admin_member (member_name, member_rcn, status, tel, updater, updated, register, ts) VALUES ('이디야 전주교대점', '125-12-12342', '삭제', '010-1234-5678', '관리자A', NOW(), '관리자A', NOW());
+
+
+
+
+
+DROP TABLE admin_member_history;
+CREATE TABLE IF NOT EXISTS admin_member_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  member_name    varchar(32) NOT NULL,
+  member_rcn     varchar(32) NOT NULL,
+  history        varchar(32) NOT NULL,  -- 'information', 'coupon', 'stamp', 'advertise'
+  updater        varchar(32) NOT NULL,
+  updated        timestamp NOT NULL,
+  done           varchar(32) NOT NULL,
+  division       varchar(32) NOT NULL,
+  description    varchar(32) NOT NULL
+);
+
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'information', '관리자1', NOW(), '삭제', '', '');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'information', '관리자1', NOW(), '수정', '담당자정보', '담당자명: 나성실');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'information', '관리자1', NOW(), '수정', '부가정보', '가맹점 로고: logo.png, 영업시간: [09:00 ~ 22:00)');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'information', '관리자3', NOW(), '수정', '기본정보', '대표자: 성춘향');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'information', '관리자3', NOW(), '조회', '', '');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'information', '관리자3', NOW(), '생성', '', '');
+
+
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'coupon', '관리자1', NOW(), '삭제', '', '');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'coupon', '관리자1', NOW(), '수정', '프로모션쿠폰', '상태: 사용');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'coupon', '관리자1', NOW(), '수정', '스탬프쿠폰', '상태 사용');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'coupon', '관리자3', NOW(), '수정', '리워드쿠폰', '상태: 사용');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'coupon', '관리자3', NOW(), '조회', '', '');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'coupon', '관리자3', NOW(), '생성', '', '');
+
+
+
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'stamp', '관리자1', NOW(), '수정', '', '상태: 중지');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'stamp', '관리자1', NOW(), '수정', '', '적립조건(금액): 3800');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'stamp', '관리자1', NOW(), '수정', '', '중복적립여부: 가능');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'stamp', '관리자3', NOW(), '수정', '', '상태: 사용');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'stamp', '관리자3', NOW(), '조회', '', '');
+
+
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'advertise', '관리자1', NOW(), '수정', '', '서브이미지 sub_img1');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'advertise', '관리자1', NOW(), '수정', '', '서브이미지 sub_img2');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'advertise', '관리자3', NOW(), '수정', '', '대표이미지: leaflet.jpg');
+INSERT INTO admin_member_history (member_name, member_rcn, history, updater, updated, done, division, description) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'advertise', '관리자3', NOW(), '조회', '', '');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

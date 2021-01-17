@@ -1,0 +1,50 @@
+'use strict';
+
+module.exports = function () {
+  let express  = require('express');
+  let partials = require('express-partials');
+  let app      = express();
+
+  let moment   = require('moment-timezone');
+  let passport = require('./passport.js');
+
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'ejs');
+  app.engine('html', require('ejs').renderFile);
+
+  app.use(partials());
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true}));
+  app.use(express.static(__dirname + '/public'));
+ 
+  // Initialize
+  passport.setup (app);
+
+  // Middleware
+  app.use(function (req, res, next) {
+    req.timestamp  = moment().unix(); req.receivedAt = moment().tz('Asia/Seoul').format('YYYY-MM-DD hh:mm:ss');
+
+    switch(req.method) {
+    case "GET":  console.log(req.receivedAt, req.protocol.toUpperCase(), req.isAuthenticated(), req.method, req.url, req.params); break;
+    case "POST": console.log(req.receivedAt, req.protocol.toUpperCase(), req.isAuthenticated(), req.method, req.url, req.body); break;
+    } next();
+  });
+
+app.route('/')
+  .get(passport.ensureAuthenticated, function(req, res, next) {
+    res.send('Hi');
+    /*
+  res.render('account', {
+    title: 'Account',
+    name: req.user.displayName, // 패스포트를 통해 저장된 유저정보
+    user: JSON.stringify(req.user)
+  });
+  */
+});
+
+  app.get('/login', function(req, res) {
+    res.render('login');
+  });
+
+  return app;
+};

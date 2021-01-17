@@ -2,8 +2,12 @@ $(window).on( "load", function() {
   console.log( "window loaded" );
 });
 
+function clicked(event) {
+  console.log(event);
+  console.log(this.id);
+}
 
-$(function(){
+$(function() {
   console.log( "document ready" );
 
   var page = $('#description').text();
@@ -61,18 +65,18 @@ $(function(){
   //
   // Sidebar
   //
-  $(".nav-parent").on('click', function(){
-    $(".nav-parent").removeClass("active");
-    $(".nav-item").removeClass("menu-is-opening");
-    $(".nav-item").removeClass("menu-open");
-    $(".nav-treeview").css("display", "none");
-    $(this).toggleClass("active");
-  });
+//  $(".nav-parent").on('click', function(){
+//    $(".nav-parent").removeClass("active");
+//    $(".nav-item").removeClass("menu-is-opening");
+//    $(".nav-item").removeClass("menu-open");
+//    $(".nav-treeview").css("display", "none");
+//    $(this).toggleClass("active");
+//  });
 
-  $(".nav-child").on('click', function(){
-    $(".nav-child").removeClass("active");
-    $(this).toggleClass("active");
-  });
+//  $(".nav-child").on('click', function(){
+//    $(".nav-child").removeClass("active");
+//    $(this).toggleClass("active");
+//  });
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //
@@ -252,6 +256,22 @@ $(function(){
   
   }
 
+  $("#logout").off().on('click', function (event) {
+    console.log ("logout");
+    location.href = '/logout';
+  });
+
+  $(".nav-item > a").off().on('click', function (event) {
+    //console.log ("nav-item clicked");
+    if(this.id != '') {
+      console.log (this.id);
+      $(this).parent().addClass("active");
+      //$(".nav-child").removeClass("active");
+      //$(this).parent().toggleClass("active");
+    }
+    var sb = document.getElementById("main-sidebar");
+    ///console.log (sb.innerHTML);
+  });
 
 function clock() {
   var Clock = document.getElementById("clock");
@@ -262,17 +282,17 @@ function clock() {
   var day = date.getDay();
 
   var week = ['일', '월', '화', '수', '목', '금', '토'];
+  //var week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var seconds = date.getSeconds();
 
-  Clock.innerText = `${year} 년 ${month+1} 월 ${clockDate} 일 ${week[day]}요일` +
+  Clock.innerText = `${year} 년 ${month+1} 월 ${clockDate} 일 ${week[day]}요일 ` +
   `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes }`  : minutes }:${seconds < 10 ? `0${seconds }`  : seconds }`;
 }
 
 clock();
 setInterval(clock, 1000);
-
 
 });
 

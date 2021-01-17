@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+        <form>
+          <table class="table">
+          <tbody>
+            <tr>
+              <th class="label" rowspan="2">검색</th>
+              <td class="title">사용자 ID</td>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+              <td class="title">OS</td>
+              <td>
+              <select class="form-select" aria-label="Default select example">
+                <option value="전체">전체</option>
+                <option value="Android">Android</option>
+                <option value="iOS">iOS</option>
+              </select>
+              </td>
+              <td class="title">기간</td>
+              <td>
+                <div class="input-group">
+                  <input id="coupon-begin-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
+                  <div class="input-group-append" data-target="#coupon-begin-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
+
+                  <input id="coupon-end-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
+                  <div class="input-group-append" data-target="#coupon-end-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="title">나이</td>
+              <td>
+              <select class="form-select" aria-label="Default select example">
+                <option value="전체">전체</option>
+                <option value="10대">10대</option>
+                <option value="20대">20대</option>
+                <option value="30대">30대</option>
+                <option value="40대">40대</option>
+                <option value="50대">50대</option>
+                <option value="60대">60대</option>
+                <option value="70대">70대</option>
+              </select>
+              </td>
+              <td class="title">성별</td>
+              <td>
+              <select class="form-select" aria-label="Default select example">
+                <option value="전체">전체</option>
+                <option value="남">남</option>
+                <option value="녀">녀</option>
+              </select>
+              </td>
+              <td class="title">지역</td>
+              <td>
+              <select class="form-select" aria-label="Default select example">
+                <option value="전체">전체</option>
+              </select>
+              <select class="form-select" aria-label="Default select example">
+                <option value="전체">전체</option>
+              </select>
+              </td>
+            </tr>
+          </tbody>
+          <table>
+          <button id="form-profile" type="submit" class="btn btn-primary btn-save" style="float: right;">검색</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="results"></div>
+<div id="description" style="display: none;">page-member-search</div>
+
+

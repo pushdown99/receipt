@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+        <form>
+          <table class="table">
+          <tbody>
+            <tr>
+              <th class="label">기간</th>
+              <td class="title">기간</td>
+              <td>
+                <div class="input-group">
+                  <input id="coupon-begin-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
+                  <div class="input-group-append" data-target="#coupon-begin-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
+
+                  <input id="coupon-end-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
+                  <div class="input-group-append" data-target="#coupon-end-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
+                </div>
+              </td>
+              <td>
+              <button id="form-profile" type="button" class="btn btn-default btn-sm">일</button>
+              <button id="form-profile" type="button" class="btn btn-default btn-sm">주</button>
+              <button id="form-profile" type="button" class="btn btn-default btn-sm">월</button>
+              </td>
+            </tr>
+          </tbody>
+          <table>
+          <button id="form-profile" type="submit" class="btn btn-primary btn-save" style="float: right;">검색</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="results"></div>
+<div id="description" style="display: none;">page-member-search</div>
+
+

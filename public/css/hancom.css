@@ -1,5 +1,29 @@
+/*
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap);
+@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumBarunGothic@1.0/nanumbarungothicsubset.css);
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+@font-face {
+  font-family: 'Godo';
+  font-style: normal;
+  font-weight: 400;
+  src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff') format('woff');
+}
+
+*/
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap);
+
 body {
-  font-family: 'Noto Sans KR', 'Ropa Sans', sans-serif !important;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-stroke: 0.45px;
+  /* -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1); */
+  text-shadow: #fff 0px 0.1px 0.1px; 
+
+  font-weight: 300;
+  /*font-family: 'Ropa Sans', 'Noto Sans KR', sans-serif !important; */
+  font-family: 'Noto Sans KR', sans-serif !important; 
 }
 
 .login-box, .register-box
@@ -7,6 +31,7 @@ body {
   margin: 7% auto;
 }
 
+/*
 .input-group-text {
   min-width: 100px !important;
   display: inline-block !important;
@@ -14,6 +39,8 @@ body {
   background-color: #ffffff;
   /* font-weight: bold; */
 }
+*/
+
 
 .form-group {
   margin-bottom: 0.5rem;
@@ -41,4 +68,98 @@ body {
     color: #495057;
     border: 0px;
     font-size: 0.9rem;
+}
+
+input[type=text]:focus {
+  background-color: lightblue;
+}
+
+.label {
+    width: 140px;
+    background-color: #f2eeed;
+}
+.title-xs {
+    width: 60px;
+}
+.title {
+    width: 90px;
+}
+.title-lg {
+    width: 120px;
+}
+.input-email {
+    width: 250px;
+}
+.input-password {
+    width: 120px;
+}
+.input-username {
+    width: 120px;
+}
+.input_member {
+    width: 200px;
+}
+.input-date {
+    -ms-flex: 0 0 auto;
+    flex: 0 0 150px;
+}
+.input-phone-local {
+    width: 50px;
+}
+.input-phone {
+    width: 60px;
+}
+.input_address {
+    width: 300px;
+}
+.btn-save,.btn-search {
+    padding: 5px 40px;
+    border-radius: 2px;
+}
+
+.input-group>.custom-file, .input-group>.custom-select, .input-group>.form-control, .input-group>.form-control-plaintext {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.input-group>.input_date {
+    position: relative;
+    -ms-flex: 0 0 150px;
+    flex: 0 0 150px;
+    width: 1%;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: 300;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    box-shadow: inset 0 0 0 transparent;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: normal;
+    line-height: inherit;
 }
