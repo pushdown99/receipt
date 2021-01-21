@@ -62,7 +62,9 @@
   <div class="container-fluid">
   <div class="row">
     <div id="qr-reader" style="width:100%"></div>
+<!--
     <div id="qr-reader-results"></div>
+-->
   </div>
   </div>
 </body>
@@ -78,17 +80,18 @@
   }
 
   docReady(function () {
-    var resultContainer = document.getElementById('qr-reader-results');
+    //var resultContainer = document.getElementById('qr-reader-results');
     var lastResult, countResults = 0;
 
     function onScanSuccess(qrCodeMessage) {
       if (qrCodeMessage !== lastResult) {
         ++countResults;
         lastResult = qrCodeMessage;
-        resultContainer.innerHTML += `<div>[${countResults}] - ${qrCodeMessage}</div>`;
+        //resultContainer.innerHTML += `<div>[${countResults}] - ${qrCodeMessage}</div>`;
 
         var license = '1234';
         $.getJSON( "/issue/" + license + "/" + qrCodeMessage, function( data ) {
+          console.log(data);
           var audio = new Audio('/data/speech.mp3');
           audio.play();
         });

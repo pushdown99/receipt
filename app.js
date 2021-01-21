@@ -29,15 +29,12 @@ app.use(function (req, res, next) {
   } next();
 });
 
-/*
-lib.utils.postCRN('1018126409').catch(err => console.log(err))
-    .then(result => console.log(result))
-
-lib.google.getGeocode("철산래미안자이아파트").catch(err => console.log(err))
-    .then(result => console.log(result))
-
-lib.google.getReverseGeocode(45.767, 4.833).catch(err => console.log(err))
-    .then(result => console.log(result))
-*/
-
+lib.google.getGeocode("철산래미안자이아파트").catch(err => console.log(err)).then(result => {
+  console.log (result);
+  console.log (result[0].latitude, result[0].latitude);
+});
+//lib.utils.postCRN('1018126409').catch(err => console.log(err)).then(result => console.log(result))
+//lib.google.getGeocode("철산래미안자이아파트").catch(err => console.log(err)).then(result => console.log(result))
+//lib.google.getReverseGeocode(45.767, 4.833).catch(err => console.log(err)).then(result => console.log(result))
+//lib.utils.getSignUpAuthMessage ('haeyun@gmail.com', 'http://www.tric.kr/test', '2021.01.01 24:00');
 lib.https.listen (router.main (app));

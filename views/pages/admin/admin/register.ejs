@@ -4,69 +4,136 @@
     <div class="col-lg-12">
       <div class="card card-primary card-outline">
         <div class="card-body">
-        <form>
-          <table class="table">
-          <tbody>
-            <tr>
-              <th class="label">관리자ID</th>
-              <td>
-              <input id="email" class="input-email" type="text">
-              </td>
-            </tr>
-            <tr>
-              <th class="label">비밀번호</th>
-              <td>
-              <input id="password" class="input-password" type="password" value="">
-              <input id="password2" class="input-password" type="password" value="">
-              </td>
-            </tr>
-            <tr>
-              <th class="label">이름</th>
-              <td>
-              <input id="username" class="input-username" type="text">
-              </td>
-            </tr>
-            <tr>
-              <th class="label">휴대폰</th>
-              <td>
-              <input id="mobile" class="input-phone-local" type="text">&nbsp;-&nbsp;<input class="input-phone" type="text">&nbsp;-&nbsp;<input class="input-phone" type="text">
-              </td>
-            </tr>
-            <tr>
-              <th class="label">전화번호</th>
-              <td>
-              <input id="phone" class="input-phone-local" type="text">&nbsp;-&nbsp;<input class="input-phone" type="text">&nbsp;-&nbsp;<input class="input-phone" type="text">
-              </td>
-            </tr>
-            <tr>
-              <th id="grade" class="label">권한</th>
-              <td>
-              <select class="form-select" aria-label="Default select example">
-                <option value="시스템관리자">시스템관리자</option>
-                <option value="운영관리자">운영관리자</option>
-                <option value="서비스관리자">서비스관리자</option>
-                <option value="가맹관리자">가맹관리자</option>
-              </select>
-              </td>
-            </tr>
-            <tr>
-              <th id="status" class="label">상태</th>
-              <td>
-              <label class="radio-inline">&nbsp;<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
-              <label class="radio-inline">&nbsp;<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="사용">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
-              </td>
-            </tr>
-          </tbody>
-          <table>
-          <button id="form-profile" type="button" class="btn btn-default btn-save" style="float: left;">목록</button>
-          <button id="form-profile" type="submit" class="btn btn-primary btn-save" style="float: right;">등록</button>
-        </form>
+
+          <div class="form-row">
+
+            <div class="form-group col-md-1">
+            <label for="member">관리자 ID</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="email" type="text" class="form-control" name="email" value="" placeholder="ID/이메일">
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <button id="email-dupl" class="btn btn-outline-secondary" type="button">중복확인</button>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+            <div class="form-group col-md-1">
+            <label for="member">비밀번호</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input id="password1" type="password" class="form-control" name="password1" value="" placeholder="비밀번호">&nbsp;&nbsp;
+                <input id="password2" type="password" class="form-control" name="password2" value="" placeholder="비밀번호">
+              </div>
+            </div>
+            <div class="form-group col-md-6"></div>
+
+
+            <div class="form-group col-md-1">
+            <label for="member">이름</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="name" type="text" class="form-control" name="email" value="" placeholder="이름">
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+
+            <div class="form-group col-md-1">
+            <label for="mobile">휴대폰번호</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="mobile1" type="text" class="form-control" name="mobile1" value="">&nbsp;&nbsp;-&nbsp;&nbsp;
+                <input id="mobile2" type="text" class="form-control" name="mobile2" value="">&nbsp;&nbsp;-&nbsp;&nbsp;
+                <input id="mobile3" type="text" class="form-control" name="mobile3" value="">
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+            <div class="form-group col-md-1">
+            <label for="phone">전화번호</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="phone1" type="text" class="form-control" name="tel1" value="">&nbsp;&nbsp;-&nbsp;&nbsp;
+                <input id="phone2" type="text" class="form-control" name="tel2" value="">&nbsp;&nbsp;-&nbsp;&nbsp;
+                <input id="phone3" type="text" class="form-control" name="tel3" value="">
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+            <div class="form-group col-md-1">
+            <label for="grade">권한</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <button id="grade" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <div id="dropUsed" class="dropdown-menu">
+                  <a class="dropdown-item">시스템관리자</a>
+                  <a class="dropdown-item">운영관리자</a>
+                  <a class="dropdown-item">서비스관리자</a>
+                  <a class="dropdown-item">가맹관리자</a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+            <div class="form-group col-md-1">
+            <label for="member">상태</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="form-check">
+              <label class="radio-inline">&nbsp;<input type="radio" name="stat" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="stat" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+          </div>
+          <hr>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="list"   class="btn btn-default" style="float: left;" >목록</button>
+              <button id="register" class="btn btn-primary" style="float: right;">등록</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="results"></div>
+              <div id="pageid" style="display: none;">admin-admin-register</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div id="results"></div>
-<div id="description" style="display: none;">page-member-search</div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

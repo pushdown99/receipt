@@ -1,0 +1,302 @@
+var popUpObj;
+
+function showModalPopUp(link) {
+var win = window,
+    doc = document,
+    docElem = doc.documentElement,
+    body = doc.getElementsByTagName('body')[0],
+    w = win.innerWidth || docElem.clientWidth || body.clientWidth,
+    h = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
+    g = 100;
+
+  popUpObj = window.open(link, "ModalPopUp",
+    "toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=0,width=" + (w - 2*g) + ",height=" + (h - 2*g) + ",left=" + g + ",top=" + g
+  );
+  popUpObj.focus();
+  LoadModalDiv();
+}
+
+function LoadModalDiv(target) {
+   var bcgDiv = document.getElementById("divBackground");
+   bcgDiv.style.display = "block";
+}
+
+function HideModalDiv() {
+  var bcgDiv = document.getElementById("divBackground");
+  bcgDiv.style.display = "none";
+}
+
+$(function() {
+  let shrink     = 640;
+  let pagelength = 10;
+  let width  = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+  let height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+  var today  = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+
+  console.log ("width x height", width, height);
+
+  if ($("#date1").length) { $("#date1").datetimepicker({ format: 'YYYY.MM.DD' }); $("#date1").val(today); }
+  if ($("#date2").length) { $("#date2").datetimepicker({ format: 'YYYY.MM.DD' }); $("#date2").val(today); }
+  if ($("#date3").length) { $("#date3").datetimepicker({ format: 'YYYY.MM.DD' }); $("#date3").val(today); }
+  if ($("#date4").length) { $("#date4").datetimepicker({ format: 'YYYY.MM.DD' }); $("#date4").val(today); }
+
+  if ($("#color1").length) { $("#color1").colorpicker() }
+  if ($("#color2").length) { $("#color2").colorpicker() }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  function getArea1 () {
+    $.getJSON(`/json/city/search`, function(data) {
+      html = '<a class="dropdown-item">전체</a><div role="separator" class="dropdown-divider"></div>';
+      $.each(data, function(i, t) {
+        html += `<a class="dropdown-item area1-item">${t.sido_nm}</a>`;
+      });
+      $("#area1").html(html);
+      refresh ();
+    });
+  }
+
+  function getArea2 (area1) {
+    $.getJSON(`/json/city/search/${area1}`, function(data) {
+      html = '<a class="dropdown-item">전체</a><div role="separator" class="dropdown-divider"></div>';
+      $.each(data, function(i, t) {
+        html += `<a class="dropdown-item">${t.sigungu_nm}</a>`;
+      });
+      $("#area2").html(html);
+      refresh ();
+    });
+  }
+
+  function refresh () {
+    console.log ('refresh');
+    $(".dropdown-toggle").dropdown();
+    $(".dropdown-item").off().on('click', function (event) {
+      console.log ('cliecked');
+      //$(this).parents(".dropdown").find('.btn').text($(this).text());
+      //$(this).parents(".dropdown").find('.btn').val($(this).text());
+      $(this).parents(".dropdown-menu").prev().text($(this).text());
+      $(this).parents(".dropdown-menu").prev().val($(this).text());
+    });
+    $(".area1-item").on('click', function (event) {
+      getArea2($(this).text());
+      $('#btn-area2').text("전체");
+    });
+  }
+  refresh ();
+
+  if ($("#area1").length) getArea1 (); 
+
+  function clock() {
+    var Clock = document.getElementById("clock");
+    var date = new Date();
+    var year      = date.getFullYear();
+    var month     = date.getMonth();
+    var clockDate = date.getDate();
+    var day = date.getDay();
+  
+    var week = ['일', '월', '화', '수', '목', '금', '토'];
+    //var week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+  
+    Clock.innerText = `${year} 년 ${month+1} 월 ${clockDate} 일 ${week[day]}요일 ` +
+    `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes }`  : minutes }:${seconds < 10 ? `0${seconds }`  : seconds }`;
+  }
+
+  clock();
+  setInterval(clock, 1000);
+
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  function admin_member_search () {
+    var rcn   = ($("#rcn").val() == "")? "all": $("#rcn").val();
+    var stat  = ($("#stat").text() == "전체")? "all":$("#stat").text();
+    var date1 = $("#date1").val();
+    var date2 = $("#date2").val();
+    $.getJSON(`/json/member/search/${rcn}/${stat}/${date1}/${date2}`, function(data) {
+      html = '<div class="table-responsive">';
+      html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+      html += '<thead>';
+      html += '<tr>';
+      if (width > shrink) 
+      html += '<th style="text-align: center;">No</th>';
+      html += '<th style="text-align: center;">사업자번호</th>';
+      html += '<th style="text-align: center;">가맹점상호</th>';
+      html += '<th style="text-align: center;">상태</th>';
+      if (width > shrink) 
+      html += '<th style="text-align: center;">전화번호</th>';
+      if (width > shrink) 
+      html += '<th style="text-align: center;">수정</th>';
+      if (width > shrink) 
+      html += '<th style="text-align: center;">수정일</th>';
+      if (width > shrink) 
+      html += '<th style="text-align: center;">등록자</th>';
+      if (width > shrink) 
+      html += '<th style="text-align: center;">등록일</th>';
+      html += '</tr>';
+      html += '</thead>';
+      html += '<tbody>';
+      $.each(data, function(i, t) {
+        html += '<tr>';
+        if (width > shrink) 
+        html += `<td style="text-align: center;">${i}</td>`;
+        //html += `<td style="text-align: center;">${t.member_rcn}<button type="button" class='btn btn-default btn-xs' style='float: right;'>가맹관리</button></td>`;
+        html += `<td style="text-align: left;">${t.member_rcn}</td>`;
+        html += `<td style="text-align: left;">${t.member_name}</td>`;
+        html += `<td style="text-align: center;">${t.status}</td>`;
+        if (width > shrink) 
+        html += `<td style="text-align: center;">${t.tel}</td>`;
+        if (width > shrink) 
+        html += `<td style="text-align: center;">${t.updater}</td>`;
+        if (width > shrink) 
+        html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+        if (width > shrink) 
+        html += `<td style="text-align: center;">${t.register}</td>`;
+        if (width > shrink) 
+        html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+      });
+      $("#results").html(html);
+      //info.innerHTML = html;
+      $('#admin-member-table').DataTable({
+        "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+        "order": [[ 0, "desc" ]],
+        "searching": false,
+        "pageLength": pagelength
+      });
+    });
+  }
+
+  function admin_group_search () {
+    var name  = ($("#name").val() == "")? "all": $("#name").val();
+    var date1 = $("#date1").val();
+    var date2 = $("#date2").val();
+    $.getJSON(`/json/group/search/${name}/${date1}/${date2}`, function(data) {
+      html = '<div class="table-responsive">';
+      html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+      html += '<thead>';
+      html += '<tr>';
+      if (width > shrink)
+      html += '<th style="text-align: center;">No</th>';
+      html += '<th style="text-align: center;">권한그룹명</th>';
+      html += '<th style="text-align: center;">분류</th>';
+      html += '<th style="text-align: center;">수정</th>';
+      html += '<th style="text-align: center;">수정일</th>';
+      if (width > shrink)
+      html += '<th style="text-align: center;">등록자</th>';
+      if (width > shrink)
+      html += '<th style="text-align: center;">등록일</th>';
+      html += '</tr>';
+      html += '</thead>';
+      html += '<tbody>';
+      $.each(data, function(i, t) {
+        html += '<tr>';
+        if (width > shrink)
+        html += `<td style="text-align: center;">${i}</td>`;
+        //html += `<td style="text-align: center;">${t.member_rcn}<button type="button" class='btn btn-default btn-xs' style='float: right;'>가맹관리</button></td>`;
+        html += `<td style="text-align: left;">${t.group_name}</td>`;
+        html += `<td style="text-align: left;">${t.group_type}</td>`;
+        html += `<td style="text-align: center;">${t.updater}</td>`;
+        html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+        if (width > shrink)
+        html += `<td style="text-align: center;">${t.register}</td>`;
+        if (width > shrink)
+        html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+      });
+      $("#results").html(html);
+      //info.innerHTML = html;
+      $('#admin-member-table').DataTable({
+        "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+        "order": [[ 0, "desc" ]],
+        "searching": false,
+        "pageLength": pagelength
+      });
+    });
+  }
+
+  function refresh_dashboard () {
+    $("#item-member-dashboard").off().on('click', function (event) {
+      console.log ("item-member-dashboard clicked");
+    });
+  }
+
+  function member_dashbaord_search () {
+    var per_date  = $("input[name=per_date]:checked").val();
+    var date1 = $("#date1").val();
+    var date2 = $("#date2").val();
+
+    console.log(per_date, date1, date2);
+    $.getJSON(`/json/member/dashboard/${per_date}/${date1}/${date2}`, function(data) {
+      html = '<div class="table-responsive">';
+      html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+      html += '<thead>';
+      html += '<tr>';
+      html += '<th style="text-align: center;" rowspan=2>일자</th>';
+      html += '<th style="text-align: center;" rowspan=2>거래금액</th>';
+      html += '<th style="text-align: center;" colspan=3>쿠폰사용</th>';
+      html += '<th style="text-align: center;" colspan=4>스탬프</th>';
+      html += '</tr>';
+      html += '<tr>';
+      html += '<th style="text-align: center;">프로모션</th>';
+      html += '<th style="text-align: center;">스탬프</th>';
+      html += '<th style="text-align: center;">리워드</th>';
+      html += '<th style="text-align: center;">적립</th>';
+      html += '<th style="text-align: center;">교환/사용</th>';
+      html += '<th style="text-align: center;">삭제</th>';
+      html += '<th style="text-align: center;">만료</th>';
+      html += '</tr>';
+      html += '</thead>';
+      html += '<tbody>';
+      $.each(data, function(i, t) {
+        html += '<tr>';
+        html += `<td style="text-align: center;">${t.day}</td>`;
+        html += `<td style="text-align: center;"><a id="item-member-dashboard" href="javascript:onclick=showModalPopUp('/modal/test')">${t.total}</a></td>`;
+        html += `<td style="text-align: center;">0</td>`;
+        html += `<td style="text-align: center;">0</td>`;
+        html += `<td style="text-align: center;">0</td>`;
+        html += `<td style="text-align: center;">0</td>`;
+        html += `<td style="text-align: center;">0</td>`;
+        html += `<td style="text-align: center;">0</td>`;
+        html += `<td style="text-align: center;">0</td>`;
+        html += '</tr>';
+      });
+      $("#results").html(html);
+      $('#admin-member-table').DataTable({
+        "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+        "order": [[ 0, "desc" ]],
+        "searching": false,
+        "pageLength": pagelength
+      });
+      refresh_dashboard ();
+    });
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  $("#search").off().on('click', function (event) {
+    var pageid = $('#pageid').text();
+    console.log('Page: ', pageid);
+
+    alert (pageid);
+
+    switch(pageid) {
+    case 'admin-member-search' : return admin_member_search ();
+    case 'admin-group-search'  : return admin_group_search () ;
+    case 'admin-coupon-search' : return admin_coupon_search ();
+
+    case 'member-dashboard-search' : return member_dashbaord_search ();
+    }
+  });
+
+  $("#member").off().on('click', function (event) {
+    $("#modal").modal('show');
+    //window.open("https://www.w3schools.com");
+  });
+
+  $("#logout").off().on('click', function (event) {
+    location.href = '/logout';
+  });
+
+});
+

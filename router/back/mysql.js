@@ -183,4 +183,14 @@ module.exports = {
   getMember: function (record) {
     return this.query("SELECT * FROM member", record);
   },
+
+  getMember: function (record) {
+    return this.query("SELECT * FROM member", record);
+  },
+
+  putUserAuthToken: function (record) {
+    return this.query("INSERT INTO user_auth_token (email, token) VALUES (?, ?)", record);
+  },
+
+
 }

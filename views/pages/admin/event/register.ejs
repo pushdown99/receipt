@@ -4,110 +4,215 @@
     <div class="col-lg-12">
       <div class="card card-primary card-outline">
         <div class="card-body">
-        <form>
+
           <h5>이벤트/광고 정보</h5>
-          <table class="table">
-          <tbody>
-            <tr>
-              <th class="label">이벤트명</th>
-              <td colspan="2">
-              <input class="input_member" type="text">
-              </td>
-            </tr>
-            <tr>
-              <th class="label">상태</th>
-              <td colspan="2">
-              <label class="radio-inline">&nbsp;<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="사용">&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
-              <label class="radio-inline">&nbsp;<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
-              </td>
-            </tr>
-            <tr>
-              <th class="label">노출위치</th>
-              <td colspan="2">
-	          <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;공지/광고&nbsp;&nbsp;</label>
-                  (가중치
-                  <select class="form-select" aria-label="Default select example">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                  </select>
-                  )
-	          <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;메인&nbsp;&nbsp;</label>
-	          <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;이벤트&nbsp;&nbsp;</label>
-              </td>
-            </tr>
-            <tr>
-              <th class="label" rowspan="3">노출대상</th>
-              <td class="title">성별</td>
-              <td>
-              <select class="form-select" aria-label="Default select example">
-                <option value="전체">전체</option>
-                <option value="남">남</option>
-                <option value="녀">녀</option>
-              </select>
-              </td>
-            </tr>
-            <tr>
-              <td class="title">나이</td>
-              <td>
-              <select class="form-select" aria-label="Default select example">
-                <option value="전체">전체</option>
-                <option value="10대">10대</option>
-                <option value="20대">20대</option>
-                <option value="30대">30대</option>
-                <option value="40대">40대</option>
-                <option value="50대">50대</option>
-                <option value="60대">60대</option>
-                <option value="70대">70대</option>
-              </select>
-              </td>
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-1">
+            <label for="member">이벤트명</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="name" type="text" class="form-control" name="email" value="" placeholder="이벤트명">
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
 
-            </tr>
-            <tr>
-              <td class="title">지역</td>
-              <td>
-              <select class="form-select" aria-label="Default select example">
-                <option value="전체">전체</option>
-              </select>
-              <select class="form-select" aria-label="Default select example">
-                <option value="전체">전체</option>
-              </select>
-              </td>
-            </tr>
-            <tr>
-              <th class="label">이벤트기간</th>
-              <td colspan="2">
-                <div class="input-group">
-                  <input id="coupon-begin-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
-                  <div class="input-group-append" data-target="#coupon-begin-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
 
-                  <input id="coupon-end-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
-                  <div class="input-group-append" data-target="#coupon-end-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
-	          <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
+            <div class="form-group col-md-1">
+            <label for="member">상태</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="form-check">
+              <label class="radio-inline">&nbsp;<input type="radio" name="play" id="play" value="사용">&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="stop" id="stop" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+
+            <div class="form-group col-md-1">
+            <label for="member">노출위치</label>
+            </div>
+            <div class="form-group col-md-11">
+              <div class="input-group">
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;공지/광고&nbsp;&nbsp;(가중치&nbsp;&nbsp;</label>
+                <button id="stat" class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="dropUsed" class="dropdown-menu">
+                  <a class="dropdown-item">1</a>
+                  <a class="dropdown-item">2</a>
+                  <a class="dropdown-item">3</a>
                 </div>
-              </td>
-            </tr>
+                <label>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;메인&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;이벤트&nbsp;&nbsp;</label>
+              </div>
+            </div>
 
-            <tr>
-              <th class="label" rowspan="2">이미지</th>
-              <td class="title-lg">이벤트배너</td>
-              <td><input type="file" name="sampleFile" /><td>
-            </tr>
-            <tr>
-              <td class="title-lg">상세이미지</td>
-              <td><input type="file" name="sampleFile" /><td>
-            </tr>
-          </tbody>
-          <table>
-          <button id="form-profile" type="button" class="btn btn-default btn-save" style="float: left;">목록</button>
-          <button id="form-profile" type="submit" class="btn btn-primary btn-save" style="float: right;">등록</button>
-        </form>
+
+            <div class="form-group col-md-1">
+            <label for="member">노출대상</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group dropdown">
+                <div class="input-group-prepend"><div class="input-group-text">상태</div></div>
+
+                <button id="gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="dropUsed" class="dropdown-menu">
+                  <a class="dropdown-item">전체</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item">남</a>
+                  <a class="dropdown-item">녀</a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group dropdown">
+                <div class="input-group-prepend"><div class="input-group-text">나이</div></div>
+
+                <button id="age" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="dropUsed" class="dropdown-menu">
+                  <a class="dropdown-item">전체</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item">10대</a>
+                  <a class="dropdown-item">20대</a>
+                  <a class="dropdown-item">30대</a>
+                  <a class="dropdown-item">40대</a>
+                  <a class="dropdown-item">50대</a>
+                  <a class="dropdown-item">60대</a>
+                  <a class="dropdown-item">70대</a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group dropdown">
+                <div class="input-group-prepend"><div class="input-group-text">지역</div></div>
+
+                <button id="area1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="dropUsed" class="dropdown-menu">
+                  <a class="dropdown-item">전체</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item">가입</a>
+                  <a class="dropdown-item">해지</a>
+                </div>&nbsp;
+                <button id="area2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="dropUsed" class="dropdown-menu">
+                  <a class="dropdown-item">전체</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item">가입</a>
+                  <a class="dropdown-item">해지</a>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-1">
+            <label for="member">이벤트기간</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6"></div>
+
+
+            <div class="form-group col-md-1">
+            <label for="member">이미지</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">이벤트배너</div></div>
+                <input type="file" class="form-control" name="sampleFile" />
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+            <div class="form-group offset-md-1 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">상세이미지</div></div>
+                <input type="file" class="form-control" name="sampleFile" />
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+          </div>
+
+
+          <h5>앱 네비게이션 컬러 정보</h5>
+          <hr>
+          <div class="form-row">
+
+            <div class="form-group col-md-1">
+            <label for="member">이미지</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">상단</div></div>
+                <input type="text" id="color1" class="form-control colorpicker-element" data-colorpicker-id="1" data-original-title="" title="">
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+            <div class="form-group offset-md-1 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">하단</div></div>
+                <input type="text" id="color2" class="form-control colorpicker-element" data-colorpicker-id="1" data-original-title="" title="">
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+          </div>
+
+
+          <h5>쿠폰 정보</h5>
+          <hr>
+          <div class="form-row">
+
+            <div class="form-group col-md-1">
+            <label for="member">쿠폰명</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+              <button id="stat" class="btn btn-outline-secondary">쿠폰선택</button>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+            <div class="form-group col-md-1">
+            <label for="member">유효기간</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="results"></div>
+              <div id="pageid" style="display: none;">event-register</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="list"     class="btn btn-default" style="float: left;"  >목록</button>
+              <button id="register" class="btn btn-primary" style="float: right;" >등록</button>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
 </div>
-<div id="results"></div>
-<div id="description" style="display: none;">page-member-search</div>
-
 

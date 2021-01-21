@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+        <form>
+          <h5>쿠폰정보</h5>
+          <table class="table">
+          <tbody>
+            <tr>
+              <th class="label">쿠폰코드</th>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+            </tr>
+            <tr>
+              <th class="label">쿠폰유형</th>
+              <td>
+              <select class="form-select" aria-label="Default select example">
+                <option value="리워드">리워드</option>
+                <option value="스템프">스템프</option>
+                <option value="프로모션">프로모션</option>
+              </select>
+              </td>
+            </tr>
+            <tr>
+              <th class="label">쿠폰명</th>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+            </tr>
+            <tr>
+              <th class="label">쿠폰유형</th>
+              <td>
+              <label class="radio-inline">&nbsp;<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="사용">&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              </td>
+            </tr>
+            <tr>
+              <th class="label">발급조건</th>
+              <td>
+              <input class="input_member" type="text">
+              </td>
+            </tr>
+            <tr>
+              <th class="label">유효기간</th>
+              <td>
+                <div class="input-group">
+                  <input id="coupon-begin-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
+                  <div class="input-group-append" data-target="#coupon-begin-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
+
+                  <input id="coupon-end-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
+                  <div class="input-group-append" data-target="#coupon-end-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
+	          <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="label">유의사항</th>
+              <td>
+              <textarea class="form-control" rows="3"></textarea>
+              </td>
+            </tr>
+          </tbody>
+          <table>
+          <button id="form-profile" type="button" class="btn btn-default btn-save" style="float: left;">목록</button>
+          <button id="form-profile" type="submit" class="btn btn-primary btn-save" style="float: right;">등록</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="results"></div>
+<div id="description" style="display: none;">page-member-search</div>
+
+

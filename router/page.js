@@ -163,6 +163,73 @@ module.exports = {
       info.page = 'admin/grade/search';
       return info;
 
+    /////////////////////////////////////////////////
+
+    case '/test':
+      info.title = '테스트';
+      info.name = 'test';
+      info.navigation = '';
+      info.page = 'test';
+      return info;
+
+    /////////////////////////////////////////////////
+
+    case '/member':
+      info.title = 'Dashboard';
+      info.name = 'member/index';
+      info.navigation = '';
+      info.page = 'member/index';
+      return info;
+
+    case '/member/profile':
+      info.title = 'Dashboard';
+      info.name = 'member/profile';
+      info.navigation = '';
+      info.page = 'member/profile';
+      return info;
+
+    case '/member/coupon/search':
+      info.title = 'Dashboard';
+      info.name = 'member/coupon/search';
+      info.navigation = '';
+      info.page = 'member/coupon/search';
+      return info;
+
+    case '/member/coupon/search':
+      info.title = 'Dashboard';
+      info.name = 'member/coupon/search';
+      info.navigation = '';
+      info.page = 'member/coupon/search';
+      return info;
+
+    case '/member/coupon/register':
+      info.title = 'Dashboard';
+      info.name = 'member/coupon/register';
+      info.navigation = '';
+      info.page = 'member/coupon/register';
+      return info;
+
+    case '/member/stamp/search':
+      info.title = 'Dashboard';
+      info.name = 'member/stamp/search';
+      info.navigation = '';
+      info.page = 'member/stamp/search';
+      return info;
+
+    case '/member/event/search':
+      info.title = 'Dashboard';
+      info.name = 'member/event/search';
+      info.navigation = '';
+      info.page = 'member/event/search';
+      return info;
+
+    case '/modal/test':
+      info.title = 'Dashboard';
+      info.name = 'modal/test';
+      info.navigation = '';
+      info.page = 'modal/test';
+      return info;
+
     }
   }
 }

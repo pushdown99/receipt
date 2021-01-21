@@ -4,37 +4,56 @@
     <div class="col-lg-12">
       <div class="card card-primary card-outline">
         <div class="card-body">
-        <form>
-          <table class="table">
-          <tbody>
-            <tr>
-              <th class="label">기간</th>
-              <td class="title">기간</td>
-              <td>
-                <div class="input-group">
-                  <input id="coupon-begin-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
-                  <div class="input-group-append" data-target="#coupon-begin-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
 
-                  <input id="coupon-end-date" type="text" class="input_date form-control float-right" value="" placeholder="YYYY.MM.DD">
-                  <div class="input-group-append" data-target="#coupon-end-date" data-toggle="datetimepicker"><div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div></div>
+          <div class="form-row">
+
+            <div class="form-group col-md-1">
+            <label for="member">기간</label>
+            </div>
+
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
                 </div>
-              </td>
-              <td>
-              <button id="form-profile" type="button" class="btn btn-default btn-sm">일</button>
-              <button id="form-profile" type="button" class="btn btn-default btn-sm">주</button>
-              <button id="form-profile" type="button" class="btn btn-default btn-sm">월</button>
-              </td>
-            </tr>
-          </tbody>
-          <table>
-          <button id="form-profile" type="submit" class="btn btn-primary btn-save" style="float: right;">검색</button>
-        </form>
+                <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <div class="input-group">
+                <button id="day"   class="btn btn-outline-secondary" type="button">일</button>&nbsp;
+                <button id="week"  class="btn btn-outline-secondary" type="button">주</button>&nbsp;
+                <button id="month" class="btn btn-outline-secondary" type="button">월</button>&nbsp;
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="search" class="btn btn-primary" style="float: right;">검색</button>
+            </div>
+          </div>
+          <hr>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="results"></div>
+              <div id="pageid" style="display: none;">user-join-search</div>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>
   </div>
 </div>
-<div id="results"></div>
-<div id="description" style="display: none;">page-member-search</div>
 
 

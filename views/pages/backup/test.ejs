@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+
+          <div class="form-row">
+            <div class="form-group col-md-2">
+            <label for="member">가맹점</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">가맹점</div></div>
+                <input id="rcn" type="text" class="form-control" name="email" value="" placeholder="사업자번호">
+              </div>
+            </div>
+
+            <div class="form-group col-md-2">
+              <div class="input-group dropdown">
+                <div class="input-group-prepend"><div class="input-group-text">상태</div></div>
+  
+                <button id="stat" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="dropUsed" class="dropdown-menu">
+                  <a class="dropdown-item">전체</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item">가입</a>
+                  <a class="dropdown-item">해지</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text text-left">기간</div></div>
+                <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="search" class="btn btn-primary" style="float: right;">검색</button>
+            </div>
+          </div>
+          <hr>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="results"></div>
+              <div id="pageid" style="display: none;">member-search</div>
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="member" class="btn btn-default btn-sm">가맹점</button>
+              <button id="coupon" class="btn btn-default btn-sm">쿠폰</button>
+              <button id="stamp" class="btn btn-default btn-sm">스탬프</button>
+              <button id="advertisement" class="btn btn-default btn-sm">광고</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+<%- include ("../layout/header") %>
+<%- include ("../layout/navbar") %>
+<%- include ("../layout/sidebar") %>
+<%- include ("../layout/content-header") %>
+
+<section class="content">
+</section>
+
+<%- include ("../layout/tailer") %>
+
+    </div>
+  </div>
+</div>
