@@ -13,7 +13,7 @@
             <div class="form-group col-md-6">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">제목</div></div>
-                <input id="name" type="text" class="form-control" name="email" value="" placeholder="제목">
+                <input id="title" type="text" class="form-control" name="email" value="" placeholder="제목">
               </div>
             </div>
 
@@ -48,7 +48,7 @@
             <div class="form-group col-md-3">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">나이</div></div>
-                <button id="gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <button id="age" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
                 <div id="dropUsed" class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
@@ -67,13 +67,13 @@
             <div class="form-group col-md-4">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">지역</div></div>
-                <button id="area" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
+                <button id="btn-area1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="area1" class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
                 </div>&nbsp;
-                <button id="area" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
+                <button id="btn-area2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="area2" class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
                 </div>
@@ -84,7 +84,7 @@
 
           <div class="form-row">
             <div class="form-group col-md-12">
-              <button id="search" class="btn btn-primary" style="float: right;">검색</button>
+              <button id="search" class="btn btn-default" style="float: right;">검색</button>
             </div>
           </div>
           <hr>
@@ -92,7 +92,7 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <div id="results"></div>
-              <div id="pageid" style="display: none;">coupon-search</div>
+              <div id="pageid" style="display: none;">admin-notice-search</div>
             </div>
           </div>
           <hr>

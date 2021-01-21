@@ -1,4 +1,5 @@
 let express  = require('express');
+var flash    = require('express-flash');
 let partials = require('express-partials');
 let app      = express();
 
@@ -29,10 +30,10 @@ app.use(function (req, res, next) {
   } next();
 });
 
-lib.google.getGeocode("철산래미안자이아파트").catch(err => console.log(err)).then(result => {
-  console.log (result);
-  console.log (result[0].latitude, result[0].latitude);
-});
+//lib.google.getGeocode("철산래미안자이아파트").catch(err => console.log(err)).then(result => {
+//  console.log (result);
+//  console.log (result[0].latitude, result[0].latitude);
+//});
 //lib.utils.postCRN('1018126409').catch(err => console.log(err)).then(result => console.log(result))
 //lib.google.getGeocode("철산래미안자이아파트").catch(err => console.log(err)).then(result => console.log(result))
 //lib.google.getReverseGeocode(45.767, 4.833).catch(err => console.log(err)).then(result => console.log(result))

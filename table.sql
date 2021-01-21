@@ -1,4 +1,4 @@
-CREATE USER 'sqladmin'@'localhost' IDENTIFIED BY 'admin'; GRANT ALL PRIVILEGES ON *.* TO 'sqladmin'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;
+*REATE USER 'sqladmin'@'localhost' IDENTIFIED BY 'admin'; GRANT ALL PRIVILEGES ON *.* TO 'sqladmin'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;
 CREATE DATABASE hancom CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE hancom;
 DROP TABLE receipt;
@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS users (
   activated      varchar(8) DEFAULT 'N',                  
   registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO users (email, passwd) VALUES ('tt','xy');
 
 INSERT INTO users (email, passwd) VALUES ('haeyun@gmail.com', 'xyz');
 
@@ -339,34 +341,72 @@ INSERT INTO admin_class_history (class_name, updater, updated, done, division, d
 INSERT INTO admin_class_history (class_name, updater, updated, done, division, description) VALUES ('병원', '관리자3', NOW(), '조회', '', '');
 INSERT INTO admin_class_history (class_name, updater, updated, done, division, description) VALUES ('병원', '관리자3', NOW(), '생성', '', '');
 
+DROP TABLE user_coupon;
+CREATE TABLE IF NOT EXISTS user_coupon (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email          varchar(32) NOT NULL,
+  member         varchar(32) NOT NULL,
+  rcn            varchar(32) NOT NULL,
+  bzcode         varchar(32) NOT NULL,
+  ctype          varchar(32) NOT NULL,
+  code           varchar(64) NOT NULL,
+  name           varchar(64) NOT NULL,
+  status         varchar(8) DEFAULT '사용',
+  date1          timestamp DEFAULT CURRENT_TIMESTAMP,
+  date2          timestamp DEFAULT TIMESTAMPADD(MONTH, 1, CURRENT_TIMESTAMP),
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP,
+  notice         varchar(256) DEFAULT ''
+);
+
+DROP TABLE user_stamp;
+CREATE TABLE IF NOT EXISTS user_stamp (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email          varchar(32) NOT NULL,
+  member         varchar(32) NOT NULL,
+  rcn            varchar(32) NOT NULL,
+  bzcode         varchar(32) NOT NULL,
+  ctype          varchar(32) NOT NULL,
+  code           varchar(64) NOT NULL,
+  name           varchar(64) NOT NULL,
+  total          int DEFAULT 0,
+  stamping       int DEFAULT 1,
+  status         varchar(8) DEFAULT '미사용',
+  date1          timestamp DEFAULT CURRENT_TIMESTAMP,
+  date2          timestamp DEFAULT TIMESTAMPADD(MONTH, 1, CURRENT_TIMESTAMP),
+  uodated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP,
+  notice         varchar(256) DEFAULT ' '
+);
 
 DROP TABLE admin_member_coupon;
 CREATE TABLE IF NOT EXISTS admin_member_coupon (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  member_name    varchar(32) NOT NULL,
-  member_rcn     varchar(32) NOT NULL,
-  coupon_code    varchar(32) NOT NULL,
-  coupon_type    varchar(32) NOT NULL,
-  coupon_name    varchar(64) NOT NULL,
-  updater        varchar(32) NOT NULL,
-  updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  status         varchar(8) NOT NULL,
+  member         varchar(32) NOT NULL,
+  rcn            varchar(32) NOT NULL,
+  bzcode         varchar(32) NOT NULL,
+  ctype          varchar(32) NOT NULL,
+  code           varchar(64) NOT NULL,
+  name           varchar(64) NOT NULL,
   cash           int,
-  stamp          int,
-  limits         int,
+  reward_cnt     int DEFAULT 0,
+  stamp          int, 
+  stamp_cnt      int DEFAULT 0,
+  limits         int DEFAULT 10000000,
+  promotion_cnt  int DEFAULT 0,
   overagain      varchar(8),
-  begins         timestamp DEFAULT CURRENT_TIMESTAMP,
-  ends           timestamp DEFAULT TIMESTAMPADD(MONTH, 1, CURRENT_TIMESTAMP),
-  notice         varchar(256) NOT NULL
+  date1          timestamp DEFAULT CURRENT_TIMESTAMP,
+  date2          timestamp DEFAULT TIMESTAMPADD(MONTH, 1, CURRENT_TIMESTAMP),
+  updater        varchar(32) DEFAULT '',
+  updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  register       varchar(32) DEFAULT '',
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  status         varchar(8) DEFAULT '미사용',
+  notice         varchar(256) DEFAULT ' '
 );
 
--- INSERT INTO admin_member_coupon (member_name, member_rcn, coupon_code, coupon_type, coupon_name, updater, updated, status, cash, stamp, limits, overagain, begins, ends, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567890', '리워드', '아메리카노 할인권', '관리자1', NOW(), '사용', 1000, 0, 0, '', NOW(), NOW() + INTERVAL 1 MONTH, '');
--- INSERT INTO admin_member_coupon (member_name, member_rcn, coupon_code, coupon_type, coupon_name, updater, updated, status, cash, stamp, limits, overagain, begins, ends, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567890', '스탬프', '오늘의커피 한잔교환권', '관리자1', NOW(), '사용', 0, 10, 3800, "가능", NOW(), NOW() + INTERVAL 1 MONTH, '');
--- INSERT INTO admin_member_coupon (member_name, member_rcn, coupon_code, coupon_type, coupon_name, updater, updated, status, cash, stamp, limits, overagain, begins, ends, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567890', '프로모션', '오픈 이벤트 5000원 할인', '관리자1', NOW(), '사용', 0, 0, 0, '', NOW(), NOW() + INTERVAL 1 MONTH, '');
-
-INSERT INTO admin_member_coupon (member_name, member_rcn, coupon_code, coupon_type, coupon_name, updater, status, cash, stamp, limits, overagain, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567890', '리워드', '아메리카노 할인권', '관리자1', '사용', 1000, 0, 0, '', '');
-INSERT INTO admin_member_coupon (member_name, member_rcn, coupon_code, coupon_type, coupon_name, updater, status, cash, stamp, limits, overagain, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567890', '스탬프', '오늘의커피 한잔교환권', '관리자1', '사용', 0, 10, 3800, "가능", '');
-INSERT INTO admin_member_coupon (member_name, member_rcn, coupon_code, coupon_type, coupon_name, updater, status, cash, stamp, limits, overagain, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567890', '프로모션', '오픈 이벤트 5000원 할인', '관리자1', '사용', 0, 0, 0, '', '');
+INSERT INTO admin_member_coupon (member, rcn, code, ctype, name, status, bzcode, cash, stamp, limits, overagain, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567890', '리워드', '아메리카노 할인권', '사용', '카페', 1000, 0, 0, '', '');
+INSERT INTO admin_member_coupon (member, rcn, code, ctype, name, status, bzcode, cash, stamp, limits, overagain, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567891', '스탬프', '오늘의커피 한잔교환권', '사용', '카페', 0, 10, 3800, "가능", '');
+INSERT INTO admin_member_coupon (member, rcn, code, ctype, name, status, bzcode, cash, stamp, limits, overagain, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567892', '프로모션', '오픈 이벤트 5000원 할인', '사용', '카페', 0, 0, 0, '', '');
 
 DROP TABLE admin_user;
 CREATE TABLE IF NOT EXISTS admin_user (
@@ -489,6 +529,7 @@ CREATE TABLE IF NOT EXISTS admin_event (
 INSERT INTO admin_notice (title) VALUES ("앱 출시 이벤트 KF94 마스크");
 INSERT INTO admin_notice (title) VALUES ("앱 출시 이벤트 패션 마스크");
 
+/*
 
 DROP TABLE admin_coupon;
 CREATE TABLE IF NOT EXISTS admin_coupon (
@@ -509,6 +550,22 @@ CREATE TABLE IF NOT EXISTS admin_coupon (
 INSERT INTO admin_coupon (code, name, member, description) VALUES ("2400 9555 4229 9417", "KF94 마스크 증정", "해당가맹점", "1. 본쿠폰은 지정 매장에서만 사용가능합니다.");
 
 
+DROP TABLE admin_coupon;
+CREATE TABLE IF NOT EXISTS admin_coupon (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  code           varchar(32) NOT NULL,
+  name           varchar(32) NOT NULL,
+  staus          varchar(8) DEFAULT '사용',
+  member         varchar(64)  DEFAULT '',
+  date1          timestamp DEFAULT CURRENT_TIMESTAMP,
+  date2          timestamp DEFAULT CURRENT_TIMESTAMP,
+  description    varchar(512) DEFAULT '',
+  updater        varchar(32)  DEFAULT '',
+  updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  register       varchar(32) DEFAULT '',
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+*/
 
 
 

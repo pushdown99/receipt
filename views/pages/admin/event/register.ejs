@@ -24,8 +24,8 @@
             </div>
             <div class="form-group col-md-3">
               <div class="form-check">
-              <label class="radio-inline">&nbsp;<input type="radio" name="play" id="play" value="사용">&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
-              <label class="radio-inline">&nbsp;<input type="radio" name="stop" id="stop" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="radio" id="play" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="radio" id="stop" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
               </div>
             </div>
             <div class="form-group col-md-8"></div>
@@ -84,27 +84,20 @@
                 </div>
               </div>
             </div>
+
             <div class="form-group col-md-5">
               <div class="input-group dropdown">
                 <div class="input-group-prepend"><div class="input-group-text">지역</div></div>
-
-                <button id="area1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
-                  <a class="dropdown-item">전체</a>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item">가입</a>
-                  <a class="dropdown-item">해지</a>
-                </div>&nbsp;
-                <button id="area2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
-                  <a class="dropdown-item">전체</a>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item">가입</a>
-                  <a class="dropdown-item">해지</a>
+                <button id="btn-area1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="area1" class="dropdown-menu">
+                </div>&nbsp;&nbsp;
+                <span>
+                <button id="btn-area2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="area2" class="dropdown-menu">
                 </div>
+                </span>
               </div>
             </div>
-
 
             <div class="form-group col-md-1">
             <label for="member">이벤트기간</label>

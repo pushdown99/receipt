@@ -68,7 +68,7 @@ function HideModalDiv() {
   bcgDiv.style.display = "none";
 }
 
-const shrink     = 640;
+const shrink = 640;
 const width  = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 const height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 const today  = new Date().toJSON().slice(0,10).replace(/-/g,'-');
@@ -136,18 +136,8 @@ $(function() {
 let pagelength = 10;
 
 function admin_member_search () {
-/*
-  var rcn   = ($("#rcn").val() == "")? "all": $("#rcn").val();
-  var stat  = ($("#stat").text() == "전체")? "all":$("#stat").text();
-  var area1 = ($("#btn-area1").html() == "전체")? "all":$("#btn-area1").html();
-  var area2 = ($("#btn-area2").html() == "전체")? "all":$("#btn-area2").html();
-  var date1 = $("#date1").val() + ' 00:00:00';
-  var date2 = $("#date2").val() + ' 23:59:59';
-*/
-  
-
   var params = {
-    rcn   : ($("#rcn").val() == "")? "all": $("#rcn").val(),
+    rcn   : ($("#rcn").val() == "")? "all": '%' + $("#rcn").val() +'%',
     stat  : ($("#stat").text() == "전체")? "all":$("#stat").text(),
     area1 : ($("#btn-area1").html() == "전체")? "all":$("#btn-area1").html(),
     area2 : ($("#btn-area2").html() == "전체")? "all":$("#btn-area2").html(),
@@ -155,23 +145,75 @@ function admin_member_search () {
     date2 : $("#date2").val() + ' 23:59:59'
   }
   $.postJSON('/json/member/search', params).then(data => {
+    html = '<div class="table-responsive">';
+    html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">사업자번호</th>';
+    html += '<th style="text-align: center;">가맹점상호</th>';
+    html += '<th style="text-align: center;">상태</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">전화번호</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">수정</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">수정일</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">등록자</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">등록일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(data, function(i, t) {
+      html += '<tr>';
+      if (width > shrink)
+      html += `<td style="text-align: center;">${i}</td>`;
+      html += `<td style="text-align: left;">${t.rcn}</td>`;
+      html += `<td style="text-align: left;">${t.name}</td>`;
+      html += `<td style="text-align: center;">${t.status}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: center;">${t.phone}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: center;">${t.updater}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: center;">${t.register}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+    });
+    $("#results").html(html);
+    $('#admin-member-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
 
-/*
-  $.getJSON(`/json/member/search/${rcn}/${stat}/${area1}/${area2}/${date1}/${date2}`, function(data) {
-*/
+function admin_coupon_search () {
+  var params = {
+    name  : ($("#name").val() == "")? "all": $("#name").val(),
+    stat  : ($("#stat").text() == "전체")? "all":$("#stat").text(),
+    date1 : $("#date1").val() + ' 00:00:00',
+    date2 : $("#date2").val() + ' 23:59:59'
+  }
+  $.postJSON('/json/coupon/search', params).then(data => {
     html = '<div class="table-responsive">';
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
     html += '<tr>';
     if (width > shrink) 
     html += '<th style="text-align: center;">No</th>';
-    html += '<th style="text-align: center;">사업자번호</th>';
-    html += '<th style="text-align: center;">가맹점상호</th>';
+    html += '<th style="text-align: center;">쿠폰종류</th>';
+    html += '<th style="text-align: center;">쿠폰명</th>';
     html += '<th style="text-align: center;">상태</th>';
     if (width > shrink) 
-    html += '<th style="text-align: center;">전화번호</th>';
-    if (width > shrink) 
-    html += '<th style="text-align: center;">수정</th>';
+    html += '<th style="text-align: center;">수정자</th>';
     if (width > shrink) 
     html += '<th style="text-align: center;">수정일</th>';
     if (width > shrink) 
@@ -185,11 +227,9 @@ function admin_member_search () {
       html += '<tr>';
       if (width > shrink) 
       html += `<td style="text-align: center;">${i}</td>`;
-      html += `<td style="text-align: left;">${t.rcn}</td>`;
+      html += `<td style="text-align: left;">${t.ctype}</td>`;
       html += `<td style="text-align: left;">${t.name}</td>`;
       html += `<td style="text-align: center;">${t.status}</td>`;
-      if (width > shrink) 
-      html += `<td style="text-align: center;">${t.phone}</td>`;
       if (width > shrink) 
       html += `<td style="text-align: center;">${t.updater}</td>`;
       if (width > shrink) 
@@ -210,10 +250,12 @@ function admin_member_search () {
 }
 
 function admin_group_search () {
-  var name  = ($("#name").val() == "")? "all": $("#name").val();
-  var date1 = $("#date1").val();
-  var date2 = $("#date2").val();
-  $.getJSON(`/json/group/search/${name}/${date1}/${date2}`, function(data) {
+  var params = {
+    name  : ($("#name").val() == "")? "all": $("#name").val(),
+    date1 : $("#date1").val(),
+    date2 : $("#date2").val()
+  }
+  $.postJSON('/json/group/search', params).then(data => {
     html = '<div class="table-responsive">';
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
@@ -255,14 +297,15 @@ function admin_group_search () {
 }
 
 function admin_admin_search () {
-  var name  = ($("#name").val() == "")? "all": $("#name").val();
-  var grade = ($("#grade").text() == "전체")? "all": $("#grade").text();
-  var stat  = ($("#stat").text() == "전체")? "all": $("#stat").text();
-  var date1 = $("#date1").val() + " 00:00:00";
-  var date2 = $("#date2").val() + " 23:59:59";
+  var params = {
+    name  : ($("#name").val() == "")? "all": $("#name").val(),
+    grade : ($("#grade").text() == "전체")? "all": $("#grade").text(),
+    stat  : ($("#stat").text() == "전체")? "all": $("#stat").text(),
+    date1 : $("#date1").val() + " 00:00:00",
+    date2 : $("#date2").val() + " 23:59:59" 
+  }
 
-  $.getJSON(`/json/admin/search/${name}/${grade}/${stat}/${date1}/${date2}`, function(data) {
-console.log (data);
+  $.postJSON('/json/admin/search', params).then(data => {
     html = '<div class="table-responsive">';
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
@@ -291,6 +334,79 @@ console.log (data);
       html += `<td style="text-align: left;">${t.grade}</td>`;
       html += `<td style="text-align: left;">${t.status}</td>`;
       html += `<td style="text-align: center;">${t.updater}</td>`;
+      html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: center;">${t.register}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+    });
+    $("#results").html(html);
+    $('#admin-member-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
+function admin_notice_search () {
+  var params = {
+    title  : ($("#title").val() == "")? "all": $("#title").val(),
+    date1 : $("#date1").val() + " 00:00:00",
+    date2 : $("#date2").val() + " 23:59:59",
+    gender: ($("#gender").text() == "전체")? "all": $("#gender").text(),
+    age   : ($("#age").text() == "전체")? "all": $("#age").text(),
+    area1 : ($("#btn-area1").html() == "전체")? "all":$("#btn-area1").html(),
+    area2 : ($("#btn-area2").html() == "전체")? "all":$("#btn-area2").html(),
+  }
+
+  $.postJSON('/json/notice/search', params).then(data => {
+console.log (data);
+    html = '<div class="table-responsive">';
+    html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">제목</th>';
+      if (width > shrink)
+    html += '<th style="text-align: center;">성별</th>';
+      if (width > shrink)
+    html += '<th style="text-align: center;">나이</th>';
+      if (width > shrink)
+    html += '<th style="text-align: center;">지역</th>';
+    html += '<th style="text-align: center;">시작</th>';
+    html += '<th style="text-align: center;">종료</th>';
+    html += '<th style="text-align: center;">조회수</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">수정자</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">수정일</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">등록자</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">등록일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(data, function(i, t) {
+      html += '<tr>';
+      if (width > shrink)
+      html += `<td style="text-align: center;">${i}</td>`;
+      html += `<td style="text-align: left;">${t.title}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: left;">${t.gender}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: left;">${t.age}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: left;">${t.area1}</td>`;
+      html += `<td style="text-align: center;">${moment(t.date1).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+      html += `<td style="text-align: center;">${moment(t.date2).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+      html += `<td style="text-align: center;">${t.views}</td>`;
+      if (width > shrink)
+      html += `<td style="text-align: center;">${t.updater}</td>`;
+      if (width > shrink)
       html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
       if (width > shrink)
       html += `<td style="text-align: center;">${t.register}</td>`;
@@ -371,12 +487,14 @@ $(document).on('click', '#search', function (event) {
   console.log('Page: ', pageid);
 
   switch(pageid) {
-  case 'admin-member-search' : return admin_member_search ();
-  case 'admin-group-search'  : return admin_group_search () ;
-  case 'admin-coupon-search' : return admin_coupon_search ();
-  case 'admin-admin-search'  : return admin_admin_search ();
+  case 'admin-member-search'     : return admin_member_search ();
+  case 'admin-coupon-search'     : return admin_coupon_search ();
+  case 'admin-group-search'      : return admin_group_search () ;
+  case 'admin-admin-search'      : return admin_admin_search ();
+  case 'admin-notice-search'     : return admin_notice_search ();
 
   case 'member-dashboard-search' : return member_dashbaord_search ();
+  case 'member-coupon-search'    : return member_coupon_search ();
   }
 });
 
@@ -490,6 +608,19 @@ function admin_member_register () {
   });
 }
 
+function admin_grop_register () {
+}
+
+function admin_class_register () {
+}
+
+function admin_coupon_register () {
+}
+
+function admin_notice_register () {
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 $(document).on('click', '#register', function (event) {
@@ -498,9 +629,18 @@ $(document).on('click', '#register', function (event) {
 
   switch(pageid) {
   case 'admin-admin-register' : return admin_admin_register ();
-  case 'admin-admin-search'   : $(location).attr('href', '/admin/admin/register');
-  case 'admin-member-search'  : $(location).attr('href', '/admin/member/register');
   case 'admin-member-register': return admin_member_register ();
+  case 'admin-grop-register'  : return admin_grop_register ();
+  case 'admin-class-register' : return admin_class_register ();
+  case 'admin-coupon-register': return admin_coupon_register ();
+  case 'admin-notice-register': return admin_notice_register ();
+
+  case 'admin-admin-search'   : return $(location).attr('href', '/admin/admin/register');
+  case 'admin-member-search'  : return $(location).attr('href', '/admin/member/register');
+  case 'admin-group-search'   : return $(location).attr('href', '/admin/group/register');
+  case 'admin-class-search'   : return $(location).attr('href', '/admin/class/register');
+  case 'admin-coupon-search'  : return $(location).attr('href', '/admin/coupon/register');
+  case 'admin-notice-search'  : return $(location).attr('href', '/admin/notice/register');
   }
 });
 
@@ -511,7 +651,12 @@ $(document).on('click', '#list', function (event) {
   console.log('Page: ', pageid);
 
   switch(pageid) {
-  case 'admin-admin-register' : $(location).attr('href', '/admin/admin/search');
+  case 'admin-admin-register' : return $(location).attr('href', '/admin/admin/search');
+  case 'admin-member-register': return $(location).attr('href', '/admin/member/search');
+  case 'admin-group-register' : return $(location).attr('href', '/admin/group/search');
+  case 'admin-class-register' : return $(location).attr('href', '/admin/class/search');
+  case 'admin-notice-register': return $(location).attr('href', '/admin/notice/search');
+  case 'admin-coupon-register': return $(location).attr('href', '/admin/coupon/search');
   }
 });
 
