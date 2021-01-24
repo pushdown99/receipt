@@ -10,7 +10,10 @@ module.exports = {
     console.log('Listener: ', 'wsock listening on port ' + port);
 
     wss.on('connection', function connection(ws) {
-      wclients.push(ws);
+      let client = {}
+      client.license = "";
+      client.ws = ws;
+      wclients.push(client);
 
       ws.on('open', function open() {
         console.log('open');
@@ -19,14 +22,35 @@ module.exports = {
 
       ws.on('message', function incoming(data) {
         console.log(data.toString());
-        ws.send('something');
+        let obj = JSON.parse(data.toString());
+        let command   = obj.Command;
+        let license   = obj.License;
+        let message   = obj.Message;
+        let timestamp = obj.Timestamp;
+        console.log (command, license, message, timestamp);
+
+        switch(command) {
+        case 'Join': 
+          for (var n=0; n < wclients.length; n++) {
+            if(wclients[n].ws == ws) {
+              wclients[n].license = license;
+            }
+          }
+        }
+        ws.send('{"Command": "Okay"}');
       });
     });
   },
 
-  wsend: function (message) {
+  wsend: function (license, message) {
     for (var n=0; n < wclients.length; n++) {
-        wclients[n].send(message);
+      if(wclients[n].license == license) wclients[n].ws.send(message);
+    }
+  },
+
+  wsendAll: function (message) {
+    for (var n=0; n < wclients.length; n++) {
+        wclients[n].ws.send(message);
     }
   },
 

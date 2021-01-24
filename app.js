@@ -1,5 +1,5 @@
 let express  = require('express');
-var flash    = require('express-flash');
+let flash    = require('express-flash');
 let partials = require('express-partials');
 let app      = express();
 

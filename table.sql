@@ -155,6 +155,7 @@ CREATE TABLE IF NOT EXISTS fcm (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   email          varchar(64) NOT NULL,
   name           varchar(64) NOT NULL,
+  rcn            varchar(64) NOT NULL,
   total          int         NOT NULL,
   issue          varchar(32) NOT NULL,
   pdf            varchar(64) NOT NULL,
@@ -256,6 +257,21 @@ INSERT INTO admin_member (rcn, passwd, name, owner, bzname, phone,address,  area
 INSERT INTO admin_member (rcn, passwd, name, owner, bzname, phone, address, area1, area2, status, updater, register) VALUES ('125-12-12341', 'xy', '은행나무 게스트하우스', '은지원', '식당', '010-1234-5678', '전라북도 전주시', '전라북도', '전주시', '해지', '관리자A', '관리자A');
 INSERT INTO admin_member (rcn, passwd, name, owner, bzname, phone, address, area1, area2, status, updater, register) VALUES ('125-12-12342', 'xy', '이디야 전주교대점', '강호동', '카페', '010-1234-5678', '전라북도 전주시', '전라북도', '전주시', '삭제', '관리자B', '관리자B');
 
+DROP TABLE admin_member_info;
+CREATE TABLE IF NOT EXISTS admin_member_info (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  rcn            varchar(32) NOT NULL,
+  logo           varchar(128) NOT NULL,
+  intro          varchar(1024) NOT NULL,
+  offduty        varchar(32) DEFAULT '월요일',
+  opentime       varchar(32) DEFAULT "10:00",
+  closetime      varchar(32) DEFAULT "22:00",
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('206-86-50193', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
+INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('201-81-21515', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
+
 
 
 
@@ -307,7 +323,7 @@ INSERT INTO admin_member_history (member_name, member_rcn, history, updater, upd
 DROP TABLE admin_class;
 CREATE TABLE IF NOT EXISTS admin_class (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  code_name      varchar(32) NOT NULL,
+  name           varchar(32) NOT NULL,
   icon_path      varchar(32) NOT NULL,
   updater        varchar(32) NOT NULL,
   updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -315,15 +331,32 @@ CREATE TABLE IF NOT EXISTS admin_class (
   registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO admin_class (code_name, icon_path, updater, updated, register, registered) VALUES ('음식점', '/rc/icons/food.png', '관리자A', NOW(), '관리자A', NOW());
-INSERT INTO admin_class (code_name, icon_path, updater, updated, register, registered) VALUES ('주점', '/rc/icons/wine.png', '관리자A', NOW(), '관리자A', NOW());
-INSERT INTO admin_class (code_name, icon_path, updater, updated, register, registered) VALUES ('카페', '/rc/icons/cafe.png', '관리자A', NOW(), '관리자A', NOW());
-INSERT INTO admin_class (code_name, icon_path, updater, updated, register, registered) VALUES ('병원', '/rc/icons/hospital.png', '관리자A', NOW(), '관리자A', NOW());
-INSERT INTO admin_class (code_name, icon_path, updater, updated, register, registered) VALUES ('은행', '/rc/icons/bank.png', '관리자A', NOW(), '관리자A', NOW());
-INSERT INTO admin_class (code_name, icon_path, updater, updated, register, registered) VALUES ('약국', '/rc/icons/drug.png', '관리자A', NOW(), '관리자A', NOW());
-INSERT INTO admin_class (code_name, icon_path, updater, updated, register, registered) VALUES ('주유소', '/rc/icons/gas.png', '관리자A', NOW(), '관리자A', NOW());
-INSERT INTO admin_class (code_name, icon_path, updater, updated, register, registered) VALUES ('주차장', '/rc/icons/park.png', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_class (name, icon_path, updater, updated, register, registered) VALUES ('음식점', '/rc/images/icon_store_restaurant', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_class (name, icon_path, updater, updated, register, registered) VALUES ('카페', '/rc/images/icon_store_cafe', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_class (name, icon_path, updater, updated, register, registered) VALUES ('마트', '/rc/images/icon_store_mart', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_class (name, icon_path, updater, updated, register, registered) VALUES ('제과', '/rc/images/icon_store_bakery', '관리자A', NOW(), '관리자A', NOW());
 
+DROP TABLE admin_member_logo;
+CREATE TABLE IF NOT EXISTS admin_member_logo (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  rcn            varchar(32) NOT NULL,
+  name           varchar(32) NOT NULL,
+  logo_path      varchar(32) NOT NULL,
+  updater        varchar(32) NOT NULL,
+  updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  register       varchar(32) NOT NULL,
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('206-86-50193', '이마트 전주점', '/rc/images/logo_store_emart', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('214-88-59748', '왱이콩나물국밥', '/rc/images/logo_store_food', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('402-81-18476', 'PNB 풍년제과 한옥마을점', '/rc/images/logo_store_PNB', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('201-81-21515', '스타벅스 전주한옥마을점', '/rc/images/logo_store_starbucks', '관리자A', NOW(), '관리자A', NOW());
+
+INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('123-45-12345', '서천집', '/rc/images/logo_store_emart', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('123-45-12346', '엄마손식당', '/rc/images/logo_store_food', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('123-45-12347', 'W몰', '/rc/images/logo_store_PNB', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('123-45-12348', '커피에반하다', '/rc/images/logo_store_starbucks', '관리자A', NOW(), '관리자A', NOW());
 
 DROP TABLE admin_class_history;
 CREATE TABLE IF NOT EXISTS admin_class_history (
@@ -349,13 +382,23 @@ CREATE TABLE IF NOT EXISTS user_coupon (
   rcn            varchar(32) NOT NULL,
   bzcode         varchar(32) NOT NULL,
   ctype          varchar(32) NOT NULL,
-  code           varchar(64) NOT NULL,
+  cpcode         varchar(64) NOT NULL,
   name           varchar(64) NOT NULL,
-  status         varchar(8) DEFAULT '사용',
+  status         varchar(8) DEFAULT '미사용',
   date1          timestamp DEFAULT CURRENT_TIMESTAMP,
   date2          timestamp DEFAULT TIMESTAMPADD(MONTH, 1, CURRENT_TIMESTAMP),
   registered     timestamp DEFAULT CURRENT_TIMESTAMP,
-  notice         varchar(256) DEFAULT ''
+  benefit        varchar(256) DEFAULT ' ',
+  notice         varchar(256) DEFAULT ' '
+);
+
+DROP TABLE user_stamp_history;
+CREATE TABLE IF NOT EXISTS user_stamp_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email          varchar(32) NOT NULL,
+  cpcode         varchar(32) NOT NULL,
+  accum          int DEFAULT 1,
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 DROP TABLE user_stamp;
@@ -366,7 +409,7 @@ CREATE TABLE IF NOT EXISTS user_stamp (
   rcn            varchar(32) NOT NULL,
   bzcode         varchar(32) NOT NULL,
   ctype          varchar(32) NOT NULL,
-  code           varchar(64) NOT NULL,
+  cpcode         varchar(64) NOT NULL,
   name           varchar(64) NOT NULL,
   total          int DEFAULT 0,
   stamping       int DEFAULT 1,
@@ -375,6 +418,7 @@ CREATE TABLE IF NOT EXISTS user_stamp (
   date2          timestamp DEFAULT TIMESTAMPADD(MONTH, 1, CURRENT_TIMESTAMP),
   uodated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   registered     timestamp DEFAULT CURRENT_TIMESTAMP,
+  benefit        varchar(256) DEFAULT ' ',
   notice         varchar(256) DEFAULT ' '
 );
 
@@ -385,8 +429,9 @@ CREATE TABLE IF NOT EXISTS admin_member_coupon (
   rcn            varchar(32) NOT NULL,
   bzcode         varchar(32) NOT NULL,
   ctype          varchar(32) NOT NULL,
-  code           varchar(64) NOT NULL,
+  cpcode         varchar(64) NOT NULL,
   name           varchar(64) NOT NULL,
+  counter        int DEFAULT 0,
   cash           int,
   reward_cnt     int DEFAULT 0,
   stamp          int, 
@@ -401,17 +446,20 @@ CREATE TABLE IF NOT EXISTS admin_member_coupon (
   register       varchar(32) DEFAULT '',
   registered     timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   status         varchar(8) DEFAULT '미사용',
+  benefit        varchar(256) DEFAULT ' ',
   notice         varchar(256) DEFAULT ' '
 );
 
-INSERT INTO admin_member_coupon (member, rcn, code, ctype, name, status, bzcode, cash, stamp, limits, overagain, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567890', '리워드', '아메리카노 할인권', '사용', '카페', 1000, 0, 0, '', '');
-INSERT INTO admin_member_coupon (member, rcn, code, ctype, name, status, bzcode, cash, stamp, limits, overagain, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567891', '스탬프', '오늘의커피 한잔교환권', '사용', '카페', 0, 10, 3800, "가능", '');
-INSERT INTO admin_member_coupon (member, rcn, code, ctype, name, status, bzcode, cash, stamp, limits, overagain, notice) VALUES ('스타벅스 전주한옥마을점', '125-12-12340', 'CP1234567892', '프로모션', '오픈 이벤트 5000원 할인', '사용', '카페', 0, 0, 0, '', '');
+INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('스타벅스 전주한옥마을점', '201-81-21515', 'CP-1234567890', '리워드', '아메리카노 할인권', '사용', '카페', 1000, 0, 0, '', '', '');
+INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('스타벅스 전주한옥마을점', '201-81-21515', 'CP-1234567891', '스탬프', '오늘의커피 한잔교환권', '사용', '카페', 0, 10, 3800, "가능", "- 스탬프 5회 적립 시 '오늘의 커피 톨 1잔' 무료\n- 스탬프 10회 적립 시 '카페모카 톨 1잔' 무료", "- 쿠폰 사용 시 스탬프 적립은 불가능합니다.\n- 스탬프 유효기간을 확인하여 주시기 바랍니다.");
+INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('스타벅스 전주한옥마을점', '201-81-21515', 'CP-1234567892', '프로모션', '오픈 이벤트 5000원 할인', '사용', '카페', 0, 0, 0, '', '', '');
+
+INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('한컴라이프케어', '000-00-00000', 'CP-9000000001', '프로모션', '5% 할인쿠폰', '사용', '카페', 50000, 0, 0, '', '', '');
 
 DROP TABLE admin_user;
 CREATE TABLE IF NOT EXISTS admin_user (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  email          varchar(32) NOT NULL,
+  email          varchar(32) UNIQUE,
   password       varchar(128) NOT NULL,
   name           varchar(32) NOT NULL,
   mobile         varchar(32) NOT NULL,
@@ -486,10 +534,11 @@ CREATE TABLE IF NOT EXISTS admin_notice (
   registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO admin_notice (title, description) VALUES ("[알림] 10% 할인가에 김장하는 방법", "");
-INSERT INTO admin_notice (title, description) VALUES ("[공지] 스마트영수증 일시중지 안내", "");
-INSERT INTO admin_notice (title, description) VALUES ("[공지] 전주시, 지역화폐 '전주사랑 상품권 발행", "안녕하세요 스마트영수증 입니다.\n\n 스마트영수증 시스템 점검으로 인한 서비스가 아래와 같이\n 일시 중지됨을 알려드리오니 이용에 참고하시기 바랍니다.\n\n일시중지 내용\n1. 중지일시\n - 2020 년 11 월 3일(화) 00:30 ~ 02:00(예상)\n2. 작업내역\n - 시스템 증설\n3. 중지내용\n - 영수증 발급\n - 쿠폰 사용 및 스탬프 적립");
+INSERT INTO admin_notice (title, description) VALUES ("\[알림\] 10% 할인가에 김장하는 방법", "");
+INSERT INTO admin_notice (title, description) VALUES ("\[공지\] 스마트영수증 일시중지 안내", "");
+INSERT INTO admin_notice (title, description) VALUES ("\[공지\] 전주시, 지역화폐 '전주사랑 상품권 발행", "안녕하세요 스마트영수증 입니다.\n\n 스마트영수증 시스템 점검으로 인한 서비스가 아래와 같이\n 일시 중지됨을 알려드리오니 이용에 참고하시기 바랍니다.\n\n일시중지 내용\n1. 중지일시\n - 2020 년 11 월 3일(화) 00:30 ~ 02:00(예상)\n2. 작업내역\n - 시스템 증설\n3. 중지내용\n - 영수증 발급\n - 쿠폰 사용 및 스탬프 적립");
 
+/*
 DROP TABLE admin_event;
 CREATE TABLE IF NOT EXISTS admin_event (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -528,6 +577,55 @@ CREATE TABLE IF NOT EXISTS admin_event (
 
 INSERT INTO admin_notice (title) VALUES ("앱 출시 이벤트 KF94 마스크");
 INSERT INTO admin_notice (title) VALUES ("앱 출시 이벤트 패션 마스크");
+*/
+
+DROP TABLE admin_event;
+CREATE TABLE IF NOT EXISTS admin_event (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  title          varchar(32) NOT NULL,
+  fnotice        int DEFAULT 0,
+  fweight        int DEFAULT 1,
+  fmain          int DEFAULT 0,
+  fevent         int DEFAULT 1,
+  gender         varchar(8) DEFAULT '남',
+  age            varchar(8) DEFAULT '20대',
+  area1          varchar(32) DEFAULT '서울특별시',
+  area2          varchar(32) DEFAULT '강남구',
+  date1          timestamp DEFAULT CURRENT_TIMESTAMP,
+  date2          timestamp DEFAULT CURRENT_TIMESTAMP,
+  event          varchar(256) DEFAULT '',
+  main           varchar(256) DEFAULT '',
+  detail         varchar(256) DEFAULT '',
+  rgb            varchar(16) DEFAULT '#372a9a',
+  coupon         int DEFAULT 0,
+  date3          timestamp DEFAULT CURRENT_TIMESTAMP,
+  date4          timestamp DEFAULT CURRENT_TIMESTAMP,
+  coupon_url     varchar(256) DEFAULT '',
+  updater        varchar(32)  DEFAULT '',
+  updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  register       varchar(32) DEFAULT '',
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO admin_event (title, fnotice, fweight, fmain, fevent, main, rgb) VALUES ("앱 출시 이벤트 KF94 마스크", 0, 1, 1, 0, "https://tric.kr/rc/banner/main1", "#372a9a");
+INSERT INTO admin_event (title, fnotice, fweight, fmain, fevent, main, rgb) VALUES ("앱 출시 이벤트 패션 마스크", 0, 1, 1, 0, "https://tric.kr/rc/banner/main1", "#1a64d3");
+
+INSERT INTO admin_event (title, fnotice, fweight, fmain, fevent, event, detail, coupon_url) VALUES ("앱 출시 이벤트 O2 wear 비말 마스크", 0, 1, 0, 1, "https://tric.kr/rc/banner/hancom-event1", "https://tric.kr/rc/banner/hancom-detail1", "https://tric.kr/coupon/detail/4");
+INSERT INTO admin_event (title, fnotice, fweight, fmain, fevent, event, detail, coupon_url) VALUES ("앱 출시 이벤트 O2 wear 패션 마스크", 0, 1, 0, 1, "https://tric.kr/rc/banner/hancom-event2", "https://tric.kr/rc/banner/hancom-detail2", "https://tric.kr/coupon/detail/4");
+
+DROP TABLE license;
+CREATE TABLE IF NOT EXISTS license (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email          varchar(32) DEFAULT '',
+  mac            varchar(32) NOT NULL,
+  rcn            varchar(32) DEFAULT '',
+  license        varchar(32) DEFAULT '',
+  updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO license (mac, license) VALUES ('a4:1f:72:fe:b4:4d', '1234');
+
 
 /*
 
@@ -566,6 +664,7 @@ CREATE TABLE IF NOT EXISTS admin_coupon (
   registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
 */
+
 
 
 

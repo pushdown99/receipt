@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <div class="container-fluid">
   <div class="row">
-    <div class="offset-lg-4 col-lg-4">
+    <div class="offset-lg-2 col-lg-8">
       <div class="card">
         <div class="card-body"><h5 class="m-0"> 
-          <div class="input-group date" id="reservationdate" data-target-input="nearest">
+            <div class="form-group col-md-12">
+              <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-chevron-left"></i></span></div>
-            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
-            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-              <div class="input-group-text"><i class="fa fa-calendar"></i></div> 
-            </div>
+                <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-chevron-right"></i></span></div>
-          </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>

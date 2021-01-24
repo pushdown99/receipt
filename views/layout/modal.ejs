@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<div class="modal fade" id="modal-passwd-change" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">비밀번호 변경</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group col-md-3">
+          <label for="rcn">기존 비밀번호</label>
+          </div>
+          <div class="form-group col-md-9">
+            <div class="input-group">
+              <input id="passwd" type="password" class="form-control" value="" placeholder="******">
+            </div>
+          </div>
+
+          <div class="form-group col-md-3">
+          <label for="passwd">비밀번호</label>
+          </div>
+          <div class="form-group col-md-9">
+            <div class="input-group">
+              <input id="passwd2" type="password" class="form-control" value="" placeholder="********">
+            </div>
+          </div>
+          <div class="form-group offset-md-3 col-md-9">
+            <div class="input-group">
+              <input id="passwd3" type="password" class="form-control" value="" placeholder="********">
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+            <button id="modal-passwd-register" type="button" class="btn btn-default" style="float: right;">비밀번호변경</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-login-fail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      아이디 또는 </br>비밀번호가 올바르지 않습니다.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body"><span id="alert-body"></span></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+

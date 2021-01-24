@@ -64,7 +64,7 @@ label {
 
 
 table {
-  font-size: 0.95rem
+  font-size: 0.85rem
 }
 
 .login-box, .register-box
@@ -78,6 +78,24 @@ table {
     color: #ced4da;
 }
 
+.modal {
+  font-size: 0.85rem
+}
+
+.breadcrumb-item, .nav-item {
+  font-weight: 200;
+  color: #495057;
+  font-size: 0.85rem;
+}
+
+table.dataTable {
+  font-size: 0.9rem;
+    width: 100%;
+    margin: 0 auto;
+    clear: both;
+    border-collapse: separate;
+    border-spacing: 0;
+}
 /*
 .input-group-text {
   min-width: 100px !important;

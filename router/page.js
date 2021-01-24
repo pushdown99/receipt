@@ -5,161 +5,161 @@ const lib = require('../lib');
 module.exports = {
 
   getPage : function (d) {
-    let info = {};
+    var info = {};
     
     console.log ('getPage: ', d);
     switch (d) {
     case '/admin':
       info.title = 'Dashboard';
       info.name = 'admin/index';
-      info.navigation = '';
+      info.navigation = '관리자';
       info.page = 'admin/index';
       return info;
 
     case '/admin/profile':
       info.title = 'Profile';
       info.name = 'admin/profile';
-      info.navigation = '';
+      info.navigation = '관리자 / 프로필';
       info.page = 'admin/profile';
       return info;
 
     case '/admin/member/search':
       info.title = '가맹점 조회';
       info.name = 'admin/member/search';
-      info.navigation = '';
+      info.navigation = '관리자 / 가맹점관리 / 가맹점조회';
       info.page = 'admin/member/search';
       return info;
 
     case '/admin/member/register':
       info.title = '가맹점 등록';
       info.name = 'admin/member/register';
-      info.navigation = '';
+      info.navigation = '관리자 / 가맹점관리 / 가맹점등록';
       info.page = 'admin/member/register';
       return info;
 
     case '/admin/coupon/search':
       info.title = '쿠폰 조회';
       info.name = 'admin/coupon/search';
-      info.navigation = '';
+      info.navigation = '관리자 / 쿠폰관리 / 쿠폰조회';
       info.page = 'admin/coupon/search';
       return info;
 
     case '/admin/coupon/register':
       info.title = '쿠폰 등록';
       info.name = 'admin/coupon/register';
-      info.navigation = '';
+      info.navigation = '관리자 / 쿠폰관리 / 쿠폰등록';
       info.page = 'admin/coupon/register';
       return info;
 
     case '/admin/user/search':
       info.title = '사용자 조회';
       info.name = 'admin/user/search';
-      info.navigation = '';
+      info.navigation = '관리자 / 사용자관리 / 사용자조회';
       info.page = 'admin/user/search';
       return info;
 
     case '/admin/user/join':
       info.title = '사용자 가입통계';
       info.name = 'admin/user/join';
-      info.navigation = '';
+      info.navigation = '관리자 / 사용자관리 / 사용자가입통계';
       info.page = 'admin/user/join';
       return info;
 
     case '/admin/user/gender':
       info.title = '사용자 성별통계';
       info.name = 'admin/user/gender';
-      info.navigation = '';
+      info.navigation = '관리자 / 사용자관리 / 사용자성별통계';
       info.page = 'admin/user/gender';
       return info;
 
     case '/admin/user/age':
       info.title = '사용자 연령통계';
       info.name = 'admin/user/age';
-      info.navigation = '';
+      info.navigation = '관리자 / 사용자관리 / 사용자연령통계';
       info.page = 'admin/user/age';
       return info;
 
     case '/admin/user/area':
       info.title = '사용자 지역통계';
       info.name = 'admin/user/area';
-      info.navigation = '';
+      info.navigation = '관리자 / 사용자관리 / 사용자지역통계';
       info.page = 'admin/user/area';
       return info;
 
     case '/admin/event/search':
       info.title = '이벤트/광고 조회';
       info.name = 'admin/event/search';
-      info.navigation = '';
+      info.navigation = '관리자 / 이벤트/광고관리 / 이벤트/광고조회';
       info.page = 'admin/event/search';
       return info;
 
     case '/admin/event/register':
       info.title = '이벤트/광고 등록';
       info.name = 'admin/event/register';
-      info.navigation = '';
+      info.navigation = '관리자 / 이벤트/광고관리 / 이벤트/광고등록';
       info.page = 'admin/event/search';
       return info;
 
     case '/admin/notice/search':
       info.title = '공지사항 조회';
       info.name = 'admin/notice/search';
-      info.navigation = '';
+      info.navigation = '관리자 / 공지사항관리 / 공지사항조회';
       info.page = 'admin/notice/search';
       return info;
 
     case '/admin/notice/register':
       info.title = '공지사항 등록';
       info.name = 'admin/notice/register';
-      info.navigation = '';
+      info.navigation = '관리자 / 공지사항관리 / 공지사항등록';
       info.page = 'admin/notice/search';
       return info;
 
     case '/admin/admin/search':
       info.title = '관리자 조회';
       info.name = 'admin/admin/search';
-      info.navigation = '';
+      info.navigation = '관리자 / 관리자관리 / 관리자조회';
       info.page = 'admin/admin/search';
       return info;
 
     case '/admin/admin/register':
       info.title = '관리자 등록';
       info.name = 'admin/admin/register';
-      info.navigation = '';
+      info.navigation = '관리자 / 관리자관리 / 관리자등록';
       info.page = 'admin/admin/search';
       return info;
 
     case '/admin/class/search':
       info.title = '가맹점 업종 분류코드 조회';
       info.name = 'admin/class/search';
-      info.navigation = '';
+      info.navigation = '관리자 / 설정 / 업종분류코드관리 / 업종분류코드조회';
       info.page = 'admin/class/search';
       return info;
 
     case '/admin/class/register':
       info.title = '가맹점 업종 분류코드 등록';
       info.name = 'admin/class/register';
-      info.navigation = '';
+      info.navigation = '관리자 / 설정 / 업종분류코드관리 / 업종분류코드등록';
       info.page = 'admin/class/search';
       return info;
 
     case '/admin/group/search':
       info.title = '권한그룹 조회';
       info.name = 'admin/group/search';
-      info.navigation = '';
+      info.navigation = '관리자 / 권한그룹&권한관리 / 권한그룹관리 / 권한그룹조회';
       info.page = 'admin/group/search';
       return info;
 
     case '/admin/group/register':
       info.title = '권한그룹 등록';
       info.name = 'admin/group/register';
-      info.navigation = '';
+      info.navigation = '관리자 / 권한그룹&권한관리 / 권한그룹관리 / 권한그룹등록';
       info.page = 'admin/group/search';
       return info;
 
     case '/admin/grade/search':
       info.title = '권한 조회';
       info.name = 'admin/grade/search';
-      info.navigation = '';
+      info.navigation = '관리자 / 권한그룹&권한관리 / 권한관리 / 권한조회';
       info.page = 'admin/grade/search';
       return info;
 

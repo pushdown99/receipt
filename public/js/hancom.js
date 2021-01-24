@@ -423,6 +423,96 @@ console.log (data);
   });
 }
 
+function user_join_search () {
+  var params = {
+    area1 : ($("#btn-area1").html() == "전체")? "all":$("#btn-area1").html(),
+    area2 : ($("#btn-area2").html() == "전체")? "all":$("#btn-area2").html(),
+  }
+  $.postJSON('/json/user/join/search', params).then(data => {
+    html = '<div class="table-responsive">';
+    html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">일자</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">강원</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">경기</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">경남</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">경북</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">광주</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">대구</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">대전</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">부산</th>';
+    html += '<th style="text-align: center;">서울</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">울산</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">인천</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">전남</th>';
+    html += '<th style="text-align: center;">전북</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">제주</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">충남</th>';
+    if (width > shrink)
+    html += '<th style="text-align: center;">충북</th>';
+    html += '<th style="text-align: center;">가입</th>';
+    html += '<th style="text-align: center;">해지</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(data, function(i, t) {
+      html += '<tr>';
+      if (width > shrink)
+      html += `<td style="text-align: center;">${i}</td>`;
+      html += `<td style="text-align: left;">${t.date}</td>`;
+      html += `<td style="text-align: left;">${t.area["강원"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["경기"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["경남"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["경북"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["광주"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["대구"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["대전"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["부산"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["서울"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["울산"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["인천"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["전남"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["전북"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["제주"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["충남"]}</td>`;
+      html += `<td style="text-align: left;">${t.area["충북"]}</td>`;
+      html += `<td style="text-align: left;">${t.join}</td>`;
+      html += `<td style="text-align: left;">${t.leave}</td>`;
+    });
+    $("#results").html(html);
+    $('#admin-member-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
+function user_age_search () {
+}
+
+function user_gender_search () {
+}
+
+function user_area_search () {
+}
+
 let modal_data = [];
 
 function member_dashbaord_search () {
@@ -492,6 +582,11 @@ $(document).on('click', '#search', function (event) {
   case 'admin-group-search'      : return admin_group_search () ;
   case 'admin-admin-search'      : return admin_admin_search ();
   case 'admin-notice-search'     : return admin_notice_search ();
+
+  case 'user-join-search'        : return user_join_search ();
+  case 'user-age-search'         : return user_age_search ();
+  case 'user-gender-search'      : return user_gender_search ();
+  case 'user-area-search'        : return user_area_search ();
 
   case 'member-dashboard-search' : return member_dashbaord_search ();
   case 'member-coupon-search'    : return member_coupon_search ();
@@ -620,6 +715,19 @@ function admin_coupon_register () {
 function admin_notice_register () {
 }
 
+function admin_profile_register () {
+  var params = {
+    name  : $("#name").val(),
+    mobile : $("#mobile").val(),
+    phone  : $("#phone").val(),
+  }
+  if (params.name == "" | params.mobile == "") { dynamicAlert("공란을 채워주세요"); return }
+  //lib.mysql.updAdminUser ([name, mobile, phone]);
+  $.postJSON('/json/admin/profile/update', params).then(res => {
+    console.log(res);
+  });
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -634,6 +742,7 @@ $(document).on('click', '#register', function (event) {
   case 'admin-class-register' : return admin_class_register ();
   case 'admin-coupon-register': return admin_coupon_register ();
   case 'admin-notice-register': return admin_notice_register ();
+  case 'admin-profile'        : return admin_profile_register ();
 
   case 'admin-admin-search'   : return $(location).attr('href', '/admin/admin/register');
   case 'admin-member-search'  : return $(location).attr('href', '/admin/member/register');
@@ -676,6 +785,16 @@ $(document).on('click', '#member', function (event) {
   $("#modal").modal('show');
 });
 
+function dynamicAlert (body) {
+  $("#alert-body").html(body);
+  $("#modal-alert").modal('show');
+}
+
+$(document).on('click', '#email-dup', function (event) {
+  console.log($("#email").val());
+  dynamicAlert("hi");
+});
+
 $(document).on('click', '#logout', function (event) {
   location.href = '/logout';
 });
@@ -690,4 +809,37 @@ $(document).on('click', '#rcn-check', function (event) {
   });
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////
+//
+// modal handle
+//
+$(document).on('click', '#passwd-change', function (event) {
+  $("#modal-passwd-change").modal('show');
+  //$("#modal-login-fail").modal('show');
+});
 
+$(document).on('click', '#modal-passwd-register', function (event) {
+  pass  = $("#passwd").val();
+  pass2 = $("#passwd2").val();
+  pass3 = $("#passwd3").val();
+
+  $.getJSON(`/admin/passwd/change/${pass}/${pass2}/${pass3}`, function (data) {
+    dynamicAlert (data);
+  });
+});
+
+//$(document).on('click', '#modal-register', function (event) {
+//  $("#modal-login-fail").modal('show');
+//});
+
+
+
+$('.modal').on('show.bs.modal', function(event) {
+    var idx = $('.modal:visible').length;
+    $(this).css('z-index', 1040 + (10 * idx));
+});
+$('.modal').on('shown.bs.modal', function(event) {
+    var idx = ($('.modal:visible').length) -1; // raise backdrop after animation.
+    $('.modal-backdrop').not('.stacked').css('z-index', 1039 + (10 * idx));
+    $('.modal-backdrop').not('.stacked').addClass('stacked');
+});

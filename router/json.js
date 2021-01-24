@@ -16,6 +16,22 @@ module.exports = function (app) {
   });
 
   /////////////////////////////////////////////////////
+  app.post('/json/user/join/search', function (req, res) {
+    var date1 = req.params.date1;
+    var date2 = req.params.date2;
+
+    var result = lib.mysql.getAdminMember([rcn, stat, area1, area2, date1, date2]);
+    res.json(result);
+  });
+  app.post('/json/admin/profile/update', function (req, res) {
+    name  = req.body.name;
+    mobile = req.body.mobile;
+    phone  = req.body.phone;
+
+    var result = lib.mysql.updAdminUser ([name, mobile, phone]);
+    res.join (result);
+  });
+
   app.get('/json/member/search/:rcn/:stat/:area1/:area2/:date1/:date2', function (req, res) {
     var rcn   = (req.params.rcn =="all")? '%%':'%'+req.params.rcn+'%';
     var stat  = (req.params.stat=="all")? '%%':'%'+req.params.stat+'%';
@@ -25,7 +41,7 @@ module.exports = function (app) {
     var date2 = req.params.date2;
 
     var result = lib.mysql.getAdminMember([rcn, stat, area1, area2, date1, date2]);
-    res.send(result);
+    res.json(result);
   });
 
   app.post('/json/member/search', function (req, res) {
@@ -37,7 +53,7 @@ module.exports = function (app) {
     var date2 = req.body.date2;
 
     var result = lib.mysql.getAdminMember([rcn, rcn, stat, area1, area2, date1, date2]);
-    res.send(result);
+    res.json(result);
   });
 
  app.get('/json/coupon/search/:rcn/:stat/:area1/:area2/:date1/:date2', function (req, res) {
@@ -49,7 +65,7 @@ module.exports = function (app) {
     var date2 = req.params.date2;
 
     var result = lib.mysql.getAdminMember([rcn, stat, area1, area2, date1, date2]);
-    res.send(result);
+    res.json(result);
   });
 
   app.post('/json/coupon/search', function (req, res) {
@@ -59,7 +75,7 @@ module.exports = function (app) {
     var date2 = req.body.date2;
 
     var result = lib.mysql.getAdminCoupon([name, stat, date1, date2]);
-    res.send(result);
+    res.json(result);
   });
 
   app.post('/json/admin/member/register', function (req, res) {
@@ -77,7 +93,7 @@ module.exports = function (app) {
     var addr   = req.body.addr;
 
     var result = lib.mysql.putAdminMember([rcn, passwd, name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr]);
-    res.send(result);
+    res.json(result);
   });
 
   app.post('/json/admin/search', function (req, res) {
@@ -88,7 +104,7 @@ module.exports = function (app) {
     var date2 = req.body.date2;
 
     var result = lib.mysql.getAdminAdmin([name, grade, stat, date1, date2]);
-    res.send(result);
+    res.json(result);
   });
 
   app.post('/json/notice/search', function (req, res) {
@@ -101,7 +117,7 @@ module.exports = function (app) {
     var date2 = req.body.date2;
 
     var result = lib.mysql.getAdminNotice([title, gender, age, area1, area2, date1, date2]);
-    res.send(result);
+    res.json(result);
   });
 
   app.post('/json/group/search', function (req, res) {
@@ -110,18 +126,18 @@ module.exports = function (app) {
     var date2 = req.body.date2;
 
     var result = lib.mysql.getAdminGroup([name, date1, date2]);
-    res.send(result);
+    res.json(result);
   });
 
   app.get('/json/city/search', function (req, res) {
     var result = lib.mysql.getCityArea1 ();
-    res.send(result);
+    res.json(result);
   });
 
   app.get('/json/city/search/:area1', function (req, res) {
     var area1 = (req.params.name =="all")? '%%':'%'+req.params.area1+'%';
     var result = lib.mysql.getCityArea2 ([area1]);
-    res.send(result);
+    res.json(result);
   });
 
   app.get('/json/member/dashboard/:type/:date1/:date2', function (req, res) {
@@ -135,7 +151,7 @@ module.exports = function (app) {
     case "주별": result = lib.mysql.getDashboardWeek ([date1, date2]); break;
     case "월별": result = lib.mysql.getDashboardMon  ([date1, date2]); break;
     } 
-    res.send(result);
+    res.json(result);
   });
 
   app.post('/json/admin/admin/register', function (req, res) {
