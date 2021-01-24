@@ -508,6 +508,7 @@ module.exports = function(app) {
   app.post('/coupon/detail/:id', function(req, res){
     let id = req.params.id;
     var ret = lib.mysql.getAdminCouponId([id]);
+    if(ret.length > 0) ret[0].generate = process.env.SERVER + '/coupon/publish/' + id + '/'
     return lib.response(req, res, 200, { list: ret});
   });
 
