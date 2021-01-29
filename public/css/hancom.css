@@ -51,7 +51,7 @@ body {
 
 label {
   display: inline-block;
-  margin-bottom: .1rem;
+/*  margin-bottom: .1rem; */
 }
 
 .label-sm {
@@ -60,11 +60,23 @@ label {
   font-size: 0.85rem;
   color: #6c757d;
 }
+
+.sb-anchor {
+  font-weight: 400;
+  color: #ffc445;
 }
 
+.ropa {
+  /*font-family: 'Ropa Sans', sans-serif !important; */
+}
 
 table {
   font-size: 0.85rem
+    width: 100%;
+    margin: 0 auto;
+    clear: both;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .login-box, .register-box
@@ -75,7 +87,10 @@ table {
 .form-comment {
     font-size: 0.85rem;
     font-weight: 300;
+/*
     color: #ced4da;
+*/
+    color: #c7c3c1;
 }
 
 .modal {
@@ -106,6 +121,15 @@ table.dataTable {
 }
 */
 
+
+.form-coupon {
+  font-size: 0.8rem;
+  width: 100%;
+  margin: 0 auto;
+  clear: both;
+  border-collapse: separate;
+  border-spacing: 0;
+}
 
 .form-group {
   margin-bottom: 0.5rem;
@@ -221,7 +245,7 @@ label:not(.form-check-label):not(.custom-file-label) {
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-button, input, optgroup, select, textarea {
+button, input, optgroup, select, textarea, pre {
     margin: 0;
     font-family: inherit;
     font-size: 0.9rem;

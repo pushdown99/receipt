@@ -62,13 +62,14 @@
   <div class="container-fluid">
   <div class="row">
     <div id="qr-reader" style="width:100%"></div>
-<!--
-    <div id="qr-reader-results"></div>
--->
+    <div id="qr-reader-results" style="width:100%"></div>
   </div>
   </div>
 </body>
+<!--
 <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+-->
+<script src="/js/html5-qrcode.js"></script>
 <script>
   function docReady(fn) {
     if (document.readyState === "complete"
@@ -80,20 +81,29 @@
   }
 
   docReady(function () {
-    //var resultContainer = document.getElementById('qr-reader-results');
-    var lastResult, countResults = 0;
+    var resultContainer = document.getElementById('qr-reader-results');
+    var lastResult, lastEmail, countResults = 0;
 
     function onScanSuccess(qrCodeMessage) {
-      if (qrCodeMessage !== lastResult) {
+      if (qrCodeMessage !== lastResult && (qrCodeMessage.indexOf('Q') >= 0 || qrCodeMessage.indexOf('C') >= 0 || qrCodeMessage.indexOf('-') >= 0)) {
         ++countResults;
         lastResult = qrCodeMessage;
         //resultContainer.innerHTML += `<div>[${countResults}] - ${qrCodeMessage}</div>`;
+        resultContainer.innerHTML = `Finding. ${qrCodeMessage}`;
 
-        var license = '1234';
+        resultContainer.innerHTML = ``;
+
+        var license = <%= License %>;
         $.getJSON( "/issue/" + license + "/" + qrCodeMessage, function( data ) {
           console.log(data);
-          var audio = new Audio('/data/speech.mp3');
-          audio.play();
+          if(data.code == 200) {
+            resultContainer.innerHTML = `인증되었습니다. (${data.data.qrcode}, ${data.data.email})`;
+            var audio = new Audio('/data/speech.mp3');
+            audio.play();
+          }
+          else {
+            resultContainer.innerHTML = `인증이 실패하였습니다. (${data.data.qrcode}, ${data.data.email})`;
+          }
         });
       }
     }

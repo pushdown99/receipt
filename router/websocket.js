@@ -27,7 +27,6 @@ module.exports = {
         let license   = obj.License;
         let message   = obj.Message;
         let timestamp = obj.Timestamp;
-        console.log (command, license, message, timestamp);
 
         switch(command) {
         case 'Join': 
@@ -37,7 +36,7 @@ module.exports = {
             }
           }
         }
-        ws.send('{"Command": "Okay"}');
+        ws.send('{"Command": "Okay", "Message": ""}');
       });
     });
   },

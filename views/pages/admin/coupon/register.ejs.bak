@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+
+          <div class="form-row">
+
+            <div class="form-group col-md-1">
+            <label for="member">쿠폰코드</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="code" type="text" class="form-control" name="email" value="" placeholder="쿠폰코드">
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <button id="coupon-generate" class="btn btn-outline-secondary" type="button">자동생성</button>
+              <button id="coupon-checkup"  class="btn btn-outline-secondary" type="button">코드확인</button>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+            <div class="form-group col-md-1">
+            <label for="cptype">쿠폰유형</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group dropdown">
+                <button id="btn-cptype" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <div id="cptype" class="dropdown-menu">
+                  <a class="dropdown-item cptype-item">리워드</a>
+                  <a class="dropdown-item cptype-item">스탬프</a>
+                  <a class="dropdown-item cptype-item">프로모션</a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+
+            <div class="form-group col-md-1">
+            <label for="member">쿠폰명</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="name" type="text" class="form-control" name="email" value="" placeholder="쿠폰명">
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+
+
+            <div class="form-group col-md-1">
+            <label for="member">상태</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="form-check">
+              <label class="radio-inline">&nbsp;<input type="radio" name="status" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="status" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+
+            <div class="form-group col-md-1">
+            <label for="cptype">발급조건</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group" id="if_reward">
+                <div class="input-group-prepend"><div class="input-group-text">금액</div></div>
+                <input id="title" type="text" class="form-control" name="email" value="" placeholder="1원 이상">
+              </div>
+              <div class="input-group" id="if_stamp">
+                <div class="input-group-prepend"><div class="input-group-text">스탬프수</div></div>
+                <input id="title" type="text" class="form-control" name="email" value="" placeholder="5/10/15">
+              </div>
+              <div class="input-group" id="if_promotion">
+                <div class="input-group-prepend"><div class="input-group-text">없음</div></div>
+                <input id="title" type="text" class="form-control" name="email" value="" placeholder="발급조건없음" disabled>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+
+            <div class="form-group col-md-1">
+            <label for="member">교환처</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group dropdown">
+                <button id="btn-member1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <div id="member1" class="dropdown-menu">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+
+            <div class="form-group col-md-1">
+            <label for="days">유효기간</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="input-group">
+	        <label class="checkbox-inline">&nbsp;<input type="checkbox" id="no-date2" value="option1">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
+              </div>
+            </div>
+
+            <div class="form-group col-md-1">
+            <label for="days">혜택</label>
+            </div>
+            <div class="form-group col-md-11">
+              <div class="input-group">
+                <textarea id="benefit" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group col-md-1">
+            <label for="days">유의사항</label>
+            </div>
+            <div class="form-group col-md-11">
+              <div class="input-group">
+                <textarea id="notice" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="list"   class="btn btn-default" style="float: left;" >목록</button>
+              <button id="search" class="btn btn-default" style="float: right;">검색</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="results"></div>
+              <div id="pageid" style="display: none;">admin-coupon-register</div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

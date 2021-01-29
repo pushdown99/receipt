@@ -156,9 +156,9 @@ module.exports = {
       info.page = 'admin/group/search';
       return info;
 
-    case '/admin/grade/search':
+    case '/admin/role/search':
       info.title = '권한 조회';
-      info.name = 'admin/grade/search';
+      info.name = 'admin/role/search';
       info.navigation = '관리자 / 권한그룹&권한관리 / 권한관리 / 권한조회';
       info.page = 'admin/grade/search';
       return info;

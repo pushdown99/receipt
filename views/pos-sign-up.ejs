@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Receipt</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Myeongjo&display=swap&subset=korean">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ropa+Sans">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans">
+
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <link rel="stylesheet" href="/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <link rel="stylesheet" href="/plugins/bs-stepper/css/bs-stepper.min.css">
+  <link rel="stylesheet" href="/plugins/dropzone/min/dropzone.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/css/hancom.css">
+  <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet" media="all">
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+<section class="content">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+          <div><h5>거래시정관리기(POS) 등록</h5></div>
+          <hr>
+          <table class="table table-borderless">
+          <tbody>
+          <tr>
+          <td>이메일</td>
+          <td> <input id="email" type="text" class="form-control" name="email" value="" placeholder="ID/이메일"></td>
+          </tr>
+          <tr>
+          <td>하드웨어주소</td>
+          <td><input id="mac" type="text" class="form-control" name="mac" value="<%= Mac %>" placeholder="" disabled></td>
+          </tr>
+          <tr>
+          <td>사업자등록번호</td>
+          <td> <input id="rcn" type="text" class="form-control" name="rcn" value="" placeholder="사업자등록번호"></td>
+          </tr>
+          </tbody>
+          </table>
+          <br>
+          <br>
+          <div id="pageid" style="display: none;">pos-sign-up</div>
+ 
+          <button id="register" class="btn btn-primary" style="float: right;">등록</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<script src="/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+<script src="/plugins/dropzone/min/dropzone.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<script src="/dist/js/demo.js"></script>
+<script src="/js/hancom.js"></script>
+<script src="/js/member.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+
+</body>
+</html>

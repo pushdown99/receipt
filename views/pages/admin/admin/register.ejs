@@ -8,20 +8,21 @@
           <div class="form-row">
 
             <div class="form-group col-md-1">
-            <label for="member">관리자 ID</label>
+            <label for="email">관리자 ID*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-                <input id="email" type="text" class="form-control" name="email" value="" placeholder="ID/이메일">
+                <input id="admin-email" type="text" class="form-control" name="email" value="" placeholder="ID/이메일">
               </div>
             </div>
             <div class="form-group col-md-3">
-              <button id="email-dup" class="btn btn-outline-secondary" type="button">중복확인</button>
+              <button id="admin-email-check" class="btn btn-outline-secondary" type="button">중복확인</button>&nbsp;&nbsp;<span id="admin-email-comment" class="form-comment"></span>
+              <input type="hidden" id="admin-email-valid" value="0">
             </div>
             <div class="form-group col-md-5"></div>
 
             <div class="form-group col-md-1">
-            <label for="member">비밀번호</label>
+            <label for="member">비밀번호*</label>
             </div>
             <div class="form-group col-md-5">
               <div class="input-group">
@@ -29,11 +30,11 @@
                 <input id="password2" type="password" class="form-control" name="password2" value="" placeholder="비밀번호">
               </div>
             </div>
-            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-6"><span id="password-comment" class="form-comment"></div>
 
 
             <div class="form-group col-md-1">
-            <label for="member">이름</label>
+            <label for="name">이름*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
@@ -44,7 +45,7 @@
 
 
             <div class="form-group col-md-1">
-            <label for="mobile">휴대폰번호</label>
+            <label for="mobile">휴대폰번호*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
@@ -68,11 +69,11 @@
             <div class="form-group col-md-8"></div>
 
             <div class="form-group col-md-1">
-            <label for="grade">권한</label>
+            <label for="role">권한*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-                <button id="grade" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <button id="btn-role" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
                 <div id="dropUsed" class="dropdown-menu">
                   <a class="dropdown-item">시스템관리자</a>
                   <a class="dropdown-item">운영관리자</a>
@@ -84,12 +85,12 @@
             <div class="form-group col-md-8"></div>
 
             <div class="form-group col-md-1">
-            <label for="member">상태</label>
+            <label for="member">상태*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="form-check">
-              <label class="radio-inline">&nbsp;<input type="radio" name="stat" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
-              <label class="radio-inline">&nbsp;<input type="radio" name="stat" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="status" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="status" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
               </div>
             </div>
             <div class="form-group col-md-8"></div>

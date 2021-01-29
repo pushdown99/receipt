@@ -8,41 +8,68 @@
           <div class="form-row">
 
             <div class="form-group col-md-1">
-            <label for="member">업종분류코드</label>
+            <label for="name">업종분류코드</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-                <input id="code" type="text" class="form-control" name="email" value="" placeholder="업종 분류코드명">
+                <input id="name" type="text" class="form-control" name="name" value="" placeholder="업종 분류코드명">
               </div>
             </div>
             <div class="form-group col-md-8"></div>
 
             <div class="form-group col-md-1">
-            <label for="member">아이콘</label>
+            <label for="icon">아이콘이름</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-                <input id="code" type="file" class="form-control" name="file">
+                <input id="icon" type="text" class="form-control" name="icon" value="" placeholder="아이콘이름">
               </div>
             </div>
             <div class="form-group col-md-8"></div>
+
+            <div class="form-group col-md-1">
+            <label for="file">파일업로드</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file1" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+            <div class="form-group offset-md-1 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file2" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
+            <div class="form-group offset-md-1 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file3" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-8"></div>
+
 
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-12">
               <button id="list"   class="btn btn-default" style="float: left;" >목록</button>
-              <button id="search" class="btn btn-default" style="float: right;">등록</button>
+              <button id="register" class="btn btn-default" style="float: right;">등록</button>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-12">
               <div id="results"></div>
-              <div id="pageid" style="display: none;">class-register</div>
+              <div id="pageid" style="display: none;">admin-class-register</div>
             </div>
           </div>
-
 
       </div>
     </div>

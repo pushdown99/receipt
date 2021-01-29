@@ -63,7 +63,7 @@
   
           <div class="form-row">
             <div class="form-group col-md-12">
-              <button id="search" class="btn btn-default" style="float: right;">검색</button>
+              <button id="search" class="btn btn-default" style="float: right;">검색&nbsp;&nbsp;<i class="fas fa-search fa-xs"></i></button>
             </div>
           </div>
           <hr>
@@ -77,8 +77,8 @@
 
           <div class="form-row">
             <div class="form-group col-md-12">
-              <button id="register" class="btn btn-default" style="float: left;">등록</button>
-              <button id="history" class="btn btn-default" style="float: right;">가맹점 변경이력조회</button>
+              <button id="register" class="btn btn-default" style="float: left;">등록&nbsp;&nbsp;<i class="fas fa-edit fa-xs"></i></button>
+              <button id="history" class="btn btn-default" style="float: right;">가맹점 변경이력조회&nbsp;&nbsp;<i class="fas fa-history fa-xs"></i></button>
             </div>
           </div>
 
@@ -89,9 +89,189 @@
 </div>
 
 
-<div id="modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modal-member-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
     <div class="modal-content">
+      <div class="modal-body">
+
+
+          <h5>가맹점 상세정보</h5>
+          <hr>
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="rcn">사업자번호</label>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="input-group">
+                <input id="m-rcn" type="text" class="form-control" disabled>
+              </div>
+            </div>
+            <div class="form-group col-md-6"></span></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">비밀번호</label>
+            </div>
+            <div class="form-group col-md-10">
+              <button id="m-password" class="btn btn-outline-secondary" type="button">비밀번호변경</button>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="m-name">가맹점상호</label>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="input-group">
+                <input id="m-name" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group col-md-6"></div>
+
+            <div class="form-group col-md-2">
+            <label for="m-owner">대표자명</label>
+            </div>
+            <div class="form-group col-md-2">
+              <div class="input-group">
+                <input id="m-owner" type="text" class="form-control" value="" placeholder="대표자명">
+              </div>
+            </div>
+            <div class="form-group col-md-8"><span id="area-comment" class="form-comment">대표자명을 입력해주세요</span></div>
+
+            <div class="form-group col-md-2">
+            <label for="m-bzcond">업태/업종</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">업태</div></div>
+                <input id="m-bzcond" type="text" class="form-control" value="" placeholder="업태">
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">업종</div></div>
+                <input id="m-bztype" type="text" class="form-control" value="" placeholder="업종">
+              </div>
+            </div>
+            <div class="form-group col-md-4"></div>
+
+            <div class="form-group col-md-2">
+            <label for="m-bzname">업종명</label>
+            </div>
+            <div class="form-group col-md-2">
+              <div class="input-group dropdown">
+                <button id="btn-m-bzname" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <div id="m-bzname" class="dropdown-menu">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-8"><span id="bizname-comment" class="form-comment">업종분류코드를 선택해주세요</span></div>
+
+            <div class="form-group col-md-2">
+            <label for="m-phone">연락처</label>
+            </div>
+            <div class="form-group col-md-2">
+              <div class="input-group">
+                <input id="m-phone" type="text" class="form-control" value="" placeholder="연락처">
+              </div>
+            </div>
+            <div class="form-group col-md-8"><span id="phone-comment" class="form-comment">연락처를 입력해주세요</span></div>
+
+            <div class="form-group col-md-2">
+            <label for="m-date1">개업년월일</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input type="text" id="m-date1" class="form-control datetimepicker-input" data-target="#m-date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group col-md-2">
+            <label for="owner">지역</label>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="input-group dropdown">
+                <button id="btn-m-area1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <div id="m-area1" class="dropdown-menu">
+                </div>&nbsp;&nbsp;
+                <span>
+                <button id="btn-m-area2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <div id="m-area2" class="dropdown-menu">
+                </div>
+                </span>
+              </div>
+            </div>
+            <div class="form-group col-md-6"><span id="area-comment" class="form-comment">지역을 선택해주세요</span></div>
+
+            <div class="form-group col-md-2">
+            <label for="addr">주소</label>
+            </div>
+            <div class="form-group col-md-8">
+              <div class="input-group">
+                <input id="m-addr" type="text" class="form-control" value="" placeholder="주소">
+                <input type="hidden" id="lat" value="0">
+                <input type="hidden" id="lng" value="0">
+              </div>
+            </div>
+            <div class="form-group col-md-2"></div>
+
+
+          </div>
+
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
+              <button id="m-update" class="btn btn-default" style="float: right;">수정</button>
+            </div>
+          </div>
+
+      </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modal-password-change" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">비밀번호 변경</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+          <div class="form-group col-md-3">
+          <label for="passwd">비밀번호</label>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="input-group">
+              <input id="m-password1" type="password" class="form-control" value="" placeholder="********">
+            </div>
+          </div>
+          <div class="form-group col-md-5"><span id="area-comment" class="form-comment">비밀번호를 입력해주세요</span></div>
+
+          <div class="form-group offset-md-3 col-md-4">
+            <div class="input-group">
+              <input id="m-password2" type="password" class="form-control" value="" placeholder="********">
+            </div>
+          </div>
+          <div class="form-group col-md-5"><span id="m-password-comment" class="form-comment"></span></div>
+
+        </div>
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+            <button id="modal-passwd-register" type="button" class="btn btn-default" style="float: right;">비밀번호변경</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

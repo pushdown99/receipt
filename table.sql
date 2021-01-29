@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 INSERT INTO users (email, passwd) VALUES ('tt','xy');
-
 INSERT INTO users (email, passwd) VALUES ('haeyun@gmail.com', 'xyz');
+INSERT INTO users (email, passwd) VALUES ('test@gmail.com', 'xyz');
 
 DROP TABLE qrcode;
 CREATE TABLE IF NOT EXISTS qrcode (
@@ -246,7 +246,9 @@ CREATE TABLE IF NOT EXISTS admin_member (
   area1          varchar(32) NOT NULL,
   area2          varchar(32) NOT NULL,
   address        varchar(128) NOT NULL,
-  status         varchar(8) DEFAULT '사용',
+  lat            decimal(11,7) DEFAULT 0,
+  lng            decimal(11,7) DEFAULT 0,
+  status         varchar(8) DEFAULT '가입',
   updater        varchar(32) DEFAULT '',
   updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   register       varchar(32) DEFAULT '',
@@ -271,6 +273,12 @@ CREATE TABLE IF NOT EXISTS admin_member_info (
 
 INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('206-86-50193', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
 INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('201-81-21515', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
+INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('214-88-59748', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
+INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('402-81-18476', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
+INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('123-45-12345', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
+INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('123-45-12346', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
+INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('123-45-12347', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
+INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('123-45-12348', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
 
 
 
@@ -352,6 +360,7 @@ INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register,
 INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('214-88-59748', '왱이콩나물국밥', '/rc/images/logo_store_food', '관리자A', NOW(), '관리자A', NOW());
 INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('402-81-18476', 'PNB 풍년제과 한옥마을점', '/rc/images/logo_store_PNB', '관리자A', NOW(), '관리자A', NOW());
 INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('201-81-21515', '스타벅스 전주한옥마을점', '/rc/images/logo_store_starbucks', '관리자A', NOW(), '관리자A', NOW());
+INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('201-81-21515', '한컴라이프케어', '/rc/images/logo_store_starbucks', '관리자A', NOW(), '관리자A', NOW());
 
 INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('123-45-12345', '서천집', '/rc/images/logo_store_emart', '관리자A', NOW(), '관리자A', NOW());
 INSERT INTO admin_member_logo (rcn, name, logo_path, updater, updated, register, registered) VALUES ('123-45-12346', '엄마손식당', '/rc/images/logo_store_food', '관리자A', NOW(), '관리자A', NOW());
@@ -430,6 +439,7 @@ CREATE TABLE IF NOT EXISTS admin_member_coupon (
   bzcode         varchar(32) NOT NULL,
   ctype          varchar(32) NOT NULL,
   cpcode         varchar(64) NOT NULL,
+  admin          varchar(8) DEFAULT 'N',
   name           varchar(64) NOT NULL,
   counter        int DEFAULT 0,
   cash           int,
@@ -450,11 +460,11 @@ CREATE TABLE IF NOT EXISTS admin_member_coupon (
   notice         varchar(256) DEFAULT ' '
 );
 
-INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('스타벅스 전주한옥마을점', '201-81-21515', 'CP-1234567890', '리워드', '아메리카노 할인권', '사용', '카페', 1000, 0, 0, '', '', '');
-INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('스타벅스 전주한옥마을점', '201-81-21515', 'CP-1234567891', '스탬프', '오늘의커피 한잔교환권', '사용', '카페', 0, 10, 3800, "가능", "- 스탬프 5회 적립 시 '오늘의 커피 톨 1잔' 무료\n- 스탬프 10회 적립 시 '카페모카 톨 1잔' 무료", "- 쿠폰 사용 시 스탬프 적립은 불가능합니다.\n- 스탬프 유효기간을 확인하여 주시기 바랍니다.");
-INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('스타벅스 전주한옥마을점', '201-81-21515', 'CP-1234567892', '프로모션', '오픈 이벤트 5000원 할인', '사용', '카페', 0, 0, 0, '', '', '');
+INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('스타벅스 전주한옥마을점', '201-81-21515', 'C123456', '리워드', '아메리카노 할인권', '사용', '카페', 1000, 0, 0, '', '', '');
+INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('스타벅스 전주한옥마을점', '201-81-21515', 'C123457', '스탬프', '오늘의커피 한잔교환권', '사용', '카페', 0, 10, 3800, "가능", "- 스탬프 5회 적립 시 '오늘의 커피 톨 1잔' 무료\n- 스탬프 10회 적립 시 '카페모카 톨 1잔' 무료", "- 쿠폰 사용 시 스탬프 적립은 불가능합니다.\n- 스탬프 유효기간을 확인하여 주시기 바랍니다.");
+INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('스타벅스 전주한옥마을점', '201-81-21515', 'C123458', '프로모션', '오픈 이벤트 5000원 할인', '사용', '카페', 0, 0, 0, '', '', '');
 
-INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('한컴라이프케어', '000-00-00000', 'CP-9000000001', '프로모션', '5% 할인쿠폰', '사용', '카페', 50000, 0, 0, '', '', '');
+INSERT INTO admin_member_coupon (member, rcn, cpcode, ctype, name, status, bzcode, cash, stamp, limits, overagain, benefit, notice) VALUES ('한컴라이프케어', '000-00-00000', 'C123459', '프로모션', '5% 할인쿠폰', '사용', '카페', 50000, 0, 0, '', '', '');
 
 DROP TABLE admin_user;
 CREATE TABLE IF NOT EXISTS admin_user (
@@ -583,6 +593,7 @@ DROP TABLE admin_event;
 CREATE TABLE IF NOT EXISTS admin_event (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title          varchar(32) NOT NULL,
+  status         varchar(8) DEFAULT '사용',
   fnotice        int DEFAULT 0,
   fweight        int DEFAULT 1,
   fmain          int DEFAULT 0,
@@ -613,18 +624,21 @@ INSERT INTO admin_event (title, fnotice, fweight, fmain, fevent, main, rgb) VALU
 INSERT INTO admin_event (title, fnotice, fweight, fmain, fevent, event, detail, coupon_url) VALUES ("앱 출시 이벤트 O2 wear 비말 마스크", 0, 1, 0, 1, "https://tric.kr/rc/banner/hancom-event1", "https://tric.kr/rc/banner/hancom-detail1", "https://tric.kr/coupon/detail/4");
 INSERT INTO admin_event (title, fnotice, fweight, fmain, fevent, event, detail, coupon_url) VALUES ("앱 출시 이벤트 O2 wear 패션 마스크", 0, 1, 0, 1, "https://tric.kr/rc/banner/hancom-event2", "https://tric.kr/rc/banner/hancom-detail2", "https://tric.kr/coupon/detail/4");
 
-DROP TABLE license;
-CREATE TABLE IF NOT EXISTS license (
+DROP TABLE pos;
+CREATE TABLE IF NOT EXISTS pos (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   email          varchar(32) DEFAULT '',
   mac            varchar(32) NOT NULL,
   rcn            varchar(32) DEFAULT '',
   license        varchar(32) DEFAULT '',
+  token          varchar(32) NOT NULL,
+  expire         timestamp NOT NULL,
+  activated      varchar(8)  DEFAULT 'N',
   updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO license (mac, license) VALUES ('a4:1f:72:fe:b4:4d', '1234');
+INSERT INTO pos (mac, license) VALUES ('a4:1f:72:fe:b4:4d', '1234');
 
 
 /*

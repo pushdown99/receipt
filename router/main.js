@@ -83,8 +83,8 @@ module.exports = function (app) {
   app.get('/admin/group/register', lib.passport.ensureAuthenticated, function (req, res, next) {
     res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/group/register')});
   });
-  app.get('/admin/grade/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/grade/search')});
+  app.get('/admin/role/search', lib.passport.ensureAuthenticated, function (req, res, next) {
+    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/role/search')});
   });
 
   app.get('/test', lib.passport.ensureAuthenticated, function (req, res, next) {

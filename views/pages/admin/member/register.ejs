@@ -10,7 +10,7 @@
           <div class="form-row">
 
             <div class="form-group col-md-1">
-            <label for="rcn">사업자번호</label>
+            <label for="rcn">사업자번호*</label>
             </div>
             <div class="form-group col-md-2">
               <div class="input-group">
@@ -19,11 +19,12 @@
             </div>
 
             <div class="form-group col-md-9">
-              <button id="rcn-check" class="btn btn-outline-secondary" type="button">사업자번호확인</button>&nbsp;&nbsp;<span id="rcn-check-result"></span>
+              <button id="rcn-check" class="btn btn-outline-secondary" type="button">사업자번호확인</button>&nbsp;&nbsp;<span id="rcn-comment" class="form-comment"></span>
+              <input type="hidden" id="rcn-valid" value="0">
             </div>
 
             <div class="form-group col-md-1">
-            <label for="member">비밀번호</label>
+            <label for="member">비밀번호*</label>
             </div>
             <div class="form-group col-md-5">
               <div class="input-group">
@@ -31,11 +32,11 @@
                 <input id="password2" type="password" class="form-control" name="password2" value="" placeholder="비밀번호">
               </div>
             </div>
-            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-6"><span id="password-comment" class="form-comment"></span></div>
 
 
             <div class="form-group col-md-1">
-            <label for="name">가맹점상호</label>
+            <label for="name">가맹점상호*</label>
             </div>
             <div class="form-group col-md-4">
               <div class="input-group">
@@ -47,14 +48,14 @@
 
 
             <div class="form-group col-md-1">
-            <label for="owner">대표자명</label>
+            <label for="owner">대표자명*</label>
             </div>
             <div class="form-group col-md-2">
               <div class="input-group">
                 <input id="owner" type="text" class="form-control" value="" placeholder="대표자명">
               </div>
             </div>
-            <div class="form-group col-md-9"></div>
+            <div class="form-group col-md-9"><span id="area-comment" class="form-comment">대표자명을 입력해주세요</span></div>
 
             <div class="form-group col-md-1">
             <label for="bztype">업태/업종</label>
@@ -74,29 +75,26 @@
             <div class="form-group col-md-7"></div>
 
             <div class="form-group col-md-1">
-            <label for="bzname">업종명</label>
+            <label for="bzname">업종명*</label>
             </div>
-            <div class="form-group col-md-11">
+            <div class="form-group col-md-2">
               <div class="input-group dropdown">
                 <button id="btn-bzname" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
-                <div id="dropUsed" class="dropdown-menu">
-                  <a class="dropdown-item">카페</a>
-                  <a class="dropdown-item">음식점</a>
-                  <a class="dropdown-item">마트</a>
-                  <a class="dropdown-item">제과</a>
+                <div id="bzname" class="dropdown-menu">
                 </div>
               </div>
             </div>
+            <div class="form-group col-md-9"><span id="bizname-comment" class="form-comment">업종분류코드를 선택해주세요</span></div>
 
             <div class="form-group col-md-1">
-            <label for="owner">연락처</label>
+            <label for="owner">연락처*</label>
             </div>
             <div class="form-group col-md-2">
               <div class="input-group">
                 <input id="phone" type="text" class="form-control" value="" placeholder="연락처">
               </div>
             </div>
-            <div class="form-group col-md-9"></div>
+            <div class="form-group col-md-9"><span id="phone-comment" class="form-comment">연락처를 입력해주세요</span></div>
 
             <div class="form-group col-md-1">
             <label for="bztype">개업년월일</label>
@@ -112,28 +110,30 @@
             <div class="form-group col-md-9"></div>
 
             <div class="form-group col-md-1">
-            <label for="owner">지역</label>
+            <label for="owner">지역*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group dropdown">
-                <button id="btn-area1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <button id="btn-area1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
                 <div id="area1" class="dropdown-menu">
                 </div>&nbsp;&nbsp;
                 <span>
-                <button id="btn-area2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <button id="btn-area2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
                 <div id="area2" class="dropdown-menu">
                 </div>
                 </span>
               </div>
             </div>
-            <div class="form-group col-md-8"></div>
+            <div class="form-group col-md-8"><span id="area-comment" class="form-comment">지역을 선택해주세요</span></div>
 
             <div class="form-group col-md-1">
-            <label for="addr">주소</label>
+            <label for="addr">주소*</label>
             </div>
             <div class="form-group col-md-8">
               <div class="input-group">
                 <input id="addr" type="text" class="form-control" value="" placeholder="주소">
+                <input type="hidden" id="lat" value="0">
+                <input type="hidden" id="lng" value="0">
               </div>
             </div>
             <div class="form-group col-md-3"></div>
@@ -142,8 +142,8 @@
 
           <div class="form-row">
             <div class="form-group col-md-12">
-              <button id="list" class="btn btn-default" style="float: left;">목록</button>
-              <button id="register" class="btn btn-default" style="float: right;">등록</button>
+              <button id="list" class="btn btn-default" style="float: left;">목록&nbsp;&nbsp;<i class="fas fa-search fa-xs"></i></button>
+              <button id="register" class="btn btn-default" style="float: right;">등록&nbsp;&nbsp;<i class="fas fa-edit fa-xs"></i></button>
             </div>
           </div>
 

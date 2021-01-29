@@ -16,6 +16,18 @@ module.exports = function (app) {
   });
 
   /////////////////////////////////////////////////////
+  app.post('/json/user/search', function (req, res) {
+    var rcn   = (req.params.rcn =="all")? '%%':'%'+req.params.rcn+'%';
+    var stat  = (req.params.stat=="all")? '%%':'%'+req.params.stat+'%';
+    var area1 = (req.params.area1=="all")? '%%':'%'+req.params.area1+'%';
+    var area2 = (req.params.area2=="all")? '%%':'%'+req.params.area2+'%';
+    var date1 = req.params.date1;
+    var date2 = req.params.date2;
+
+    var result = lib.mysql.getAdminMember([rcn, stat, area1, area2, date1, date2]);
+    res.json(result);
+  });
+
   app.post('/json/user/join/search', function (req, res) {
     var date1 = req.params.date1;
     var date2 = req.params.date2;
@@ -33,10 +45,12 @@ module.exports = function (app) {
   });
 
   app.get('/json/member/search/:rcn/:stat/:area1/:area2/:date1/:date2', function (req, res) {
-    var rcn   = (req.params.rcn =="all")? '%%':'%'+req.params.rcn+'%';
-    var stat  = (req.params.stat=="all")? '%%':'%'+req.params.stat+'%';
-    var area1 = (req.params.area1=="all")? '%%':'%'+req.params.area1+'%';
-    var area2 = (req.params.area2=="all")? '%%':'%'+req.params.area2+'%';
+    var rcn   = (req.params.rcn =="all")?   '%%':'%'+req.params.rcn+'%';
+    var stat  = (req.params.stat=="all")?   '%%':'%'+req.params.stat+'%';
+    var age   = (req.params.gender=="all")? '%%':'%'+req.params.stat+'%';
+    var gender= (req.params.gender=="all")? '%%':'%'+req.params.stat+'%';
+    var area1 = (req.params.area1=="all")?  '%%':'%'+req.params.area1+'%';
+    var area2 = (req.params.area2=="all")?  '%%':'%'+req.params.area2+'%';
     var date1 = req.params.date1;
     var date2 = req.params.date2;
 
@@ -80,7 +94,7 @@ module.exports = function (app) {
 
   app.post('/json/admin/member/register', function (req, res) {
     var rcn    = req.body.rcn;
-    var passwd = req.body.passwd;
+    var passwd = req.body.password1;
     var name   = req.body.name;
     var owner  = req.body.owner;
     var bzcond = req.body.bzcond;
@@ -91,8 +105,12 @@ module.exports = function (app) {
     var area1  = req.body.area1;
     var area2  = req.body.area2;
     var addr   = req.body.addr;
+    var lat    = req.body.lat;
+    var lng    = req.body.lng;
 
-    var result = lib.mysql.putAdminMember([rcn, passwd, name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr]);
+    var result = lib.mysql.putAdminMemberLogo([rcn, name, '/rc/images/logo_store_default']);
+    var result = lib.mysql.putAdminMemberInfo([rcn, 'https://tric.kr/rc/images/img_store_leaflet', '많은이용바랍니다']);
+    var result = lib.mysql.putAdminMember([rcn, passwd, name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr, lat, lng]);
     res.json(result);
   });
 
@@ -120,6 +138,15 @@ module.exports = function (app) {
     res.json(result);
   });
 
+  app.post('/json/class/search', function (req, res) {
+    var name  = (req.body.bizname =="all")? '%%':'%'+req.body.bizname+'%';
+    var date1 = req.body.date1;
+    var date2 = req.body.date2;
+
+    var result = lib.mysql.getAdminClass([name, date1, date2]);
+    res.json(result);
+  });
+
   app.post('/json/group/search', function (req, res) {
     var name  = (req.body.name =="all")? '%%':'%'+req.body.name+'%';
     var date1 = req.body.date1;
@@ -140,6 +167,18 @@ module.exports = function (app) {
     res.json(result);
   });
 
+  app.get('/json/admin/member/search', function (req, res) {
+    var result = lib.mysql.getMemberAll ();
+    res.json(result);
+  });
+
+  app.get('/json/admin/member/search/rcn/:rcn', function (req, res) {
+    var rcn = req.params.rcn;
+
+    var result = lib.mysql.getAdminMemberRcn ([rcn]);
+    res.json(result[0]);
+  });
+
   app.get('/json/member/dashboard/:type/:date1/:date2', function (req, res) {
     var type  = req.params.type;
     var date1 = req.params.date1;
@@ -154,18 +193,107 @@ module.exports = function (app) {
     res.json(result);
   });
 
+  app.post("/json/geocode/", function (req, res) {
+    var addr    = req.body.addr;
+    lib.google.getGeocode(addr).catch(err => console.log(err)).then(result => {
+      console.log (result);
+      console.log (result[0].latitude, result[0].latitude);
+      res.json ({addr: addr, lat: result[0].latitude, lng: result[0].longitude, formattedAddress: result[0].formattedAddress});
+    });
+  });
+
+  app.get("/json/bzname/search", function (req, res) {
+    var result = lib.mysql.getBzname ();
+    res.json(result);
+  });
+
+  app.post('/json/admin/class/register', function (req, res) {
+    var name  = req.body.name;
+    var icon  = req.body.icon;
+
+    let File1, File2, File3, uploadPath;
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+      res.status(400).send('No files were uploaded.');
+      return;
+    }
+    console.log('req.files >>>', req.files); // eslint-disable-line
+
+    File1 = req.files.file1;
+    uploadPath = __dirname + '/../uploads/' + `${icon}.png`;
+    File1.mv(uploadPath, function(err) {
+      if (err) { return res.status(500).send(err); }
+    });
+
+    File2 = req.files.file2;
+    uploadPath = __dirname + '/../uploads/' + `${icon}@2x.png`;
+    File2.mv(uploadPath, function(err) {
+      if (err) { return res.status(500).send(err); }
+    });
+
+    File3 = req.files.file3;
+    uploadPath = __dirname + '/../uploads/' + `${icon}@3x.png`;
+    File3.mv(uploadPath, function(err) {
+      if (err) { return res.status(500).send(err); }
+    });
+    res.json({});
+  });
+
+  app.get('/json/admin/member/coupon/checkup/:cpcode', function (req, res) {
+    var cpcode  = req.params.cpcode;
+
+    var result = lib.mysql.getAdminCouponCpcode ([cpcode]);
+    res.json (result);
+  });
+
+  app.post('/json/admin/coupon/register', function (req, res) {
+    var member  = req.body.member1;
+    var rcn     = req.body.member1_rcn;
+    var bzcode  = req.body.member1_bzcode;
+    var cpcode  = req.body.cpcode;
+    var name    = req.body.cpname;
+    var date1   = req.body.date2;
+    var date2   = req.body.date2;
+    var status  = req.body.status;
+    var benefit = req.body.benefit;
+    var notice  = req.body.notice;
+
+    var result = lib.mysql.putAdminCoupon ([member, rcn, bzcode, "프로모션", cpcode, 'Y', name, 0, 0, date1, date2, status, benefit, notice]);
+    res.json (result);
+
+  });
+
+  app.get('/json/admin/email-check/:email', function (req, res) {
+    var email  = req.params.email;
+
+    var result = lib.mysql.getAdminAdminEmail (email);
+    res.json (result);
+  });
+
   app.post('/json/admin/admin/register', function (req, res) {
     var email    = req.body.email;
     var password = req.body.password;
     var name     = req.body.name;
-    var grade    = req.body.grade;
-    var stat     = req.body.stat;
     var mobile   = req.body.mobile;
     var phone    = req.body.phone;
+    var role     = req.body.role;
+    var status   = req.body.status;
 
-    console.log (email, password, name, grade, stat, mobile, phone);
-    var ret = lib.mysql.putAdminUser ([email, password, name, mobile, phone, grade, stat]);
-    res.json(ret);
+    var result = lib.mysql.putAdminAdmin ([email, password, name, mobile, phone, role, status]);
+    res.json (result);
+
   });
+
+  app.post('/json/admin/event/search', function (req, res) {
+    var coupon = (req.body.coupon == "all")? "%%": req.body.coupon;
+    var status = (req.body.status == "all")? "%%": req.body.status;
+    var date1  = req.body.date1;
+    var date2  = req.body.date2;
+
+    var result = lib.mysql.getAdminEventAll ([coupon, status, date1, date2]);
+    res.json (result);
+
+  });
+
 
 }

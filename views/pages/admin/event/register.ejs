@@ -9,7 +9,7 @@
           <hr>
           <div class="form-row">
             <div class="form-group col-md-1">
-            <label for="member">이벤트명</label>
+            <label for="member">이벤트명*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
@@ -20,7 +20,7 @@
 
 
             <div class="form-group col-md-1">
-            <label for="member">상태</label>
+            <label for="member">상태*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="form-check">
@@ -32,12 +32,12 @@
 
 
             <div class="form-group col-md-1">
-            <label for="member">노출위치</label>
+            <label for="member">노출위치*</label>
             </div>
             <div class="form-group col-md-11">
               <div class="input-group">
                 <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;공지/광고&nbsp;&nbsp;(가중치&nbsp;&nbsp;</label>
-                <button id="stat" class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <button id="stat" class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">1</button>
                 <div id="dropUsed" class="dropdown-menu">
                   <a class="dropdown-item">1</a>
                   <a class="dropdown-item">2</a>
@@ -51,7 +51,7 @@
 
 
             <div class="form-group col-md-1">
-            <label for="member">노출대상</label>
+            <label for="member">노출대상*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group dropdown">
@@ -100,7 +100,7 @@
             </div>
 
             <div class="form-group col-md-1">
-            <label for="member">이벤트기간</label>
+            <label for="member">이벤트기간*</label>
             </div>
             <div class="form-group col-md-5">
               <div class="input-group">
@@ -108,33 +108,130 @@
                 <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
                   <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
                 </div>
-                <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
-                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                <input type="text" id="date2" class="form-control datetimepicker-input date2-area" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append date2-area" data-target="#date2" data-toggle="datetimepicker">
                   <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
                 </div>
+                </span>
               </div>
             </div>
-            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-6">
+              <div class="input-group">
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="no-date2" value="option1">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
+              </div>
+            </div>
 
 
             <div class="form-group col-md-1">
-            <label for="member">이미지</label>
+            <label for="file">이미지</label>
+            </div>
+            <div class="form-group col-md-1">
+            <label for="file">이벤트배너*</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-                <div class="input-group-prepend"><div class="input-group-text">이벤트배너</div></div>
-                <input type="file" class="form-control" name="sampleFile" />
+                <input id="name" type="text" class="form-control" name="email" value="" placeholder="이벤트배너 파일명">
               </div>
             </div>
-            <div class="form-group col-md-8"></div>
+            <div class="form-group col-md-7"></div>
 
-            <div class="form-group offset-md-1 col-md-3">
+            <div class="form-group offset-md-2 col-md-3">
               <div class="input-group">
-                <div class="input-group-prepend"><div class="input-group-text">상세이미지</div></div>
-                <input type="file" class="form-control" name="sampleFile" />
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file1" type="file" class="form-control" multiple/>
               </div>
             </div>
-            <div class="form-group col-md-8"></div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file2" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file3" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
+
+
+            <div class="form-group offset-md-1 col-md-1">
+            <label for="file">메인배너*</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="name" type="text" class="form-control" name="email" value="" placeholder="메인배너 파일명">
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file4" name="file1" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file5" name="file2" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file6" name="file3" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
+
+
+
+            <div class="form-group offset-md-1 col-md-1">
+            <label for="file">상세이미지*</label>
+            </div>
+
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="name" type="text" class="form-control" name="email" value="" placeholder="상세이미지 파일명">
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file7" name="file1" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file8" name="file2" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file9" name="file3" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
+
           </div>
 
 
@@ -192,7 +289,7 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <div id="results"></div>
-              <div id="pageid" style="display: none;">event-register</div>
+              <div id="pageid" style="display: none;">admin-event-register</div>
             </div>
           </div>
 

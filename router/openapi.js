@@ -38,8 +38,6 @@ module.exports = function(app) {
     var ret = lib.mysql.getUserEmailPass ([email, passwd]);
     if(ret.length < 1) return lib.response(req, res, 400);
     if(ret[0].activated != "Y") return lib.response(req, res, 203);
-    console.log(ret[0]);
-    console.log(ret[0].activated);
 
     var ret = lib.mysql.updUser([fcmkey, email]);
     if(ret.affectedRows > 0) return lib.response(req, res, 200);
@@ -201,7 +199,7 @@ module.exports = function(app) {
   // DEPLICATED
   app.get('/receipt', (req, res) => {
     var ret = lib.mysql.getReceipt();
-    return lib.response(req, res, 200, { list:ret });
+    return lib.response(req, res, 200, {list:ret});
   });
 
   // DEPLICATED
@@ -227,7 +225,6 @@ module.exports = function(app) {
     var ret = lib.mysql.getUserEmail ([email]);
     if(ret.length < 1) return lib.response(req, res, 208);
 
-    console.log ('frrom: ',typeof from);
     var ret = lib.mysql.getReceiptEmailFrom ([email, from]);
     return lib.response(req, res, 200, { list: ret });
   });
@@ -286,8 +283,8 @@ module.exports = function(app) {
     if(ret.length < 1) return lib.response(req, res, 208);
     for(var i = 0; i < ret.length; i++) {
       var rcn = ret[i].rcn;
+      console.log (rcn);
       var result = lib.mysql.findMemberLatLng (rcn);
-      console.log(result[0]);
       ret[i].lat = result[0].lat;
       ret[i].lng = result[0].lng;
       ret[i].distance  = getDistance (lat, lng, result[0].lat, result[0].lng);
@@ -313,8 +310,6 @@ module.exports = function(app) {
     for(var i = 0; i < ret.length; i++) {
       var rcn = ret[i].rcn;
       var result = lib.mysql.findMemberLatLng (rcn);
-      console.log("result", result[0]);
-      console.log("ret", ret[i]);
       ret[i].lat = result[0].lat;
       ret[i].lng = result[0].lng;
       ret[i].distance  = getDistance (lat, lng, result[0].lat, result[0].lng);
@@ -347,6 +342,10 @@ module.exports = function(app) {
   app.post('/stamp/change/:id', function(req, res){
     let id = req.params.id;
     let email = req.body.email;
+
+    var ret = lib.mysql.getUserStampIdEmail([id, email]);
+    if(ret.length < 1) return lib.response(req, res, 404);
+    if(ret[0].total != ret[0].stamping) return lib.response(req, res, 404);
 
     var ret = lib.mysql.updUserStampToCoupon([id, email]);
     return lib.response(req, res, 200);
@@ -464,6 +463,7 @@ module.exports = function(app) {
     var ret = lib.mysql.getAdminMemberNear(lat, lng, 300);
     if(ret.length < 1) return lib.response(req, res, 208);
     for(var i = 0; i < ret.length; i++) {
+      console.log("Find", ret[i].rcn, ret[i].name);
       ret[i].distance = ret[i].distance * 1000;
       var result = lib.mysql.findMemberLogo (ret[i].rcn);
       ret[i].logo = process.env.SERVER + result[0].logo_path;
@@ -563,14 +563,6 @@ module.exports = function(app) {
     return lib.response(req, res, 200, { list: ret});
   });
 
-  app.post('/mac/:mac', function(req, res){
-    let mac = req.body.Mac;
-
-    var ret = lib.mysql.getLicense ([mac]);
-    if(ret.length < 1) return res.json ({code: 404});
-    return res.json({code: 200, license: ret[0].license});
-  });
-
   app.get('/ws/:message', function(req, res){
     let message = req.params.message;
     router.websocket.wsendAll(message);
@@ -581,6 +573,124 @@ module.exports = function(app) {
     let license = req.params.license;
     router.websocket.wsend(license, message);
     return res.send('ok');
+  });
+
+  app.get('/alert/coupon/:cpcode', function(req, res){
+    let cpcode = req.params.cpcode;
+    var ret = lib.mysql.getUserCouponCode ([cpcode]);
+    if(ret.length < 1) return  lib.response(req, res, 404);
+
+    let qrCode = require('qrcode')
+    qrCode.toDataURL(cpcode, function (err, data) {
+      ret[0].QR = data;
+      ret[0].registered = moment(ret[0].registered).format("YYYY-MM-DD HH:mm:ss");
+      //ret[0].notice = ret[0].notice.replace("\n","</br>");
+      ret[0].date2 = moment(ret[0].date2).format("YYYY-MM-DD");
+      return res.render("coupon", {list: ret[0]});
+    })
+  });
+
+  app.get('/use/coupon/:cpcode', function(req, res){
+    let cpcode = req.params.cpcode;
+    var ret = lib.mysql.getUserCouponCode ([cpcode]);
+    if(ret.length < 1) return  lib.response(req, res, 404);
+
+    var ret = lib.mysql.updUserCouponUsedCode ([cpcode]);
+    if(ret.affectedRows < 1) return res.json({'message': '쿠폰 사용이 불가합니다.'});
+    return res.json({'message': '쿠폰이 정상적으로 사용되었습니다.'});
+  });
+
+  app.post('/pos/sign-in/', function(req, res) {
+    let Rcn    = req.body.Rcn;
+    let Mac    = req.body.Mac;
+    if(Rcn == undefined || Mac == undefined) return lib.response(req, res, 404);
+
+    var ret = lib.mysql.getPosMacRcn ([Mac, Rcn]);
+    if(ret.length < 1) return lib.response(req, res, 404);
+
+    return res.json({code: 200, license: ret[0].license});
+  });
+
+  app.post('/pos/sign-up/', function(req, res) {
+    let Email  = req.body.Email;
+    let Rcn    = req.body.Rcn;
+    let Mac    = req.body.Mac;
+
+    if(Email == undefined || Rcn == undefined || Mac == undefined) return lib.response(req, res, 404);
+
+    var ret = lib.mysql.getPosEmailMacRcn ([Email, Mac, Rcn]);
+    if(ret.length > 0) return lib.response(req, res, 208);
+
+    var Expire = moment().tz('Asia/Seoul').add(7, 'd').format('YYYY-MM-DD 23:59:59');
+    let Token  = lib.utils.generatekey ();
+
+    var ret = lib.mysql.putPos([Email, Mac, Rcn, Token, Expire]);
+    if(ret.affectedRows < 1) return lib.response(req, res, 409);
+
+    var url     = `https://tric.kr/pos/sign-up/confirm/${Email}/${Token}`;
+    var message = lib.utils.getSignUpEmailMessage (Email, url, Expire);
+    var title   = lib.utils.getSignUpEmailTitle();
+
+    lib.utils.mailto ('popup@naver.com', 'aq175312#$', Email, title, message, function (err, info) {
+      if(err) console.log (err);
+      return lib.response(req, res, 200);
+    });
+  });
+
+  app.get("/pos/sign-up/confirm/:Email/:Token", function (req, res) {
+    let Email  = req.params.Email;
+    let Token  = req.params.Token;
+
+    if (Email == undefined || Token == undefined) res.send("유효하지 않은 주소입니다");
+
+    var ret = lib.mysql.getPosEmailToken ([Email, Token]);
+    if(ret.length < 1) return lib.response(req, res, 404);
+
+    let license  = lib.utils.generatekey ('digits', 6);
+    lib.mysql.updPosActivateEmailToken ([license, Email, Token]);
+    return res.send("본인확인이 완료되었습니다");
+  });
+
+  app.get('/pos/sign-up/:Mac', function(req, res) {
+    let Mac    = req.params.Mac;
+    return res.render("pos-sign-up", { Mac: Mac });
+  });
+
+  app.get('/pos/registered/:License', function(req, res) {
+    let License    = req.params.License;
+
+    var ret = lib.mysql.getPosLicense ([License]);
+    if(ret.length < 1) return lib.response(req, res, 404);
+
+    ret[0].registered = moment(ret[0].date2).format("YYYY-MM-DD HH:mm:ss");
+    return res.render("pos-registered", { list: ret[0] });
+  });
+
+  app.get('/pos/pairing/:License', function(req, res){
+    let License    = req.params.License;
+
+    var ret = lib.mysql.getPosLicense ([License]);
+    if(ret.length < 1) return lib.response(req, res, 404);
+
+    let URL = process.env.SERVER + "/qrscan/" + License;
+
+    let qrCode = require('qrcode')
+    qrCode.toDataURL(URL, function (err, data) {
+      ret[0].URL = URL;
+      ret[0].QR  = data;
+      ret[0].registered = moment(ret[0].registered).format("YYYY-MM-DD HH:mm:ss");
+      ret[0].date2 = moment(ret[0].date2).format("YYYY-MM-DD");
+      return res.render("pos-pairing", {list: ret[0]});
+    })
+  });
+
+
+  app.post('/mac/:mac', function(req, res){
+    let mac = req.body.Mac;
+
+    var ret = lib.mysql.getLicense ([mac]);
+    if(ret.length < 1) return res.json ({code: 404});
+    return res.json({code: 200, license: ret[0].license});
   });
 
 }
