@@ -110,3 +110,156 @@
   </div>
 </div>
 
+<div class="modal fade" id="modal-notice-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+
+          <h5>공지사항 상세정보</h5>
+          <hr>
+
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">공지사항 제목</label>
+            </div>
+            <div class="form-group col-md-7">
+              <div class="input-group">
+                <input id="m-title" type="text" class="form-control" name="email" value="" placeholder="공지사항 제목">
+              </div>
+            </div>
+            <div class="form-group col-md-3"></div>
+
+
+            <div class="form-group col-md-2">
+            <label for="notice">공지 대상</label>
+            </div>
+
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">성별</div></div>
+                <button id="btn-m-gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="gender" class="dropdown-menu">
+                  <a class="dropdown-item">전체</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item">남</a>
+                  <a class="dropdown-item">녀</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">나이</div></div>
+                <button id="btn-m-age" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="age" class="dropdown-menu">
+                  <a class="dropdown-item">전체</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item">10대</a>
+                  <a class="dropdown-item">20대</a>
+                  <a class="dropdown-item">30대</a>
+                  <a class="dropdown-item">40대</a>
+                  <a class="dropdown-item">50대</a>
+                  <a class="dropdown-item">60대</a>
+                  <a class="dropdown-item">70대</a>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-4">
+              <div class="input-group dropdown">
+                <div class="input-group-prepend"><div class="input-group-text">지역</div></div>
+
+                <button id="btn-m-area1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="area1" class="dropdown-menu">
+                </div>&nbsp;&nbsp;
+                <span>
+                <button id="btn-m-area2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="area2" class="dropdown-menu">
+                </div>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="days">공지기간</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input type="text" id="m-date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="m-date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="no-date2" value="option1">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="days">내용</label>
+            </div>
+            <div class="form-group col-md-10">
+              <div class="input-group">
+                <textarea id="m-notice" class="form-control" rows="10"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="file">첨부파일</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="m-prefix1" type="text" class="form-control" name="email" value="" placeholder="이벤트배너 파일명">
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group offset-md-2 col-md-5">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file1" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-5">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-5">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file2" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-5">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-5">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file3" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-5">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
+
+          </div>
+
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
+              <button id="m-update" class="btn btn-default" style="float: right;">수정</button>
+              <button id="m-delete" class="btn btn-default" style="float: right;">삭제</button>
+            </div>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

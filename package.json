@@ -38,6 +38,7 @@
     "moment-timezone": "^0.5.32",
     "ncloud-sdk": "^1.4.10",
     "ncloud-server": "^1.4.8",
+    "node-cron": "^2.0.3",
     "node-geocoder": "^3.27.0",
     "node-sens": "^1.3.0",
     "nodemailer": "^6.4.17",

@@ -12,7 +12,7 @@
             </div>
             <div class="form-group col-md-7">
               <div class="input-group">
-                <input id="name" type="text" class="form-control" name="email" value="" placeholder="공지사항 제목">
+                <input id="title" type="text" class="form-control" name="email" value="" placeholder="공지사항 제목">
               </div>
             </div>
             <div class="form-group col-md-4"></div>
@@ -25,8 +25,8 @@
             <div class="form-group col-md-3">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">성별</div></div>
-                <button id="gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
+                <button id="btn-gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="gender" class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
                   <a class="dropdown-item">남</a>
@@ -39,8 +39,8 @@
             <div class="form-group col-md-3">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">나이</div></div>
-                <button id="gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
+                <button id="btn-age" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="age" class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
                   <a class="dropdown-item">10대</a>
@@ -96,19 +96,44 @@
             </div>
             <div class="form-group col-md-11">
               <div class="input-group">
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea id="notice" class="form-control" rows="10"></textarea>
               </div>
             </div>
 
 
             <div class="form-group col-md-1">
-            <label for="days">첨부파일</label>
+            <label for="file">첨부파일</label>
             </div>
-            <div class="form-group col-md-11">
+            <div class="form-group col-md-3">
               <div class="input-group">
-                <input type="file"  class="form-control" name="sample">
+                <input id="prefix1" type="text" class="form-control" name="email" value="" placeholder="이벤트배너 파일명">
               </div>
             </div>
+            <div class="form-group col-md-8"></div>
+
+            <div class="form-group offset-md-1 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file1" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-8">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+
+            <div class="form-group offset-md-1 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file2" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-8">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+
+            <div class="form-group offset-md-1 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file3" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-8">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
 
           </div>
 

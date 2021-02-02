@@ -13,7 +13,7 @@
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-                <input id="name" type="text" class="form-control" name="email" value="" placeholder="이벤트명">
+                <input id="title" type="text" class="form-control" name="email" value="" placeholder="이벤트명">
               </div>
             </div>
             <div class="form-group col-md-8"></div>
@@ -24,8 +24,8 @@
             </div>
             <div class="form-group col-md-3">
               <div class="form-check">
-              <label class="radio-inline">&nbsp;<input type="radio" name="radio" id="play" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
-              <label class="radio-inline">&nbsp;<input type="radio" name="radio" id="stop" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" id="status" name="status" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" id="status" name="status" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
               </div>
             </div>
             <div class="form-group col-md-8"></div>
@@ -36,16 +36,16 @@
             </div>
             <div class="form-group col-md-11">
               <div class="input-group">
-                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;공지/광고&nbsp;&nbsp;(가중치&nbsp;&nbsp;</label>
-                <button id="stat" class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">1</button>
-                <div id="dropUsed" class="dropdown-menu">
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fnotice" value="공지">&nbsp;&nbsp;공지/광고&nbsp;&nbsp;(가중치&nbsp;&nbsp;</label>
+                <button id="btn-fweight" class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">1</button>
+                <div id="weightropUsed" class="dropdown-menu">
                   <a class="dropdown-item">1</a>
                   <a class="dropdown-item">2</a>
                   <a class="dropdown-item">3</a>
                 </div>
                 <label>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;메인&nbsp;&nbsp;</label>
-                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="inlineCheckbox1" value="option1">&nbsp;&nbsp;이벤트&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fmain" value="메인">&nbsp;&nbsp;메인&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fevent" value="이벤트">&nbsp;&nbsp;이벤트&nbsp;&nbsp;</label>
               </div>
             </div>
 
@@ -55,10 +55,10 @@
             </div>
             <div class="form-group col-md-3">
               <div class="input-group dropdown">
-                <div class="input-group-prepend"><div class="input-group-text">상태</div></div>
+                <div class="input-group-prepend"><div class="input-group-text">성별</div></div>
 
-                <button id="gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
+                <button id="btn-gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="gender" class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
                   <a class="dropdown-item">남</a>
@@ -70,8 +70,8 @@
               <div class="input-group dropdown">
                 <div class="input-group-prepend"><div class="input-group-text">나이</div></div>
 
-                <button id="age" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
+                <button id="btn-age" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="age" class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
                   <a class="dropdown-item">10대</a>
@@ -117,7 +117,7 @@
             </div>
             <div class="form-group col-md-6">
               <div class="input-group">
-                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="no-date2" value="option1">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="no-date2" value="종료일제한없음">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
               </div>
             </div>
 
@@ -125,76 +125,77 @@
             <div class="form-group col-md-1">
             <label for="file">이미지</label>
             </div>
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-11"></div>
+
+            <div class="form-group offset-md-1 col-md-1 event-banner">
             <label for="file">이벤트배너*</label>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 event-banner">
               <div class="input-group">
-                <input id="name" type="text" class="form-control" name="email" value="" placeholder="이벤트배너 파일명">
+                <input id="prefix1" type="text" class="form-control" name="email" value="" placeholder="이벤트배너 파일명">
               </div>
             </div>
-            <div class="form-group col-md-7"></div>
+            <div class="form-group col-md-7 event-banner"></div>
 
-            <div class="form-group offset-md-2 col-md-3">
+            <div class="form-group offset-md-2 col-md-3 event-banner">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
                 <input id="file1" name="file1" type="file" class="form-control" multiple/>
               </div>
             </div>
-            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
 
-            <div class="form-group offset-md-2 col-md-3">
+            <div class="form-group offset-md-2 col-md-3 event-banner">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
                 <input id="file2" name="file2" type="file" class="form-control" multiple/>
               </div>
             </div>
-            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
 
-            <div class="form-group offset-md-2 col-md-3">
+            <div class="form-group offset-md-2 col-md-3 event-banner">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
                 <input id="file3" name="file3" type="file" class="form-control" multiple/>
               </div>
             </div>
-            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
 
 
-            <div class="form-group offset-md-1 col-md-1">
+            <div class="form-group offset-md-1 col-md-1 main-banner">
             <label for="file">메인배너*</label>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 main-banner">
               <div class="input-group">
-                <input id="name" type="text" class="form-control" name="email" value="" placeholder="메인배너 파일명">
+                <input id="prefix2" type="text" class="form-control" name="email" value="" placeholder="메인배너 파일명">
               </div>
             </div>
-            <div class="form-group col-md-7"></div>
+            <div class="form-group col-md-7 main-banner"></div>
 
 
-            <div class="form-group offset-md-2 col-md-3">
+            <div class="form-group offset-md-2 col-md-3 main-banner">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
                 <input id="file4" name="file1" type="file" class="form-control" multiple/>
               </div>
             </div>
-            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+            <div class="form-group col-md-7 main-banner">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
 
-            <div class="form-group offset-md-2 col-md-3">
+            <div class="form-group offset-md-2 col-md-3 main-banner">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
                 <input id="file5" name="file2" type="file" class="form-control" multiple/>
               </div>
             </div>
-            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+            <div class="form-group col-md-7 main-banner">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
 
-            <div class="form-group offset-md-2 col-md-3">
+            <div class="form-group offset-md-2 col-md-3 main-banner">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
                 <input id="file6" name="file3" type="file" class="form-control" multiple/>
               </div>
             </div>
-            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
-
+            <div class="form-group col-md-7 main-banner">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
 
 
             <div class="form-group offset-md-1 col-md-1">
@@ -203,7 +204,7 @@
 
             <div class="form-group col-md-3">
               <div class="input-group">
-                <input id="name" type="text" class="form-control" name="email" value="" placeholder="상세이미지 파일명">
+                <input id="prefix3" type="text" class="form-control" name="email" value="" placeholder="상세이미지 파일명">
               </div>
             </div>
             <div class="form-group col-md-7"></div>
@@ -237,7 +238,7 @@
 
           <h5>앱 네비게이션 컬러 정보</h5>
           <hr>
-          <div class="form-row">
+          <div class="form-row main-banner">
 
             <div class="form-group col-md-1">
             <label for="member">이미지</label>
@@ -245,7 +246,7 @@
             <div class="form-group col-md-3">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">상단</div></div>
-                <input type="text" id="color1" class="form-control colorpicker-element" data-colorpicker-id="1" data-original-title="" title="">
+                <input type="text" id="rgb1" class="form-control colorpicker-element" data-colorpicker-id="1" data-original-title="" title="" placeholder="#372a9a">
               </div>
             </div>
             <div class="form-group col-md-8"></div>
@@ -253,7 +254,7 @@
             <div class="form-group offset-md-1 col-md-3">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">하단</div></div>
-                <input type="text" id="color2" class="form-control colorpicker-element" data-colorpicker-id="1" data-original-title="" title="">
+                <input type="text" id="rgb2" class="form-control colorpicker-element" data-colorpicker-id="1" data-original-title="" title="" placeholder="#372a9a">
               </div>
             </div>
             <div class="form-group col-md-8"></div>
@@ -263,23 +264,26 @@
 
           <h5>쿠폰 정보</h5>
           <hr>
-          <div class="form-row">
+          <div class="form-row event-banner">
 
             <div class="form-group col-md-1">
             <label for="member">쿠폰명</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-              <button id="stat" class="btn btn-outline-secondary">쿠폰선택</button>
+                <button id="btn-admin-coupon1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <div id="admin-coupon1" class="dropdown-menu">
+                </div>
               </div>
             </div>
             <div class="form-group col-md-8"></div>
 
             <div class="form-group col-md-1">
-            <label for="member">유효기간</label>
+            <label for="validity">유효기간</label>
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
+                <span id="validity1"></span> ~ <span id="validity2"></span>
               </div>
             </div>
             <div class="form-group col-md-8"></div>
@@ -296,7 +300,7 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <button id="list"     class="btn btn-default" style="float: left;"  >목록</button>
-              <button id="register" class="btn btn-primary" style="float: right;" >등록</button>
+              <button id="register" class="btn btn-default" style="float: right;" >등록</button>
             </div>
           </div>
         </div>

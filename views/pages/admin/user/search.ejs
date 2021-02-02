@@ -22,7 +22,7 @@
               <div class="input-group dropdown">
                 <div class="input-group-prepend"><div class="input-group-text">OS</div></div>
 
-                <button id="os" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <button id="btn-os" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
@@ -52,7 +52,7 @@
               <div class="input-group dropdown">
                 <div class="input-group-prepend"><div class="input-group-text">나이</div></div>
 
-                <button id="age" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <button id="btn-age" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
@@ -71,7 +71,7 @@
               <div class="input-group dropdown">
                 <div class="input-group-prepend"><div class="input-group-text">성별</div></div>
 
-                <button id="gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <button id="btn-gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
@@ -129,12 +129,373 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <div id="results"></div>
-              <div id="pageid" style="display: none;">user-search</div>
+              <div id="pageid" style="display: none;">admin-user-search</div>
             </div>
           </div>
 
 
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-user-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+          <h5>사용자 상세정보</h5>
+          <hr>
+
+          <div class="form-row">
+            <div class="form-group col-md-2">
+            <label for="member">ID(이메일)</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input id="m-email" type="text" class="form-control" name="email" value="" disabled>
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+
+            <div class="form-group col-md-2">
+            <label for="member">상태*</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="form-check">
+              <label class="radio-inline">&nbsp;<input type="radio" id="m-status1" name="m-status" value="가입" checked>&nbsp;&nbsp;가입&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" id="m-status2" name="m-status" value="해지">&nbsp;&nbsp;해지&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">비밀번호*</label>
+            </div>
+            <div class="form-group col-md-10">
+              <button id="m-password" class="btn btn-outline-secondary" type="button">비밀번호변경</button>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="member">운영체제</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input id="m-os" type="text" class="form-control" name="os" value="" disabled>
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">성별*</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group dropdown">
+                <button id="btn-m-gender" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">남</button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item">남</a>
+                  <a class="dropdown-item">녀</a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">생년월일*</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input type="text" id="m-date1" class="form-control datetimepicker-input" data-target="#m-date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">지역*</label>
+            </div>
+            <div class="form-group col-md-10">
+              <div class="input-group dropdown">
+                <button id="btn-m-area1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="m-area1" class="dropdown-menu">
+                </div>&nbsp;&nbsp;
+                <span>
+                <button id="btn-m-area2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="m-area2" class="dropdown-menu">
+                </div>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="member">최종접속일시</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input id="m-updated" type="text" class="form-control" value="" disabled>
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">가입일시</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input id="m-registered" type="text" class="form-control" value="" disabled>
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+          </div>
+
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
+            </div>
+            <div class="form-group col-md-6">
+              <button id="m-user-hist-deal"   type="button" class="btn btn-default">거래이력</button>
+              <button id="m-user-hist-coupon" type="button" class="btn btn-default">쿠폰이력</button>
+              <button id="m-user-hist-stamp"  type="button" class="btn btn-default">스탬프이력</button>
+            </div>
+            <div class="form-group col-md-4">
+              <span style="float: right;">
+              <button id="m-delete" class="btn btn-default" disabled>삭제</button>
+              <button id="m-update" class="btn btn-default">수정</button>
+              </span>
+            </div>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-password-change" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">비밀번호 변경</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+          <div class="form-group col-md-3">
+          <label for="passwd">비밀번호</label>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="input-group">
+              <input id="m-password1" type="password" class="form-control" value="" placeholder="********">
+            </div>
+          </div>
+          <div class="form-group col-md-5"><span id="area-comment" class="form-comment">비밀번호를 입력해주세요</span></div>
+
+          <div class="form-group offset-md-3 col-md-4">
+            <div class="input-group">
+              <input id="m-password2" type="password" class="form-control" value="" placeholder="********">
+            </div>
+          </div>
+          <div class="form-group col-md-5"><span id="m-password-comment" class="form-comment"></span></div>
+
+        </div>
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+            <button id="m-passwd-update" type="button" class="btn btn-default" style="float: right;">비밀번호변경</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-user-hist-deal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+          <h5>사용자 거래이력조회</h5>
+          <hr>
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">이력필터</label>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">가맹점</div></div>
+                <input id="m-rcn" type="text" class="form-control" name="rcn" value="" placeholder="사업자번호">
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text text-left">수정일</div></div>
+
+                <input type="text" id="m-date3" class="form-control datetimepicker-input" data-target="#m-date3" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date3" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="m-date4" class="form-control datetimepicker-input" data-target="#m-date4" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date4" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="m-search" class="btn btn-default" style="float: right;">검색</button>
+            </div>
+          </div>
+          <hr>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="m-deal-results"></div>
+            </div>
+          </div>
+
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-user-hist-coupon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+          <h5>사용자 쿠폰이력조회</h5>
+          <hr>
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">이력필터</label>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">가맹점</div></div>
+                <input id="m-rcn" type="text" class="form-control" name="rcn" value="" placeholder="사업자번호">
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text text-left">수정일</div></div>
+
+                <input type="text" id="m-date5" class="form-control datetimepicker-input" data-target="#m-date5" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date5" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="m-date6" class="form-control datetimepicker-input" data-target="#m-date6" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date6" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="m-search" class="btn btn-default" style="float: right;">검색</button>
+            </div>
+          </div>
+          <hr>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="m-coupon-results"></div>
+            </div>
+          </div>
+
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="modal-user-hist-stamp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+          <h5>사용자 스탬프이력조회</h5>
+          <hr>
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">이력필터</label>
+            </div>
+            <div class="form-group col-md-4">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">가맹점</div></div>
+                <input id="m-rcn" type="text" class="form-control" name="rcn" value="" placeholder="사업자번호">
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text text-left">수정일</div></div>
+
+                <input type="text" id="m-date7" class="form-control datetimepicker-input" data-target="#m-date7" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date7" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="m-date8" class="form-control datetimepicker-input" data-target="#m-date8" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date8" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="m-search" class="btn btn-default" style="float: right;">검색</button>
+            </div>
+          </div>
+          <hr>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="m-stamp-results"></div>
+            </div>
+          </div>
+
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
+
       </div>
     </div>
   </div>

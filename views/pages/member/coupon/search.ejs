@@ -11,27 +11,41 @@
             <label for="member">쿠폰</label>
             </div>
             <div class="form-group col-md-3">
+              <div class="input-group dropdown">
+                <div class="input-group-prepend"><div class="input-group-text">상태</div></div>
+
+                <button id="btn-ctype" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="ctype" class="dropdown-menu">
+                  <a class="dropdown-item">전체</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item">리워드</a>
+                  <a class="dropdown-item">스탬프</a>
+                  <a class="dropdown-item">프로모션</a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-3">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">쿠폰명</div></div>
                 <input id="name" type="text" class="form-control" name="email" value="" placeholder="쿠폰명">
               </div>
             </div>
-
             <div class="form-group col-md-3">
               <div class="input-group dropdown">
                 <div class="input-group-prepend"><div class="input-group-text">상태</div></div>
 
-                <button id="stat" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
+                <button id="btn-status" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="status" class="dropdown-menu">
                   <a class="dropdown-item">전체</a>
                   <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item">가입</a>
-                  <a class="dropdown-item">해지</a>
+                  <a class="dropdown-item">사용</a>
+                  <a class="dropdown-item">중지</a>
                 </div>
               </div>
             </div>
+            <div class="form-group col-md-2"></div>
 
-            <div class="form-group col-md-5">
+            <div class="form-group offset-md-1 col-md-5">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text text-left">수정일</div></div>
                 <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
@@ -44,13 +58,14 @@
                 </div>
               </div>
             </div>
+            <div class="form-group col-md-6"></div>
 
 
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-12">
-              <button id="search" class="btn btn-primary" style="float: right;">검색</button>
+              <button id="search" class="btn btn-default" style="float: right;">검색</button>
             </div>
           </div>
           <hr>
@@ -61,7 +76,6 @@
               <div id="pageid" style="display: none;">member-coupon-search</div>
             </div>
           </div>
-          <hr>
 
           <div class="form-row">
             <div class="form-group col-md-12">
@@ -71,6 +85,87 @@
           </div>
 
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var memberInfo = <%-JSON.stringify(member) %>;
+  console.log (memberInfo);
+</script>
+
+<div class="modal fade" id="modal-member-coupon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+          <h5>기맹점 쿠폰 상세정보</h5>
+          <hr>
+
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">상태</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="form-check">
+              <label class="radio-inline">&nbsp;<input type="radio" name="m-status" id="m-status1" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="m-status" id="m-status2" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+
+            <div class="form-group col-md-2">
+            <label for="member"></label>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="member">유형</label>
+            </div>
+            <div class="form-group col-md-8">
+            <input id="member">
+            </div>
+
+            <div class="form-group offset-md-2 col-md-2">
+            <label for="member">쿠폰명</label>
+            </div>
+            <div class="form-group col-md-8">
+            <input id="member">
+            </div>
+
+            <div class="form-group offset-md-2 col-md-2">
+            <label for="member">발급조건</label>
+            </div>
+            <div class="form-group col-md-8">
+            <input id="member">
+            </div>
+
+            <div class="form-group offset-md-2 col-md-2">
+            <label for="member">유효기간</label>
+            </div>
+            <div class="form-group col-md-8">
+            <input id="member">
+            </div>
+
+            <div class="form-group offset-md-2 col-md-2">
+            <label for="member">유의사항</label>
+            </div>
+            <div class="form-group col-md-8">
+            <input id="notice">
+            </div>
+
+          </div>
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
+              <button id="m-update" class="btn btn-default" style="float: right;">수정</button>
+              <button id="m-delete" class="btn btn-default" style="float: right;">삭제</button>
+            </div>
+          </div>
+
       </div>
     </div>
   </div>

@@ -4,7 +4,12 @@ module.exports = function (app) {
   let dotenv  = require('dotenv').config({ path: require('find-config')('.env') })
   let lib     = require('../lib');
   let router  = require('.');
+  let cron    = require('node-cron');
   let verbose = true;
+
+  cron.schedule('0 0 * * *', () => {
+    console.log('running a task every day');
+  });
 
   /////////////////////////////////////////////////////
   lib.passport.setup (app);
