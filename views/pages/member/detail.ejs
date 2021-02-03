@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+
+          <h5>가맹점 부가정보</h5>
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-2">
+            <label for="member">가맹점로고*</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="row">
+              <div class="col-md-3"><img id="img1" src="" class="img-fluid"></div>
+              <div class="col-md-4"><img id="img2" src="" class="img-fluid"></div>
+              <div class="col-md-5"><img id="img3" src="" class="img-fluid"></div>
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file1" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file2" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file3" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">가맹점소개*</label>
+            </div>
+            <div class="form-group col-md-10">
+              <div class="input-group">
+                <textarea id="intro" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="member">휴일</label>
+            </div>
+            <div class="form-group col-md-2">
+              <div class="input-group dropdown">
+                <button id="btn-offduty1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">매주</button>
+                <div id="offduty1" class="dropdown-menu">
+                  <a class="dropdown-item">매주</a>
+                  <a class="dropdown-item">격주</a>
+                </div>&nbsp;
+                <span>
+                <button id="btn-offduty2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">월요일</button>
+                <div id="offduty2" class="dropdown-menu">
+                  <a class="dropdown-item">월요일</a>
+                  <a class="dropdown-item">화요일</a>
+                  <a class="dropdown-item">수요일</a>
+                  <a class="dropdown-item">목요일</a>
+                  <a class="dropdown-item">금요일</a>
+                  <a class="dropdown-item">토요일</a>
+                  <a class="dropdown-item">일요일</a>
+                </div>
+                </span>
+              </div>
+            </div>
+            <div class="form-group col-md-8"><span class="form-comment">휴일을 선택해주세요</span></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">영업시간</label>
+            </div>
+            <div class="form-group col-md-2">
+              <div class="input-group">
+                <input id="opentime" type="text" class="form-control" name="email" value="" placeholder="10:00">&nbsp;
+                <input id="closetime" type="text" class="form-control" name="email" value="" placeholder="22:00">
+              </div>
+            </div>
+            <div class="form-group col-md-8"><span class="form-comment">영업시간을 입력해주세요</span></div>
+          </div>
+
+       
+          <p>
+          <h5>가맹점 담당자정보</h5>
+          <hr>
+          <div class="form-row">
+           <div class="form-group col-md-2">
+            <label for="member">담당자명</label>
+            </div>
+            <div class="form-group col-md-2">
+              <div class="input-group">
+                <input id="title" type="text" class="form-control" name="email" value="" placeholder="담당자명">&nbsp;
+              </div>
+            </div>
+            <div class="form-group col-md-8"><span class="form-comment">담당자명을 입력해주세요</span></div>
+
+           <div class="form-group col-md-2">
+            <label for="member">담당자연락처</label>
+            </div>
+            <div class="form-group col-md-2">
+              <div class="input-group">
+                <input id="title" type="text" class="form-control" name="email" value="" placeholder="담당자 연락처">&nbsp;
+              </div>
+            </div>
+            <div class="form-group col-md-8"><span class="form-comment">담당자 연락처를 입력해주세요</span></div>
+
+           <div class="form-group col-md-2">
+            <label for="member">담당자이메일</label>
+            </div>
+            <div class="form-group col-md-2">
+              <div class="input-group">
+                <input id="title" type="text" class="form-control" name="email" value="" placeholder="담당자 이메일">&nbsp;
+              </div>
+            </div>
+            <div class="form-group col-md-8"><span class="form-comment">담당자 이메일을 입력해주세요</span></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <span style="float: right;">
+              <button id="search" class="btn btn-default" hidden>검색</button>
+              <button id="delete" class="btn btn-default">해지</button>
+              <button id="update" class="btn btn-default">저장</button>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="results"></div>
+              <div id="pageid" style="display: none;">member-detail-search</div>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

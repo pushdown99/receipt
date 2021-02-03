@@ -6,75 +6,138 @@
         <div class="card-body">
 
           <div class="form-row">
-
-            <div class="form-group col-md-1">
-            <label for="member">이벤트</label>
+            <div class="form-group col-md-2">
+            <label for="member">대표이미지*</label>
             </div>
-
             <div class="form-group col-md-3">
               <div class="input-group">
-                <div class="input-group-prepend"><div class="input-group-text">상태</div></div>
-                <button id="stat" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
-                  <a class="dropdown-item">전체</a>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item">사용</a>
-                  <a class="dropdown-item">중지</a>
-                </div>
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file1" type="file" class="form-control" multiple/>
               </div>
             </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
 
-
-            <div class="form-group col-md-3">
+            <div class="form-group offset-md-2 col-md-3 event-banner">
               <div class="input-group">
-                <div class="input-group-prepend"><div class="input-group-text">쿠폰 유무</div></div>
-                <button id="stat" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="yes" class="dropdown-menu">
-                  <a class="dropdown-item">전체</a>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item">유</a>
-                  <a class="dropdown-item">무</a>
-                </div>
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file2" type="file" class="form-control" multiple/>
               </div>
             </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
 
-
-            <div class="form-group col-md-5">
+            <div class="form-group offset-md-2 col-md-3 event-banner">
               <div class="input-group">
-                <div class="input-group-prepend"><div class="input-group-text text-left">기간</div></div>
-                <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
-                <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
-                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
-                </div>
-                <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
-                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
-                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
-                </div>
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file3" type="file" class="form-control" multiple/>
               </div>
             </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
           </div>
 
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-1">
+            <label for="member">서브이미지</label>
+            </div>
+            <div class="form-group col-md-1">
+            <label for="member">서브1</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file4" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
 
+            <div class="form-group offset-md-2 col-md-3 event-banner">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file5" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3 event-banner">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file6" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
+
+            <div class="form-group offset-md-1 col-md-1">
+            <label for="member">서브2</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file7" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3 event-banner">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file8" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3 event-banner">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file9" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
+
+            <div class="form-group offset-md-1 col-md-1">
+            <label for="member">서브3</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file10" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3 event-banner">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file11" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@2x.png)</span></div>
+
+            <div class="form-group offset-md-2 col-md-3 event-banner">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file12" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7 event-banner">&nbsp;&nbsp;<span class="form-comment">(@3x.png)</span></div>
+
+          </div>
           <div class="form-row">
             <div class="form-group col-md-12">
-              <button id="register" class="btn btn-primary" style="float: left;" >등록</button>
-              <button id="history"  class="btn btn-default" style="float: right;">변경이력조회</button>
+              <span style="float: right;">
+              <button id="update" class="btn btn-default">저장</button>
+              </span>
             </div>
           </div>
-          <hr>
 
           <div class="form-row">
             <div class="form-group col-md-12">
               <div id="results"></div>
-              <div id="pageid" style="display: none;">coupon-search</div>
+              <div id="pageid" style="display: none;">member-event-search</div>
             </div>
           </div>
 
-
-        </div>
       </div>
     </div>
   </div>
 </div>
-
 

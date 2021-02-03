@@ -1,5 +1,96 @@
 'use strict';
 
+function checkFiles (req, start, end) {
+  for (var i = start; i <= end; i++) {
+    switch(i) {
+    case  1: if(req.files.file1  == undefined || req.files.file1.name  == undefined) return false; break;
+    case  2: if(req.files.file2  == undefined || req.files.file2.name  == undefined) return false; break;
+    case  3: if(req.files.file3  == undefined || req.files.file3.name  == undefined) return false; break;
+    case  4: if(req.files.file4  == undefined || req.files.file4.name  == undefined) return false; break;
+    case  5: if(req.files.file5  == undefined || req.files.file5.name  == undefined) return false; break;
+    case  6: if(req.files.file6  == undefined || req.files.file6.name  == undefined) return false; break;
+    case  7: if(req.files.file7  == undefined || req.files.file7.name  == undefined) return false; break;
+    case  8: if(req.files.file8  == undefined || req.files.file8.name  == undefined) return false; break;
+    case  9: if(req.files.file9  == undefined || req.files.file9.name  == undefined) return false; break;
+    case 10: if(req.files.file10 == undefined || req.files.file10.name == undefined) return false; break;
+    case 11: if(req.files.file11 == undefined || req.files.file11.name == undefined) return false; break;
+    case 12: if(req.files.file12 == undefined || req.files.file12.name == undefined) return false; break;
+    }
+  }
+  return true;
+}
+
+function moveFiles (req, number, path, prefix) {
+  if(typeof req.files == undefined) return false;
+
+  var f = "";
+  var e = "";
+
+  switch(number) {
+  case  1: 
+    if(typeof req.files.file1  == undefined) return false;
+    f = req.files.file1;
+    break;
+  case  2: 
+    if(typeof req.files.file2  == undefined) return false;
+    f = req.files.file2;
+    break;
+  case  3: 
+    if(typeof req.files.file3  == undefined) return false;
+    f = req.files.file3;
+    break;
+  case  4: 
+    if(typeof req.files.file4  == undefined) return false;
+    f = req.files.file4;
+    break;
+  case  5: 
+    if(typeof req.files.file5  == undefined) return false;
+    f = req.files.file5;
+    break;
+  case  6: 
+    if(typeof req.files.file6  == undefined) return false;
+    f = req.files.file6;
+    break;
+  case  7: 
+    if(typeof req.files.file7  == undefined) return false;
+    f = req.files.file7;
+    break;
+  case  8: 
+    if(typeof req.files.file8  == undefined) return false;
+    f = req.files.file8;
+    break;
+  case  9: 
+    if(typeof req.files.file9  == undefined) return false;
+    f = req.files.file9;
+    break;
+  case 10: 
+    if(typeof req.files.file10 == undefined) return false;
+    f = req.files.file10;
+    break;
+  case 11: 
+    if(typeof req.files.file11 == undefined) return false;
+    f = req.files.file11;
+    break;
+  case 12: 
+    if(typeof req.files.file12 == undefined) return false;
+    f = req.files.file12;
+    break;
+  }
+
+  switch(number%3) {
+  case 0: e = "@3x.png"; break;
+  case 1: e = "@2x.png"; break;
+  case 2: e = ".png";    break;
+  }
+
+  var uploadPath = `${path}/${prefix}${e}`;
+  console.log(uploadPath);
+  f.mv(uploadPath, function(err) {
+    if (err) { return false; }
+  });
+  return true;
+}
+
 module.exports = function (app) {
   let dotenv  = require('dotenv').config({ path: require('find-config')('.env') })
   let lib     = require('../lib');
@@ -269,6 +360,29 @@ module.exports = function (app) {
     res.json({});
   });
 
+  /////////////////////////////////////////////////////////////////////////
+  // ADMIN-COUPON-REGISTER
+  app.post('/json/member/coupon/register', function (req, res) {
+    var member  = req.body.member;
+    var rcn     = req.body.rcn;
+    var bzname  = req.body.bzname;
+    var ctype   = req.body.ctype;
+    var cpcode  = req.body.cpcode;
+    var cpname  = req.body.cpname;
+    var cash    = (req.body.cash == "")? 0: parseInt(req.body.cash);
+    var stamp   = (req.body.stamp == "")? 0: parseInt(req.body.stamp);
+    var date1   = req.body.date1;
+    var date2   = req.body.date2;
+    var status  = req.body.status;
+    var benefit = req.body.benefit;
+    var notice  = req.body.notice;
+
+console.log("params", cash, stamp);
+
+    var result = lib.mysql.putMemberCoupon ([member, rcn, bzname, ctype, cpcode, 'N', cpname, cash, stamp, date1, date2, status, benefit, notice]);
+    res.json (result);
+  });
+
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //
   // SEARCH
@@ -448,7 +562,7 @@ console.log("called");
   });
 
   /////////////////////////////////////////////////////////////////////////
-  // MEMBER-DASHBOARD-SEARCH
+  // MEMBER-COUPON-SEARCH
   app.post('/json/member/coupon/search', function (req, res) {
     var rcn    = req.body.rcn;
     var ctype  = req.body.ctype;
@@ -462,11 +576,34 @@ console.log("called");
     res.json(result);
   });
 
+  app.post('/json/member/coupon/search/id', function (req, res) {
+    var id    = req.body.id;
 
+    var result = lib.mysql.searchMemberCouponId ([id]);
+    lib.utils.getQR2URL(result.cpcode, function (data) {
+      result.qr = data;
+      res.json(result);
+    });
+  });
 
+  /////////////////////////////////////////////////////////////////////////
+  // MEMBER-STAMP-SEARCH
+  app.post('/json/member/stamp/search', function (req, res) {
+    var rcn    = req.body.rcn;
 
+    var result = lib.mysql.searchMemberStamp ([rcn]);
+    res.json(result);
+  });
 
+  /////////////////////////////////////////////////////////////////////////
+  // MEMBER-STAMP-SEARCH
+  app.post('/json/member/detail/search', function (req, res) {
+    var rcn    = req.body.rcn;
 
+console.log('rcn', rcn);
+    var result = lib.mysql.searchMemberDetail ([rcn]);
+    res.json(result);
+  });
 
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -669,6 +806,66 @@ console.log("called");
     }
 
     var result = lib.mysql.updAdminNotice([title, gender, age, area1, area2, date1, date2, notice, prefix1, id]);
+    res.json(result);
+  });
+
+  app.post('/json/member/coupon/update/status', function (req, res) {
+    var id     = req.body.id;
+    var status = req.body.status;
+
+    var result = lib.mysql.updMemberCouponStatus([status, id]);
+    res.json(result);
+  });
+
+  /////////////////////////////////////////////////////////////////////////
+  // MEMBER-STAMP-UPDATE
+  app.post('/json/member/stamp/update', function (req, res) {
+    var rcn       = req.body.rcn;
+    var status    = req.body.status;
+    var stamp     = req.body.stamp;
+    var limits    = req.body.limits;
+    var overagain = req.body.overagain;
+    var benefit   = req.body.benefit;
+    var notice    = req.body.notice;
+
+    var result = lib.mysql.updMemberStamp ([status, stamp, limits, overagain, notice, benefit, rcn]);
+    res.json(result);
+  });
+
+  /////////////////////////////////////////////////////////////////////////
+  // MEMBER-DETAIL-UPDATE
+  app.post('/json/member/detail/update', function (req, res) {
+    var rcn       = req.body.rcn;
+    var intro     = req.body.intro;
+    var offduty1  = req.body.offduty1;
+    var offduty2  = req.body.offduty2;
+    var opentime  = req.body.opentime;
+    var closetime = req.body.closetime;
+
+    //moveFiles(req, 1, __dirname + '/../public/rc/banner', 'hi')
+    if(checkFiles(req, 1, 3) == true) {
+      moveFiles(req, 1, __dirname + '/../uploads', 'hi')
+      moveFiles(req, 2, __dirname + '/../uploads', 'hi')
+      moveFiles(req, 3, __dirname + '/../uploads', 'hi')
+    }
+
+    //var result = lib.mysql.updMemberDetail ([status, stamp, limits, overagain, notice, benefit, rcn]);
+    //res.json(result);
+    res.json({});
+  });
+
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // DELETE
+  //
+
+  /////////////////////////////////////////////////////////////////////////
+  // MEMBER-COUPON-DELETE
+  app.post('/json/member/coupon/delete/id', function (req, res) {
+    var id = req.body.id;
+
+    var result = lib.mysql.delMemberCouponId([id]);
     res.json(result);
   });
 

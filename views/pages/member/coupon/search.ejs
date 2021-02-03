@@ -90,79 +90,95 @@
   </div>
 </div>
 
-<script>
-  var memberInfo = <%-JSON.stringify(member) %>;
-  console.log (memberInfo);
-</script>
-
 <div class="modal fade" id="modal-member-coupon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
 
-          <h5>기맹점 쿠폰 상세정보</h5>
+          <h5> 가맹점 쿠폰 상세정보</h5>
           <hr>
 
           <div class="form-row">
-
-            <div class="form-group col-md-2">
-            <label for="member">상태</label>
-            </div>
             <div class="form-group col-md-3">
-              <div class="form-check">
-              <label class="radio-inline">&nbsp;<input type="radio" name="m-status" id="m-status1" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
-              <label class="radio-inline">&nbsp;<input type="radio" name="m-status" id="m-status2" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="member">상태</label>
+                </div>
+                <div class="form-group col-md-12">
+                  <img id="m-qr" src="" style="width: 100%;">
+                </div>
               </div>
             </div>
-            <div class="form-group col-md-7"></div>
+            <div class="form-group offset-md-1 col-md-8">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <div class="form-check">
+                  <label class="radio-inline">&nbsp;<input type="radio" name="m-status" id="m-status1" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+                  <label class="radio-inline">&nbsp;<input type="radio" name="m-status" id="m-status2" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+                  </div>
+                </div>
+                <div class="form-group col-md-6"></div>
+  
 
+                <div class="form-group col-md-3">
+                <label for="member">유형</label>
+                </div>
+                <div class="form-group col-md-9">
+                <input id="m-id" type="hidden" class="form-control">
+                <input id="m-ctype" type="text" class="form-control" disabled>
+                </div>
 
-            <div class="form-group col-md-2">
-            <label for="member"></label>
-            </div>
+                <div class="form-group col-md-3">
+                <label for="member">쿠폰명</label>
+                </div>
+                <div class="form-group col-md-9">
+                <input id="m-name" type="text" class="form-control" disabled>
+                </div>
 
-            <div class="form-group col-md-2">
-            <label for="member">유형</label>
-            </div>
-            <div class="form-group col-md-8">
-            <input id="member">
-            </div>
+                <div class="form-group col-md-3">
+                <label for="member">발급조건</label>
+                </div>
+                <div class="form-group col-md-9">
+                <input id="m-cond" type="text" class="form-control" disabled>
+                </div>
 
-            <div class="form-group offset-md-2 col-md-2">
-            <label for="member">쿠폰명</label>
-            </div>
-            <div class="form-group col-md-8">
-            <input id="member">
-            </div>
+                <div class="form-group col-md-3">
+                <label for="member">유효기간</label>
+                </div>
+                <div class="form-group col-md-9">
+                <input id="m-date" type="text" class="form-control" disabled>
+                </div>
 
-            <div class="form-group offset-md-2 col-md-2">
-            <label for="member">발급조건</label>
-            </div>
-            <div class="form-group col-md-8">
-            <input id="member">
-            </div>
+                <div class="form-group col-md-3">
+                <label for="member">혜택</label>
+                </div>
+                <div class="form-group col-md-9">
+                  <div class="input-group">
+                    <textarea id="m-benefit" class="form-control" rows="5" disabled></textarea>
+                  </div>
+                </div>
 
-            <div class="form-group offset-md-2 col-md-2">
-            <label for="member">유효기간</label>
+                <div class="form-group col-md-3">
+                <label for="member">유의사항</label>
+                </div>
+                <div class="form-group col-md-9">
+                  <div class="input-group">
+                    <textarea id="m-notice" class="form-control" rows="5" disabled></textarea>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="form-group col-md-8">
-            <input id="member">
-            </div>
-
-            <div class="form-group offset-md-2 col-md-2">
-            <label for="member">유의사항</label>
-            </div>
-            <div class="form-group col-md-8">
-            <input id="notice">
-            </div>
-
           </div>
           <hr>
           <div class="form-row">
-            <div class="form-group col-md-12">
-              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
-              <button id="m-update" class="btn btn-default" style="float: right;">수정</button>
-              <button id="m-delete" class="btn btn-default" style="float: right;">삭제</button>
+            <div class="form-group col-md-6">
+              <button id="m-close" onclick="javascript:window.location.reload()" type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
+            </div>
+            <div class="form-group col-md-6">
+              <span style="float: right;">
+              <button id="m-delete" class="btn btn-default">삭제</button>
+              <button id="m-update" class="btn btn-default">수정</button>
+              </span>
             </div>
           </div>
 

@@ -189,31 +189,31 @@ module.exports = {
       return info;
 
     case '/member/coupon/search':
-      info.title = '쿠폰관리';
+      info.title = '쿠폰조회';
       info.name = 'member/coupon/search';
       info.navigation = '쿠폰관리 / 쿠폰조회';
       info.page = 'member/coupon/search';
       return info;
 
     case '/member/coupon/register':
-      info.title = '쿠폰관리';
+      info.title = '쿠폰등록';
       info.name = 'member/coupon/register';
       info.navigation = '쿠폰관리 / 쿠폰등록';
       info.page = 'member/coupon/register';
       return info;
 
     case '/member/stamp/search':
-      info.title = '스탬프관리';
-      info.name = 'member/coupon/search';
+      info.title = '스탬프조회';
+      info.name = 'member/stamp/search';
       info.navigation = '스탬프관리 / 스탬프조회';
-      info.page = 'member/coupon/search';
+      info.page = 'member/stamp/search';
       return info;
 
     case '/member/event/search':
-      info.title = '광고관리';
-      info.name = 'member/profile';
+      info.title = '광고조회';
+      info.name = 'member/event/search';
       info.navigation = '광고관리 / 광고조회';
-      info.page = 'member/event/register';
+      info.page = 'member/event/search';
       return info;
 
     case '/member/detail':
