@@ -41,7 +41,7 @@
             <div class="form-group col-md-5">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">관리자 정보</div></div>
-                <input id="name" type="text" class="form-control" name="email" value="" placeholder="ID/이름">
+                <input id="name" type="text" class="form-control" value="" placeholder="ID/이름">
               </div>
             </div>
 
@@ -88,6 +88,159 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-admin-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+
+          <h5>관리자 상세정보</h5>
+          <hr>
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">관리자 ID</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="m-email" type="text" class="form-control" value="" disabled>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">비밀번호*</label>
+            </div>
+            <div class="form-group col-md-10">
+              <button id="m-password" class="btn btn-outline-secondary" type="button">비밀번호변경</button>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="name">이름*</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="m-name" type="text" class="form-control" value="" placeholder="이름">
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+
+            <div class="form-group col-md-2">
+            <label for="m-mobile">휴대폰번호*</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input id="m-mobile1" type="text" class="form-control" value="">&nbsp;&nbsp;-&nbsp;&nbsp;
+                <input id="m-mobile2" type="text" class="form-control" value="">&nbsp;&nbsp;-&nbsp;&nbsp;
+                <input id="m-mobile3" type="text" class="form-control" value="">
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+            <div class="form-group col-md-2">
+            <label for="m-phone">전화번호</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input id="m-phone1" type="text" class="form-control" value="">&nbsp;&nbsp;-&nbsp;&nbsp;
+                <input id="m-phone2" type="text" class="form-control" value="">&nbsp;&nbsp;-&nbsp;&nbsp;
+                <input id="m-phone3" type="text" class="form-control" value="">
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+            <div class="form-group col-md-2">
+            <label for="grade">권한*</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <button id="btn-m-grade" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <div id="m-grade" class="dropdown-menu">
+                  <a class="dropdown-item">시스템관리자</a>
+                  <a class="dropdown-item">운영관리자</a>
+                  <a class="dropdown-item">서비스관리자</a>
+                  <a class="dropdown-item">가맹관리자</a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">상태*</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="form-check">
+              <label class="radio-inline">&nbsp;<input id="m-status1" type="radio" name="m-status" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input id="m-status2" type="radio" name="m-status" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+          </div>
+          <hr>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+            </div>
+            <div class="form-group col-md-6">
+              <span style="float: right;">
+              <button id="m-delete" class="btn btn-default">삭제</button>
+              <button id="m-update" class="btn btn-default">수정</button>
+              </span>
+            </div>
+          </div>
+
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-password-change" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">비밀번호 변경</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+          <div class="form-group col-md-3">
+          <label for="passwd">비밀번호</label>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="input-group">
+              <input id="m-password1" type="password" class="form-control" value="" placeholder="********">
+            </div>
+          </div>
+          <div class="form-group col-md-5"><span id="area-comment" class="form-comment">비밀번호를 입력해주세요</span></div>
+
+          <div class="form-group offset-md-3 col-md-4">
+            <div class="input-group">
+              <input id="m-password2" type="password" class="form-control" value="" placeholder="********">
+            </div>
+          </div>
+          <div class="form-group col-md-5"><span id="m-password-comment" class="form-comment"></span></div>
+
+        </div>
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+            <button id="m-passwd-update" type="button" class="btn btn-default" style="float: right;">비밀번호변경</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

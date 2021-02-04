@@ -13,7 +13,7 @@
             <div class="form-group col-md-3">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">쿠폰명</div></div>
-                <input id="name" type="text" class="form-control" name="email" value="" placeholder="쿠폰명">
+                <input id="name" type="text" class="form-control" value="" placeholder="쿠폰명">
               </div>
             </div>
 
@@ -90,7 +90,7 @@
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-                <input id="m-cpcode" type="text" class="form-control" name="email" value="" disabled>
+                <input id="m-cpcode" type="text" class="form-control" value="" disabled>
               </div>
             </div>
 
@@ -101,7 +101,7 @@
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-                <input id="m-name" type="text" class="form-control" name="email" value="" placeholder="쿠폰명">
+                <input id="m-name" type="text" class="form-control" value="" placeholder="쿠폰명">
               </div>
             </div>
             <div class="form-group col-md-7"></div>
@@ -175,10 +175,14 @@
 
           <hr>
           <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
-              <button id="m-update" class="btn btn-default" style="float: right;">수정</button>
-              <button id="m-delete" class="btn btn-default" style="float: right;">삭제</button>
+            </div>
+            <div class="form-group col-md-6">
+              <span style="float: right;">
+              <button id="m-delete" class="btn btn-default">삭제</button>
+              <button id="m-update" class="btn btn-default">수정</button>
+              </span>
             </div>
           </div>
 

@@ -13,7 +13,7 @@
             <div class="form-group col-md-6">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">제목</div></div>
-                <input id="title" type="text" class="form-control" name="email" value="" placeholder="제목">
+                <input id="title" type="text" class="form-control" value="" placeholder="제목">
               </div>
             </div>
 
@@ -126,7 +126,7 @@
             </div>
             <div class="form-group col-md-7">
               <div class="input-group">
-                <input id="m-title" type="text" class="form-control" name="email" value="" placeholder="공지사항 제목">
+                <input id="m-title" type="text" class="form-control" value="" placeholder="공지사항 제목">
               </div>
             </div>
             <div class="form-group col-md-3"></div>
@@ -192,15 +192,15 @@
                 <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
                   <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
                 </div>
-                <input type="text" id="m-date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
-                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                <input type="text" id="m-date2" class="form-control datetimepicker-input m-date2-area" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append m-date2-area" data-target="#date2" data-toggle="datetimepicker">
                   <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
                 </div>
               </div>
             </div>
             <div class="form-group col-md-5">
               <div class="input-group">
-                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="no-date2" value="option1">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="no-date2" value="모달종료일제한없음">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
               </div>
             </div>
 
@@ -216,12 +216,14 @@
             <div class="form-group col-md-2">
             <label for="file">첨부파일</label>
             </div>
-            <div class="form-group col-md-3">
-              <div class="input-group">
-                <input id="m-prefix1" type="text" class="form-control" name="email" value="" placeholder="이벤트배너 파일명">
+            <div class="form-group col-md-5">
+              <div class="row">
+              <div class="col-md-3"><img id="img1" src="" class="img-fluid"></div>
+              <div class="col-md-4"><img id="img2" src="" class="img-fluid"></div>
+              <div class="col-md-5"><img id="img3" src="" class="img-fluid"></div>
               </div>
             </div>
-            <div class="form-group col-md-7"></div>
+            <div class="form-group col-md-5"></div>
 
             <div class="form-group offset-md-2 col-md-5">
               <div class="input-group">
@@ -251,10 +253,14 @@
 
           <hr>
           <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
-              <button id="m-update" class="btn btn-default" style="float: right;">수정</button>
-              <button id="m-delete" class="btn btn-default" style="float: right;">삭제</button>
+            </div>
+            <div class="form-group col-md-6">
+              <span style="float: right;">
+              <button id="m-delete" class="btn btn-default">삭제</button>
+              <button id="m-update" class="btn btn-default">수정</button>
+              </span>
             </div>
           </div>
 

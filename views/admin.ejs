@@ -4,6 +4,12 @@
 <%- include ("layout/sidebar") %>
 <%- include ("layout/content-header") %>
 
+<script>
+  var userInfo = <%-JSON.stringify(user) %>;
+  console.log (userInfo);
+</script>
+
+
 <section class="content">
 <%- include ("pages/" + page["name"]) %>
 </section>

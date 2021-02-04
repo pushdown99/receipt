@@ -1,6 +1,8 @@
 'use strict';
 
 function checkFiles (req, start, end) {
+  if(req.files == undefined) return false;
+
   for (var i = start; i <= end; i++) {
     switch(i) {
     case  1: if(req.files.file1  == undefined || req.files.file1.name  == undefined) return false; break;
@@ -17,75 +19,75 @@ function checkFiles (req, start, end) {
     case 12: if(req.files.file12 == undefined || req.files.file12.name == undefined) return false; break;
     }
   }
+  console.log('true', start, end);
   return true;
 }
 
 function moveFiles (req, number, path, prefix) {
-  if(typeof req.files == undefined) return false;
+  if(req.files == undefined) return false;
 
-  var f = "";
-  var e = "";
+  var f, e, u;
 
   switch(number) {
   case  1: 
-    if(typeof req.files.file1  == undefined) return false;
+    if(req.files.file1  == undefined) return false;
     f = req.files.file1;
     break;
   case  2: 
-    if(typeof req.files.file2  == undefined) return false;
+    if(req.files.file2  == undefined) return false;
     f = req.files.file2;
     break;
   case  3: 
-    if(typeof req.files.file3  == undefined) return false;
+    if(req.files.file3  == undefined) return false;
     f = req.files.file3;
     break;
   case  4: 
-    if(typeof req.files.file4  == undefined) return false;
+    if(req.files.file4  == undefined) return false;
     f = req.files.file4;
     break;
   case  5: 
-    if(typeof req.files.file5  == undefined) return false;
+    if(req.files.file5  == undefined) return false;
     f = req.files.file5;
     break;
   case  6: 
-    if(typeof req.files.file6  == undefined) return false;
+    if(req.files.file6  == undefined) return false;
     f = req.files.file6;
     break;
   case  7: 
-    if(typeof req.files.file7  == undefined) return false;
+    if(req.files.file7  == undefined) return false;
     f = req.files.file7;
     break;
   case  8: 
-    if(typeof req.files.file8  == undefined) return false;
+    if(req.files.file8  == undefined) return false;
     f = req.files.file8;
     break;
   case  9: 
-    if(typeof req.files.file9  == undefined) return false;
+    if(req.files.file9  == undefined) return false;
     f = req.files.file9;
     break;
   case 10: 
-    if(typeof req.files.file10 == undefined) return false;
+    if(req.files.file10 == undefined) return false;
     f = req.files.file10;
     break;
   case 11: 
-    if(typeof req.files.file11 == undefined) return false;
+    if(req.files.file11 == undefined) return false;
     f = req.files.file11;
     break;
   case 12: 
-    if(typeof req.files.file12 == undefined) return false;
+    if(req.files.file12 == undefined) return false;
     f = req.files.file12;
     break;
   }
 
   switch(number%3) {
   case 0: e = "@3x.png"; break;
-  case 1: e = "@2x.png"; break;
-  case 2: e = ".png";    break;
+  case 2: e = "@2x.png"; break;
+  case 1: e = ".png";    break;
   }
 
-  var uploadPath = `${path}/${prefix}${e}`;
-  console.log(uploadPath);
-  f.mv(uploadPath, function(err) {
+  u = `${path}/${prefix}${e}`;
+  console.log('upload', u);
+  f.mv(u, function(err) {
     if (err) { return false; }
   });
   return true;
@@ -114,6 +116,7 @@ module.exports = function (app) {
   /////////////////////////////////////////////////////////////////////////
   // ADMIN-MEMBER-REGISTER
   app.post('/json/admin/member/register', function (req, res) {
+    var register = req.body.register;
     var rcn    = req.body.rcn;
     var passwd = req.body.password1;
     var name   = req.body.name;
@@ -131,13 +134,14 @@ module.exports = function (app) {
 
     var result = lib.mysql.putAdminMemberLogo([rcn, name, '/rc/images/logo_store_default']);
     var result = lib.mysql.putAdminMemberInfo([rcn, 'https://tric.kr/rc/images/img_store_leaflet', '많은이용바랍니다']);
-    var result = lib.mysql.putAdminMember([rcn, passwd, name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr, lat, lng]);
+    var result = lib.mysql.putAdminMember([rcn, passwd, name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr, lat, lng, register]);
     res.json(result);
   });
 
   /////////////////////////////////////////////////////////////////////////
   // ADMIN-COUPON-REGISTER
   app.post('/json/admin/coupon/register', function (req, res) {
+    var register= req.body.register;
     var member  = req.body.member1;
     var rcn     = req.body.member1_rcn;
     var bzcode  = req.body.member1_bzcode;
@@ -149,13 +153,14 @@ module.exports = function (app) {
     var benefit = req.body.benefit;
     var notice  = req.body.notice;
 
-    var result = lib.mysql.putAdminCoupon ([member, rcn, bzcode, "프로모션", cpcode, 'Y', name, 0, 0, date1, date2, status, benefit, notice]);
+    var result = lib.mysql.putAdminCoupon ([member, rcn, bzcode, "프로모션", cpcode, 'Y', name, 0, 0, date1, date2, status, benefit, notice, register]);
     res.json (result);
   });
 
   /////////////////////////////////////////////////////////////////////////
   // ADMIN-EVENT-REGISTER
   app.post('/json/admin/event/register', function (req, res) {
+    var register= req.body.register;
     var title   = req.body.title;
     var status  = req.body.status;
     var fweight = req.body.fweight;
@@ -168,102 +173,40 @@ module.exports = function (app) {
     var area2   = req.body.area2;
     var date1   = req.body.date1;
     var date2   = req.body.date2;
-    var prefix1 = req.body.prefix1;
-    var prefix2 = req.body.prefix2;
-    var prefix3 = req.body.prefix3;
     var rgb1    = req.body.rgb1;
     var rgb2    = req.body.rgb2;
     var coupon  = req.body.coupon;
     var date3   = req.body.date3;
     var date4   = req.body.date4;
 
-    var title  = req.body.title;
-    var gender  = req.body.gender;
-    var age  = req.body.age;
-    var area1  = req.body.area1;
-    var area2  = req.body.area2;
-    var date1  = req.body.date1;
-    var date2  = req.body.date2;
-    var notice  = req.body.notice;
-    var prefix1  = req.body.prefix1;
+    var id = lib.mysql.getAdminEventAutoInc();
+    var event = "";
+    var main = "";
+    var detail = "";
 
-    var file1, file2, file3, file4, file5, file6, file7, file8, file9, uploadPath;
-    var path1, path2, path3, path4, path5, path6, path7, path8, path9;
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-      res.status(400).send('No files were uploaded.');
-      return;
+    if(checkFiles(req, 1, 3) == true) {
+      event = `event-event-${id}`;
+      moveFiles(req, 1, __dirname + '/../public/rc/banner', event);
+      moveFiles(req, 2, __dirname + '/../public/rc/banner', event);
+      moveFiles(req, 3, __dirname + '/../public/rc/banner', event);
+      event = `/rc/banner/event-event-${id}`;
     }
-    console.log('req.files >>>', req.files); // eslint-disable-line
+    if(checkFiles(req, 4, 6) == true) {
+      main = `event-main-${id}`;
+      moveFiles(req, 4, __dirname + '/../public/rc/banner', main);
+      moveFiles(req, 5, __dirname + '/../public/rc/banner', main);
+      moveFiles(req, 6, __dirname + '/../public/rc/banner', main);
+      main = `/rc/banner/event-main-${id}`;
+    }
+    if(checkFiles(req, 7, 9) == true) {
+      detail = `event-detail-${id}`;
+      moveFiles(req, 7, __dirname + '/../public/rc/banner', detail);
+      moveFiles(req, 8, __dirname + '/../public/rc/banner', detail);
+      moveFiles(req, 9, __dirname + '/../public/rc/banner', detail);
+      detail = `/rc/banner/event-detail-${id}`;
+    }
 
-    file1 = req.files.file1;
-    uploadPath = __dirname + '/../rc/banner/' + `${prefix1}.png`;
-    path1 = `${prefix1}.png`;
-    file1.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file2 = req.files.file2;
-    uploadPath = __dirname + '/../rc/banner/' + `${prefix1}@2x.png`;
-    path2 = `${prefix1}@2x.png`;
-    file2.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file3 = req.files.file3;
-    uploadPath = __dirname + '/../rc/banner/' + `${prefix1}@3x.png`;
-    path3 = `${prefix1}@3x.png`;
-    file3.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file4 = req.files.file1;
-    uploadPath = __dirname + '/../rc/banner/' + `${prefix2}.png`;
-    path4 = `${prefix2}.png`;
-    file4.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file5 = req.files.file2;
-    uploadPath = __dirname + '/../rc/banner/' + `${prefix2}@2x.png`;
-    path5 = `${prefix2}@2x.png`;
-    file5.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file6 = req.files.file3;
-    uploadPath = __dirname + '/../rc/banner/' + `${prefix2}@3x.png`;
-    path6 = `${prefix2}@3x.png`;
-    file6.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file7 = req.files.file7;
-    uploadPath = __dirname + '/../rc/banner/' + `${prefix3}.png`;
-    path7 = `${prefix3}.png`;
-    file7.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file8 = req.files.file8;
-    uploadPath = __dirname + '/../rc/banner/' + `${prefix3}@2x.png`;
-    path8 = `${prefix3}@2x.png`;
-    file8.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file9 = req.files.file9;
-    uploadPath = __dirname + '/../rc/banner/' + `${prefix3}@3x.png`;
-    path9 = `${prefix3}@3x.png`;
-    file9.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    prefix1 = process.env.SERVER + "/rc/banner/" + prefix1;
-    prefix2 = process.env.SERVER + "/rc/banner/" + prefix2;
-    prefix3 = process.env.SERVER + "/rc/banner/" + prefix3;
-
-    var result = lib.mysql.putAdminEvent ([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, prefix1, prefix2, prefix3, rgb1, rgb2, coupon, date3, date4, ""]);
+    var result = lib.mysql.putAdminEvent ([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, event, main, detail, rgb1, rgb2, coupon, date3, date4, "", register]);
     res.json(result[0]);
   });
 
@@ -278,37 +221,20 @@ module.exports = function (app) {
     var date1    = req.body.date1;
     var date2    = req.body.date2;
     var notice   = req.body.notice;
-    var prefix1  = req.body.prefix1;
 
-    var file1, file2, file3, uploadPath;
+    var id = lib.mysql.getAdminNoticeAutoInc();
+    var detail = "";
 
-    if (!req.files || Object.keys(req.files).length === 0) {
-      res.status(400).send('No files were uploaded.');
-      return;
+    if(checkFiles(req, 1, 3) == true) {
+      detail = `notice-${id}`;
+      moveFiles(req, 1, __dirname + '/../public/rc/banner', detail);
+      moveFiles(req, 2, __dirname + '/../public/rc/banner', detail);
+      moveFiles(req, 3, __dirname + '/../public/rc/banner', detail);
+      detail = `/rc/banner/notice-${id}`;
     }
-    console.log('req.files >>>', req.files); // eslint-disable-line
 
-    file1 = req.files.file1;
-    uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}.png`;
-    file1.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file2 = req.files.file2;
-    uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@2x.png`;
-    file2.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    file3 = req.files.file3;
-    uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@3x.png`;
-    file3.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    prefix1 = process.env.SERVER + "/rc/banner/" + prefix1;
-    var result = lib.mysql.putAdminNotice ([title, gender, age, area1, area2, date1, date2, notice, prefix1]);
-    res.json(result[0]);
+    var result = lib.mysql.putAdminNotice ([title, gender, age, area1, area2, date1, date2, notice, detail]);
+    res.json(result);
   });
 
   /////////////////////////////////////////////////////////////////////////
@@ -329,39 +255,24 @@ module.exports = function (app) {
   /////////////////////////////////////////////////////////////////////////
   // ADMIN-CLASS-REGISTER
   app.post('/json/admin/class/register', function (req, res) {
-    var name  = req.body.name;
-    var icon  = req.body.icon;
+    var name      = req.body.name;
+    var register  = req.body.register;
 
-    let File1, File2, File3, uploadPath;
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-      res.status(400).send('No files were uploaded.');
-      return;
+    var id = lib.mysql.getAdminClassAutoInc();
+    var icon = "";
+    if(checkFiles(req, 1, 3) == true) {
+      icon = `icon-${id}`;
+      moveFiles(req, 1, __dirname + '/../public/rc/images', icon);
+      moveFiles(req, 2, __dirname + '/../public/rc/images', icon);
+      moveFiles(req, 3, __dirname + '/../public/rc/images', icon);
+      icon = `/rc/images/icon-${id}`;
     }
-    console.log('req.files >>>', req.files); // eslint-disable-line
-
-    File1 = req.files.file1;
-    uploadPath = __dirname + '/../rc/images/' + `${icon}.png`;
-    File1.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    File2 = req.files.file2;
-    uploadPath = __dirname + '/../rc/images/' + `${icon}@2x.png`;
-    File2.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-
-    File3 = req.files.file3;
-    uploadPath = __dirname + '/../rc/images/' + `${icon}@3x.png`;
-    File3.mv(uploadPath, function(err) {
-      if (err) { return res.status(500).send(err); }
-    });
-    res.json({});
+    var result = lib.mysql.putAdminClass ([name, icon, register]);
+    res.json (result);
   });
 
   /////////////////////////////////////////////////////////////////////////
-  // ADMIN-COUPON-REGISTER
+  // MEMBER-COUPON-REGISTER
   app.post('/json/member/coupon/register', function (req, res) {
     var member  = req.body.member;
     var rcn     = req.body.rcn;
@@ -370,7 +281,7 @@ module.exports = function (app) {
     var cpcode  = req.body.cpcode;
     var cpname  = req.body.cpname;
     var cash    = (req.body.cash == "")? 0: parseInt(req.body.cash);
-    var stamp   = (req.body.stamp == "")? 0: parseInt(req.body.stamp);
+    var stamp   = parseInt(req.body.stamp);
     var date1   = req.body.date1;
     var date2   = req.body.date2;
     var status  = req.body.status;
@@ -493,7 +404,7 @@ console.log("called");
     var date1  = req.body.date1;
     var date2  = req.body.date2;
 
-    var result = lib.mysql.searchAdminEvent ([coupon, status, date1, date2]);
+    var result = lib.mysql.searchAdminEvent ([status, coupon, date1, date2]);
     res.json (result);
   });
 
@@ -534,6 +445,32 @@ console.log("called");
     var result = lib.mysql.searchAdminClass([name, date1, date2]);
     res.json(result);
   });
+
+  app.get('/json/admin/class/search/id/:id', function (req, res) {
+    var id = req.params.id;
+    var result = lib.mysql.findAdminClassId ([id]);
+    res.json (result);
+  });
+
+  /////////////////////////////////////////////////////////////////////////
+  // ADMIN-ADMIN-SEARCH
+  app.post('/json/admin/admin/search', function (req, res) {
+    var name  = (req.body.name =="all")? '%%':'%'+req.body.name+'%';
+    var stat  = (req.body.stat=="all")? '%%':'%'+req.body.stat+'%';
+    var grade = (req.body.grade=="all")? '%%':'%'+req.body.grade+'%';
+    var date1 = req.body.date1;
+    var date2 = req.body.date2;
+
+    var result = lib.mysql.getAdminAdmin([name, grade, stat, date1, date2]);
+    res.json(result);
+  });
+
+  app.get('/json/admin/admin/search/id/:id', function (req, res) {
+    var id = req.params.id;
+    var result = lib.mysql.findAdminAdminId ([id]);
+    res.json (result);
+  });
+
 
   /////////////////////////////////////////////////////////////////////////
   // MEMBER-DASHBOARD-SEARCH
@@ -596,11 +533,20 @@ console.log("called");
   });
 
   /////////////////////////////////////////////////////////////////////////
+  // MEMBER-EVENT-SEARCH
+  app.post('/json/member/event/search', function (req, res) {
+    var rcn    = req.body.rcn;
+
+    var result = lib.mysql.searchMemberEvent ([rcn]);
+    res.json(result);
+  });
+
+
+  /////////////////////////////////////////////////////////////////////////
   // MEMBER-STAMP-SEARCH
   app.post('/json/member/detail/search', function (req, res) {
     var rcn    = req.body.rcn;
 
-console.log('rcn', rcn);
     var result = lib.mysql.searchMemberDetail ([rcn]);
     res.json(result);
   });
@@ -612,6 +558,7 @@ console.log('rcn', rcn);
   //
   app.post('/json/admin/member/update', function (req, res) {
     var id     = req.body.id;
+    var updater= req.body.updater;
     var name   = req.body.name;
     var owner  = req.body.owner;
     var bzcond = req.body.bzcond;
@@ -625,7 +572,7 @@ console.log('rcn', rcn);
     var lat    = req.body.lat;
     var lng    = req.body.lng;
 
-    var result = lib.mysql.updAdminMember([name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr, lat, lng, id]);
+    var result = lib.mysql.updAdminMember([name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr, lat, lng, updater, id]);
     res.json(result);
   });
 
@@ -639,6 +586,7 @@ console.log('rcn', rcn);
 
   app.post('/json/admin/user/update', function (req, res) {
     var id     = req.body.id;
+    var updater= req.body.updater;
     var status = req.body.status;
     var gender = req.body.gender;
     var date1  = req.body.date1;
@@ -647,7 +595,7 @@ console.log('rcn', rcn);
 
     var d = date1.split("-");
     console.log (d);
-    var result = lib.mysql.updAdminUser([d[0], d[1], d[2], gender, area1, area2, status, id]);
+    var result = lib.mysql.updAdminUser([d[0], d[1], d[2], gender, area1, area2, status, updater, id]);
     res.json(result);
   });
 
@@ -662,6 +610,7 @@ console.log('rcn', rcn);
 
   app.post('/json/admin/coupon/update', function (req, res) {
     var id      = req.body.id;
+    var updater = req.body.updater;
     var name    = req.body.name;
     var status  = req.body.status;
     var date1   = req.body.date1;
@@ -669,12 +618,13 @@ console.log('rcn', rcn);
     var benefit = req.body.benefit;
     var notice  = req.body.notice;
 
-    var result = lib.mysql.updAdminCoupon([name, status, date1, date2, benefit, notice, id]);
+    var result = lib.mysql.updAdminCoupon([name, status, date1, date2, benefit, notice, updater, id]);
     res.json(result);
   });
 
   app.post('/json/admin/event/update', function (req, res) {
     var id      = req.body.id;
+    var updater = req.body.updater;
     var title   = req.body.title;
     var status  = req.body.status;
     var fweight = req.body.fweight;
@@ -687,9 +637,9 @@ console.log('rcn', rcn);
     var area2   = req.body.area2;
     var date1   = req.body.date1;
     var date2   = req.body.date2;
-    var prefix1 = req.body.prefix1;
-    var prefix2 = req.body.prefix2;
-    var prefix3 = req.body.prefix3;
+    var event   = req.body.event;
+    var main    = req.body.main;
+    var detail  = req.body.detail;
     var rgb1    = req.body.rgb1;
     var rgb2    = req.body.rgb2;
     var coupon  = req.body.coupon;
@@ -698,74 +648,29 @@ console.log('rcn', rcn);
 
     let File1, File2, File3, File4, File5, File6, File7, File8, File9, uploadPath;
 
-    console.log('req.files >>>', req.files); // eslint-disable-line
-
-    if (req.files.file1 && req.files.file2 && req.files.file3) {
-
-      File1 = req.files.file1;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}.png`;
-      File1.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-
-      File2 = req.files.file2;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@2x.png`;
-      File2.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-
-      File3 = req.files.file3;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@3x.png`;
-      File3.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
+    if(checkFiles(req, 1, 3) == true) {
+      event = `event-event-${id}`;
+      moveFiles(req, 1, __dirname + '/../public/rc/banner', event);
+      moveFiles(req, 2, __dirname + '/../public/rc/banner', event);
+      moveFiles(req, 3, __dirname + '/../public/rc/banner', event);
+      event = `/rc/banner/event-event-${id}`;
+    }
+    if(checkFiles(req, 4, 6) == true) {
+      main = `event-main-${id}`;
+      moveFiles(req, 4, __dirname + '/../public/rc/banner', main);
+      moveFiles(req, 5, __dirname + '/../public/rc/banner', main);
+      moveFiles(req, 6, __dirname + '/../public/rc/banner', main);
+      main = `/rc/banner/event-main-${id}`;
+    }
+    if(checkFiles(req, 7, 9) == true) {
+      detail = `event-detail-${id}`;
+      moveFiles(req, 7, __dirname + '/../public/rc/banner', detail);
+      moveFiles(req, 8, __dirname + '/../public/rc/banner', detail);
+      moveFiles(req, 9, __dirname + '/../public/rc/banner', detail);
+      detail = `/rc/banner/event-detail-${id}`;
     }
 
-    if (req.files.file4 && req.files.file5 && req.files.file6) {
-      console.log('req.files >>>', req.files); // eslint-disable-line
-
-      File4 = req.files.file4;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}.png`;
-      File4.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-
-      File5 = req.files.file5;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@2x.png`;
-      File5.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-
-      File6 = req.files.file6;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@3x.png`;
-      File6.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-    }
-
-    if (req.files.file7 && req.files.file8 && req.files.file9) {
-      console.log('req.files >>>', req.files); // eslint-disable-line
-
-      File7 = req.files.file7;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}.png`;
-      File7.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-
-      File8 = req.files.file8;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@2x.png`;
-      File8.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-
-      File9 = req.files.file9;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@3x.png`;
-      File9.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-    }
-
-    var result = lib.mysql.updAdminEvent([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, prefix1, prefix2, prefix3, rgb1, rgb2, coupon, date3, date4, '', id]);
+    var result = lib.mysql.updAdminEvent([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, event, main, detail, rgb1, rgb2, coupon, date3, date4, '', updater, id]);
     res.json(result);
   });
 
@@ -779,33 +684,55 @@ console.log('rcn', rcn);
     var date1   = req.body.date1;
     var date2   = req.body.date2;
     var notice  = req.body.notice;
-    var prefix1 = req.body.prefix1;
+    var detail  = req.body.detail;
 
-    let File1, File2, File3, uploadPath;
-
-    if (req.files && Object.keys(req.files).length === 3) {
-      console.log('req.files >>>', req.files); // eslint-disable-line
-
-      File1 = req.files.file1;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}.png`;
-      File1.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-
-      File2 = req.files.file2;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@2x.png`;
-      File2.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
-
-      File3 = req.files.file3;
-      uploadPath = __dirname + '/../public/rc/banner/' + `${prefix1}@3x.png`;
-      File3.mv(uploadPath, function(err) {
-        if (err) { return res.status(500).send(err); }
-      });
+    if(checkFiles(req, 1, 3) == true) {
+      detail = `notice-${id}`;
+      moveFiles(req, 1, __dirname + '/../public/rc/banner', detail);
+      moveFiles(req, 2, __dirname + '/../public/rc/banner', detail);
+      moveFiles(req, 3, __dirname + '/../public/rc/banner', detail);
+      detail = `/rc/banner/notice-${id}`;
     }
+    var result = lib.mysql.updAdminNotice([title, gender, age, area1, area2, date1, date2, notice, detail, id]);
+    res.json(result);
+  });
 
-    var result = lib.mysql.updAdminNotice([title, gender, age, area1, area2, date1, date2, notice, prefix1, id]);
+  app.post('/json/admin/admin/update', function (req, res) {
+    var id      = req.body.id;
+    var email   = req.body.email;
+    var name    = req.body.name;
+    var mobile  = req.body.mobile;
+    var phone   = req.body.phone;
+    var grade   = req.body.grade;
+    var status  = req.body.status;
+    var updater = req.body.updater;
+
+    var result = lib.mysql.updAdminAdmin([name, mobile, phone, grade, status, updater, id]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/admin/update/passwd', function (req, res) {
+    var id = req.body.id;
+    var passwd = req.body.passwd1;
+
+    var result = lib.mysql.updAdminAdminPassword([passwd, id]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/class/update', function (req, res) {
+    var id      = req.body.id;
+    var name    = req.body.name;
+    var icon    = req.body.icon;
+    var updater = req.body.updater;
+
+    if(checkFiles(req, 1, 3) == true) {
+      icon = `icon-${id}`;
+      moveFiles(req, 1, __dirname + '/../public/rc/images', icon);
+      moveFiles(req, 2, __dirname + '/../public/rc/images', icon);
+      moveFiles(req, 3, __dirname + '/../public/rc/images', icon);
+      icon = `/rc/banner/icon-${id}`;
+    }
+    var result = lib.mysql.updAdminClass([name, icon, updater, id]);
     res.json(result);
   });
 
@@ -828,30 +755,79 @@ console.log('rcn', rcn);
     var benefit   = req.body.benefit;
     var notice    = req.body.notice;
 
-    var result = lib.mysql.updMemberStamp ([status, stamp, limits, overagain, notice, benefit, rcn]);
+    var result = lib.mysql.updMemberStamp ([status, stamp, limits, overagain, benefit, notice, rcn]);
+    res.json(result);
+  });
+
+  /////////////////////////////////////////////////////////////////////////
+  // MEMBER-EVENT-UPDATE
+  app.post('/json/member/event/update', function (req, res) {
+    var id           = req.body.id;
+    var rcn          = req.body.rcn;
+    var leaflet      = req.body.leaflet;
+    var leaflet_sub1 = req.body.leaflet_sub1;
+    var leaflet_sub2 = req.body.leaflet_sub2;
+    var leaflet_sub3 = req.body.leaflet_sub3;
+
+    if(checkFiles(req, 1, 3) == true) {
+      leaflet = `leaflet-${id}`;
+      moveFiles(req, 1, __dirname + '/../public/rc/images', leaflet);
+      moveFiles(req, 2, __dirname + '/../public/rc/images', leaflet);
+      moveFiles(req, 3, __dirname + '/../public/rc/images', leaflet);
+      leaflet = `/rc/images/leaflet-${id}`;
+    }
+    if(checkFiles(req, 4, 6) == true) {
+      leaflet_sub1 = `leaflet-sub1-${id}`;
+      moveFiles(req, 4, __dirname + '/../public/rc/images', leaflet_sub1);
+      moveFiles(req, 5, __dirname + '/../public/rc/images', leaflet_sub1);
+      moveFiles(req, 6, __dirname + '/../public/rc/images', leaflet_sub1);
+      leaflet_sub1 = `/rc/images/leaflet-sub1-${id}`;
+    }
+    if(checkFiles(req, 7, 9) == true) {
+      leaflet_sub2 = `leaflet-sub2-${id}`;
+      moveFiles(req, 7, __dirname + '/../public/rc/images', leaflet_sub2);
+      moveFiles(req, 8, __dirname + '/../public/rc/images', leaflet_sub2);
+      moveFiles(req, 9, __dirname + '/../public/rc/images', leaflet_sub2);
+      leaflet_sub2 = `/rc/images/leaflet-sub2-${id}`;
+    }
+    if(checkFiles(req, 10, 12) == true) {
+      leaflet_sub3 = `leaflet-sub3-${id}`;
+      moveFiles(req, 10, __dirname + '/../public/rc/images', leaflet_sub3);
+      moveFiles(req, 11, __dirname + '/../public/rc/images', leaflet_sub3);
+      moveFiles(req, 12, __dirname + '/../public/rc/images', leaflet_sub3);
+      leaflet_sub3 = `/rc/images/leaflet-sub3-${id}`;
+    }
+
+    var result = lib.mysql.updMemberEvent ([leaflet, leaflet_sub1, leaflet_sub2, leaflet_sub3, rcn]);
     res.json(result);
   });
 
   /////////////////////////////////////////////////////////////////////////
   // MEMBER-DETAIL-UPDATE
   app.post('/json/member/detail/update', function (req, res) {
-    var rcn       = req.body.rcn;
-    var intro     = req.body.intro;
-    var offduty1  = req.body.offduty1;
-    var offduty2  = req.body.offduty2;
-    var opentime  = req.body.opentime;
-    var closetime = req.body.closetime;
+    var id         = req.body.id;
+    var rcn        = req.body.rcn;
+    var logo       = req.body.logo;
+    var intro      = req.body.intro;
+    var offduty1   = req.body.offduty1;
+    var offduty2   = req.body.offduty2;
+    var opentime   = req.body.opentime;
+    var closetime  = req.body.closetime;
+    var resp_name  = req.body.resp_name;
+    var resp_phone = req.body.resp_phone;
+    var resp_email = req.body.resp_email;
 
-    //moveFiles(req, 1, __dirname + '/../public/rc/banner', 'hi')
+    //var logo = `logo-${lib.mysql.getAdminMemberAutoInc()}`;
     if(checkFiles(req, 1, 3) == true) {
-      moveFiles(req, 1, __dirname + '/../uploads', 'hi')
-      moveFiles(req, 2, __dirname + '/../uploads', 'hi')
-      moveFiles(req, 3, __dirname + '/../uploads', 'hi')
+      logo = `logo-${id}`;
+      moveFiles(req, 1, __dirname + '/../public/rc/images', logo);
+      moveFiles(req, 2, __dirname + '/../public/rc/images', logo);
+      moveFiles(req, 3, __dirname + '/../public/rc/images', logo);
+      logo = `/rc/images/logo-${id}`;
     }
 
-    //var result = lib.mysql.updMemberDetail ([status, stamp, limits, overagain, notice, benefit, rcn]);
-    //res.json(result);
-    res.json({});
+    var result = lib.mysql.updMemberDetail ([logo, intro, offduty1, offduty2, opentime, closetime, resp_name, resp_phone, resp_email, rcn]);
+    res.json(result);
   });
 
 
@@ -860,12 +836,54 @@ console.log('rcn', rcn);
   // DELETE
   //
 
+  app.post('/json/admin/coupon/delete/id', function (req, res) {
+    var id = req.body.id;
+
+    var result = lib.mysql.delAdminCouponId([id]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/event/delete/id', function (req, res) {
+    var id = req.body.id;
+
+    var result = lib.mysql.delAdminEventId([id]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/notice/delete/id', function (req, res) {
+    var id = req.body.id;
+
+    var result = lib.mysql.delAdminNoticeId([id]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/admin/delete/id', function (req, res) {
+    var id = req.body.id;
+
+    var result = lib.mysql.delAdminAdminId([id]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/class/delete/id', function (req, res) {
+    var id = req.body.id;
+
+    var result = lib.mysql.delAdminClassId([id]);
+    res.json(result);
+  });
+
   /////////////////////////////////////////////////////////////////////////
   // MEMBER-COUPON-DELETE
   app.post('/json/member/coupon/delete/id', function (req, res) {
     var id = req.body.id;
 
     var result = lib.mysql.delMemberCouponId([id]);
+    res.json(result);
+  });
+
+  app.post('/json/member/detail/delete', function (req, res) {
+    var rcn        = req.body.rcn;
+
+    var result = lib.mysql.delMemberDetailStatus ([rcn]);
     res.json(result);
   });
 

@@ -12,7 +12,7 @@
             </div>
             <div class="form-group col-md-6">
               <div class="input-group">
-                <input id="bizname" type="text" class="form-control" name="email" value="" placeholder="업종 분류코드명">
+                <input id="bizname" type="text" class="form-control" value="" placeholder="업종 분류코드명">
               </div>
             </div>
 
@@ -53,6 +53,77 @@
           </div>
 
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-class-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+          <h5>업종명 상세정보</h5>
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-2">
+            <label for="name">업종명*</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="m-name" type="text" class="form-control" name="name" value="" placeholder="업종 분류코드명">
+              </div>
+            </div>
+            <div class="form-group col-md-7"><span class ="form-comment">업종명을 입력해 주세요</span></div>
+
+            <div class="form-group col-md-2">
+            <label for="file">업종명 아이콘</label>
+            </div>
+            <div class="form-group col-md-8">
+              <div class="row">
+              <div class="col-md-3"><img id="img1" src="" class="img-fluid"></div>
+              <div class="col-md-4"><img id="img2" src="" class="img-fluid"></div>
+              <div class="col-md-5"><img id="img3" src="" class="img-fluid"></div>
+              </div>
+            </div>
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">1x</div></div>
+                <input id="file1" name="file1" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">2x</div></div>
+                <input id="file2" name="file2" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group offset-md-2 col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">3x</div></div>
+                <input id="file3" name="file3" type="file" class="form-control" multiple/>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+          </div>
+
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
+            </div>
+            <div class="form-group col-md-6">
+              <span style="float: right;">
+              <button id="m-delete" class="btn btn-default">삭제</button>
+              <button id="m-update" class="btn btn-default">수정</button>
+              </span>
+            </div>
+          </div>
+
       </div>
     </div>
   </div>
