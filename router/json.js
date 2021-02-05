@@ -94,6 +94,7 @@ function moveFiles (req, number, path, prefix) {
 }
 
 module.exports = function (app) {
+  let moment  = require('moment-timezone');
   let dotenv  = require('dotenv').config({ path: require('find-config')('.env') })
   let lib     = require('../lib');
   let router  = require('.');
@@ -1088,5 +1089,69 @@ console.log("called");
 
   });
 
+////////////////////////////////////////////////////////////////////////////////////////////
+//
+// MIGRATION
+//
+  app.post('/json/import/admin/member/history', function (req, res) {
+    var result = lib.mysql.allAdminMember ([]);
+    result.forEach(e => {
+      console.log (moment(e.registered).format('YYYY-MM-DD HH:mm:ss'));
+      lib.mysql.putAdminMemberHistory([e.name, e.rcn, "", e.register, e.registered, '생성', '프로필', '']);
+    });
+    res.json ({});
+  });
+
+  app.post('/json/import/admin/users/history', function (req, res) {
+    var result = lib.mysql.allAdminUser ([]);
+    result.forEach(e => {
+      console.log (moment(e.registered).format('YYYY-MM-DD HH:mm:ss'));
+      lib.mysql.putAdminUserHistory([e.email, "", e.registered, '가입', '프로필', '']);
+    });
+    res.json ({});
+  });
+
+  app.post('/json/admin/member/history/register', function (req, res) {
+    var name        = req.body.name;
+    var rcn         = req.body.rcn;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putAdminMemberHistory([name, rcn, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+  app.post('/json/admin/users/history/register', function (req, res) {
+    var email       = req.body.email;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putAdminUserHistory([email, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//
+// GENERATION
+//
+  app.get('/generate/receipt/:email', function (req, res) {
+    var email = req.params.email; 
+
+    console.log ('email', email);
+    lib.utils.postJSON('/qrcode', {email: email}).catch(err => console.log('err', err)).then(function (result) {
+      console.log (result.data);
+      lib.utils.getJSON ('/issue/1234/' + result.data.data.qrcode, {email: email}).catch(err => console.log('err', err)).then(function (result) {
+        lib.utils.postJSON('/receipt/probe/1234', {Data:lib.utils.genReceiptBody()});
+        return res.json({});
+      });
+    });
+  });
 
 }

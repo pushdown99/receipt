@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <aside id="main-sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
   <a href="/" class="brand-link">
-    <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <img src="/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light"><div id="sidebar-title">스마트영수증</div></span>
   </a>
 
   <div class="sidebar">
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+        <li class="nav-item" id="sb-member"><a href="javascript:void(0);" class="nav-parent nav-link"><i class="fas fa-tachometer-alt nav-icon"></i><p>대시보드<i class="right fas fa-angle-left"></i></p></a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item"><a href="/admin/dashboard/user"      id="sb-member-register" class="nav-child nav-link"><i class="fas fa-user nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자 가입</p></a></li>
+            <li class="nav-item"><a href="/admin/dashboard/deal"      id="sb-member-register" class="nav-child nav-link"><i class="fas fa-credit-card nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자 거래</p></a></li>
+            <li class="nav-item"><a href="/admin/dashboard/stamp"     id="sb-member-register" class="nav-child nav-link"><i class="fas fa-stamp nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자 스탬프</p></a></li>
+          </ul>
+        </li>
 
         <li class="nav-item" id="sb-member"><a href="javascript:void(0);" class="nav-parent nav-link"><i class="fas fa-box-open nav-icon"></i><p>가맹점 관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
@@ -44,7 +52,7 @@
           </ul>
         </li>
 
-        <li class="nav-item" id="sb-notice"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-comment nav-icon"></i><p>공지사항 관리<i class="right fas fa-angle-left"></i></p></a>
+        <li class="nav-item" id="sb-notice"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-bullhorn nav-icon"></i><p>공지사항 관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
             <li class="nav-item"><a href="/admin/notice/search"   id="sb-notice-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;공지사항 조회</p></a></li>
             <li class="nav-item"><a href="/admin/notice/register" id="sb-notice-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;공지사항 등록</p></a></li>

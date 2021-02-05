@@ -1,5 +1,35 @@
 'use strict';
 
+let lib     = require('../lib');
+let router  = require('.');
+let random  = require("random");
+let moment  = require('moment-timezone');
+let iconv   = require('iconv-lite');
+  
+function cbInsUsers () {
+  var email      = `${lib.utils.generatekey('none',16)}.gmail.com`;
+  var area       = lib.mysql.getRandomCity([]);
+  var year       = (1970 + random.int(0,30)).toString();
+  var month      = random.int(1,12).toString();
+  var day        = random.int(1,28).toString();
+  var gender     = (random.int(0,1) == 0)? '남':'여';
+  var os         = (random.int(0,1) == 0)? '안드로이드':'아이폰';
+  var registered = Math.floor(Date.now()/1000 - random.int(24*3600*90, 24*3600));
+  //var registered = mement(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  var registered = moment(Date.now() - random.int(24*3600, 24*3600*90)*1000).format('YYYY-MM-DD HH:mm:ss');
+  console.log(email, area, year, month, day, gender, os, registered);
+  var record = [email, 'xy', os, year, month, day, gender, area.sido_nm, area.sigungu_nm, registered, 'A'];
+  lib.mysql.query("INSERT INTO users (email, passwd, os, birth_year, birth_month, birth_day, gender, area1, area2, registered, manual) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", record);
+
+}
+
+var cbCounter = 0;
+
+function cbFunc () {
+  cbCounter = cbCounter + 1;
+  //if((cbCounter % 1) == 0) cbInsUsers ();
+}
+
 module.exports = function (app) {
   let dotenv  = require('dotenv').config({ path: require('find-config')('.env') })
   let lib     = require('../lib');
@@ -116,5 +146,6 @@ module.exports = function (app) {
   router.websocket.ws (process.env.WS_PORT   || 8081);
   router.grpc.grpc    (process.env.GRPC_PORT || 8082);
 
+  setInterval(cbFunc, 1000)
   return app;
 };

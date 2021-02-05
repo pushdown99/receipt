@@ -17,6 +17,21 @@ CREATE TABLE IF NOT EXISTS receipt (
   ts             timestamp NOT NULL            -- 영수증발급시간
 );
 
+DROP TABLE receipts;
+CREATE TABLE IF NOT EXISTS receipts (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email          varchar(64) NOT NULL,        -- 이메일
+  total          int,                         -- 금액
+  coupon         int,                         -- 쿠폰개수
+  stamp          int,                         -- 스탬프개수
+  member         varchar(64) NOT NULL,        -- 상호명
+  rcn            varchar(32) NOT NULL,        -- 사업자등록번호
+  payment        varchar(32) NOT NULL,        -- 지불수단 (현금|카드|..)
+  text           varchar(128) NOT NULL,       -- 영수증 (텍스트)
+  pdf            varchar(128) NOT NULL,       -- 영수증 (PDF)
+  registered     timestamp NOT NULL           -- 발급시간
+);
+
 DROP TABLE users;
 CREATE TABLE IF NOT EXISTS users (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
