@@ -57,6 +57,15 @@ $(function() {
   var pageid = $('#pageid').text();
   console.log ("current page is", pageid);
   switch(pageid) {
+  case 'admin-dashboard-member':
+  case 'admin-dashboard-user':
+  case 'admin-dashboard-search':
+  case 'admin-dashboard-deal':
+  case 'admin-dashboard-stamp':
+console.log('dashboiard');
+    $("#sb-dashboard").addClass("menu-is-opening menu-open");
+    break;
+
   case 'admin-member-search':
   case 'admin-member-register':
     $("#sb-member").addClass("menu-is-opening menu-open");
@@ -230,7 +239,7 @@ console.log("admin-coupon");
     clock();
     setInterval(clock, 1000);
   }
-  if ($("#search").length) $( "#search" ).trigger( "click" );
+  if ($("#search").length) $("#search").trigger( "click" );
 });
 
 
@@ -594,6 +603,8 @@ console.log (params);
 $(document).on('click', '#search', function (event) {
   var pageid = $('#pageid').text();
   switch(pageid) {
+  case 'admin-dashboard-user'    : return admin_dashboard_user ();
+  case 'admin-dashboard-member'  : return admin_dashboard_member ();
   case 'admin-member-search'     : return admin_member_search ();
   case 'admin-user-search'       : return admin_user_search ();
   case 'admin-user-join-search'  : return admin_user_join_search ();
@@ -632,6 +643,134 @@ $(document).on('click', '#list', function (event) {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
+// ADMIN-DASHBOARD-MEMBER
+function admin_dashboard_member () {
+  var params = {
+    cond  : $("#status:checked").val(),
+    date1 : $("#date1").val() + ' 00:00:00',
+    date2 : $("#date2").val() + ' 23:59:59'
+  }
+  $.postJSON('/json/admin/dashboard/member', params).then(res => {
+    console.log (res);
+    html  = '<div class="table-responsive table-hover">';
+    html += '<table id="dashboard-user-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;" rowspan="2">No</th>';
+    html += '<th style="text-align: center;" rowspan="2">일자</th>';
+    html += '<th style="text-align: center;" colspan="17">지역</th>';
+    html += '<th style="text-align: center;" rowspan="2">가입</th>';
+    html += '<th style="text-align: center;" rowspan="2">해지</th>';
+    html += '</tr>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">서울</th>';
+    html += '<th style="text-align: center;">전북</th>';
+    html += '<th style="text-align: center;">전남</th>';
+    html += '<th style="text-align: center;">강원</th>';
+    html += '<th style="text-align: center;">경기</th>';
+    html += '<th style="text-align: center;">경북</th>';
+    html += '<th style="text-align: center;">경남</th>';
+    html += '<th style="text-align: center;">광주</th>';
+    html += '<th style="text-align: center;">대구</th>';
+    html += '<th style="text-align: center;">부산</th>';
+    html += '<th style="text-align: center;">세종</th>';
+    html += '<th style="text-align: center;">울산</th>';
+    html += '<th style="text-align: center;">인천</th>';
+    html += '<th style="text-align: center;">제주</th>';
+    html += '<th style="text-align: center;">충북</th>';
+    html += '<th style="text-align: center;">충남</th>';
+    html += '<th style="text-align: center;">기타</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;">${i}</td>`;
+      html += `<td style="text-align: center;">${t.day}</td>`;
+      html += `<td style="text-align: center;">${t.so}</td>`;
+      html += `<td style="text-align: center;">${t.jb}</td>`;
+      html += `<td style="text-align: center;">${t.jn}</td>`;
+      html += `<td style="text-align: center;">${t.kw}</td>`;
+      html += `<td style="text-align: center;">${t.kg}</td>`;
+      html += `<td style="text-align: center;">${t.kb}</td>`;
+      html += `<td style="text-align: center;">${t.kn}</td>`;
+      html += `<td style="text-align: center;">${t.gj}</td>`;
+      html += `<td style="text-align: center;">${t.tg}</td>`;
+      html += `<td style="text-align: center;">${t.bs}</td>`;
+      html += `<td style="text-align: center;">${t.sj}</td>`;
+      html += `<td style="text-align: center;">${t.us}</td>`;
+      html += `<td style="text-align: center;">${t.ic}</td>`;
+      html += `<td style="text-align: center;">${t.jj}</td>`;
+      html += `<td style="text-align: center;">${t.cb}</td>`;
+      html += `<td style="text-align: center;">${t.cn}</td>`;
+      html += `<td style="text-align: center;">${t.et}</td>`;
+      html += `<td style="text-align: center;">${t.regi}</td>`;
+      html += `<td style="text-align: center;">${t.term}</td>`;
+    });
+    $("#results").html(html);
+    $('#dashboard-user-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      'dom': 'Bfrtip',
+      //'buttons': [ 'copy', 'csv', 'excel', 'pdf', 'print' ],
+      'buttons': [ 'excel', 'print' ],
+      "pageLength": pagelength
+    });
+  });
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// ADMIN-DASHBOARD-USER
+function admin_dashboard_user () {
+  var params = {
+    cond  : $("#status:checked").val(),
+    date1 : $("#date1").val() + ' 00:00:00',
+    date2 : $("#date2").val() + ' 23:59:59'
+  }
+  $.postJSON('/json/admin/dashboard/user', params).then(res => {
+    console.log (res);
+    //$("#exporttable").attr("target", "dashboard-user-table");
+    //console.log($("#exporttable").attr("target"));
+    html  = '<div class="table-responsive table-hover">';
+    html += '<table id="dashboard-user-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;" rowspan="2">No</th>';
+    html += '<th style="text-align: center;" rowspan="2">일자</th>';
+    html += '<th style="text-align: center;" colspan="2">성별</th>';
+    html += '<th style="text-align: center;" rowspan="2">가입</th>';
+    html += '<th style="text-align: center;" rowspan="2">해지</th>';
+    html += '</tr>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">남</th>';
+    html += '<th style="text-align: center;">여</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;">${i}</td>`;
+      html += `<td style="text-align: center;">${t.day}</td>`;
+      html += `<td style="text-align: center;">${t.male}</td>`;
+      html += `<td style="text-align: center;">${t.female}</td>`;
+      html += `<td style="text-align: center;">${t.regi}</td>`;
+      html += `<td style="text-align: center;">${t.term}</td>`;
+    });
+    $("#results").html(html);
+    $('#dashboard-user-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      'dom': 'Bfrtip',
+      //'buttons': [ 'copy', 'csv', 'excel', 'pdf', 'print' ],
+      'buttons': [ 'excel', 'print' ],
+      "pageLength": pagelength
+    });
+  });
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
 // ADMIN-MEMBER-SEARCH
 function admin_member_search () {
   var params = {
@@ -642,7 +781,7 @@ function admin_member_search () {
     date1 : $("#date1").val() + ' 00:00:00',
     date2 : $("#date2").val() + ' 23:59:59'
   }
-  $.postJSON('/json/admin/member/search', params).then(data => {
+  $.postJSON('/json/admin/member/search', params).then(res => {
     html = '<div class="table-responsive table-hover">';
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
@@ -668,7 +807,7 @@ function admin_member_search () {
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
-    $.each(data, function(i, t) {
+    $.each(res, function(i, t) {
       html += '<tr>';
       if (width > shrink)
       html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
@@ -2996,3 +3135,22 @@ function logAdminMember(name, rcn, menu, updater, updated, done, division, descr
   $.postFORM ('/json/admin/member/history/register', formData);
 }
 
+/*
+$(document).on('click', '#exporttable', function(event) {
+console.log('event');
+  var table = $('#exporttable').attr('target');
+  if(table && table.length){
+console.log ('table exist');
+    $(table).table2excel({
+      exclude: ".noExl",
+      name: "Excel Document Name",
+      filename: "BBBootstrap" + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls",
+      fileext: ".xls",
+      exclude_img: true,
+      exclude_links: true,
+      exclude_inputs: true,
+      preserveColors: false
+    });
+  }
+});
+*/

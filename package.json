@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "admin-lte": "^3.0.5",
+    "autodetect-decoder-stream": "^1.0.3",
     "aws-iot-device-sdk": "^2.2.6",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.0",
@@ -19,6 +20,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
+    "csv-reader": "^1.0.7",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",

@@ -20,16 +20,38 @@ CREATE TABLE IF NOT EXISTS receipt (
 DROP TABLE receipts;
 CREATE TABLE IF NOT EXISTS receipts (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  email          varchar(64) NOT NULL,        -- 이메일
-  total          int,                         -- 금액
-  coupon         int,                         -- 쿠폰개수
-  stamp          int,                         -- 스탬프개수
-  member         varchar(64) NOT NULL,        -- 상호명
-  rcn            varchar(32) NOT NULL,        -- 사업자등록번호
-  payment        varchar(32) NOT NULL,        -- 지불수단 (현금|카드|..)
-  text           varchar(128) NOT NULL,       -- 영수증 (텍스트)
-  pdf            varchar(128) NOT NULL,       -- 영수증 (PDF)
-  registered     timestamp NOT NULL           -- 발급시간
+  email          varchar(64) NOT NULL, 
+  member         varchar(64) NOT NULL,  
+  rcn            varchar(32) NOT NULL,   
+  text           varchar(128) NOT NULL,   
+  pdf            varchar(128) NOT NULL,    
+  payment        varchar(8) DEFAULT '현금',
+  amount         int DEFAULT 0,               -- 거래가격               
+  n_promotion    int DEFAULT 0,                        
+  n_reward       int DEFAULT 0,                         
+  n_stamp        int DEFAULT 0,                         
+  c_promotion    int DEFAULT 0,                        
+  c_reward       int DEFAULT 0,                         
+  cpurl          varchar(128) DEFAULT "",
+  fcm            varchar(128) DEFAULT "",
+  message        varchar(32) DEFAULT "",
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- DROP TABLE receipts;
+-- CREATE TABLE IF NOT EXISTS receipts (
+--   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--   email          varchar(64) NOT NULL,        -- 이메일
+--   total          int,                         -- 금액
+--   coupon         int,                         -- 쿠폰개수
+--   stamp          int,                         -- 스탬프개수
+--   member         varchar(64) NOT NULL,        -- 상호명
+--   rcn            varchar(32) NOT NULL,        -- 사업자등록번호
+--   payment        varchar(32) NOT NULL,        -- 지불수단 (현금|카드|..)
+--   text           varchar(128) NOT NULL,       -- 영수증 (텍스트)
+--   pdf            varchar(128) NOT NULL,       -- 영수증 (PDF)
+--   registered     timestamp NOT NULL           -- 발급시간
 );
 
 DROP TABLE users;
@@ -52,20 +74,24 @@ INSERT INTO users (email, passwd) VALUES ('tt','xy');
 INSERT INTO users (email, passwd) VALUES ('haeyun@gmail.com', 'xyz');
 INSERT INTO users (email, passwd) VALUES ('test@gmail.com', 'xyz');
 
-DROP TABLE qrcode;
-CREATE TABLE IF NOT EXISTS qrcode (
+DROP TABLE ticket;
+CREATE TABLE IF NOT EXISTS ticket (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  email          varchar(64) NOT NULL UNIQUE, -- 이메일
-  qrcode         varchar(64) NOT NULL UNIQUE, -- 패스워드
-  ts             timestamp NOT NULL           -- 사용자등록시간
+  email          varchar(64) NOT NULL UNIQUE,
+  qrcode         varchar(64) NOT NULL UNIQUE,
+  license        varchar(64) DEFAULT "",
+  rcn            varchar(32) DEFAULT "",
+  member         varchar(64) DEFAULT "",
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 DROP TABLE issue;
 CREATE TABLE IF NOT EXISTS issue (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  email          varchar(64) NOT NULL UNIQUE, -- 이메일
-  license        varchar(64) NOT NULL UNIQUE, -- 아이디
-  ts             timestamp NOT NULL           -- 사용자등록시간
+  email          varchar(64) NOT NULL UNIQUE,
+  license        varchar(64) NOT NULL UNIQUE,
+  rcn            varchar(32) NOT NULL,   
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 DROP TABLE license;
@@ -416,6 +442,19 @@ CREATE TABLE IF NOT EXISTS user_coupon (
   notice         varchar(256) DEFAULT ' '
 );
 
+DROP TABLE user_deal_history;
+CREATE TABLE IF NOT EXISTS user_deal_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email          varchar(32) NOT NULL,
+  member         varchar(32) NOT NULL,
+  rcn            varchar(32) NOT NULL,
+  cpcode         varchar(32) NOT NULL,
+  dtype          varchar(8) NOT NULL.
+  amoutn         int DEFAULT 0,
+  accum          int DEFAULT 1,
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
 DROP TABLE user_stamp_history;
 CREATE TABLE IF NOT EXISTS user_stamp_history (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -694,6 +733,63 @@ CREATE TABLE IF NOT EXISTS admin_coupon (
 );
 */
 
+
+DROP TABLE food_store;
+CREATE TABLE IF NOT EXISTS food_store (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  bzcond         varchar(32) NOT NULL,
+  bztype         varchar(32) NOT NULL,
+  bzname         varchar(32) NOT NULL,
+  area1          varchar(32) NOT NULL,
+  area2          varchar(32) NOT NULL,
+  addr           varchar(128) DEFAULT "",
+  lat            decimal(11,7) DEFAULT 0,
+  lng            decimal(11,7) DEFAULT 0,
+  updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DROP TABLE sample_users;
+CREATE TABLE IF NOT EXISTS sample_users (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email          varchar(64) NOT NULL UNIQUE, -- 이메일
+  passwd         varchar(64) NOT NULL,        -- 패스워드
+  fcmkey         varchar(256) DEFAULT '',
+  os             varchar(16) DEFAULT '',
+  birth_year     varchar(8) DEFAULT '',
+  birth_month    varchar(8) DEFAULT '',
+  birth_day      varchar(8) DEFAULT '',
+  gender         varchar(8) DEFAULT '',
+  area1          varchar(32) DEFAULT '',
+  area2          varchar(32) DEFAULT '',
+  used           varchar(8) DEFAULT 'N',
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE area_users;
+CREATE TABLE IF NOT EXISTS area_users (
+  id          int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  dt          varchar(32) NOT NULL, 
+  so          int, -- 서울
+  bs          int, -- 부산
+  tg          int, -- 대구
+  gj          int, -- 광주
+  us          int, -- 울산
+  ic          int, -- 인천
+  jj          int, -- 제주
+  sj          int, -- 세종
+  jb          int, -- 전북
+  jn          int, -- 전남
+  kw          int, -- 강원
+  kg          int, -- 경기
+  kb          int, -- 경북
+  kn          int, -- 경남
+  tj          int, -- 대전
+  cb          int, -- 충북
+  cn          int, -- 충남
+  et          int, -- 기타
+  registered  timestamp DEFAULT CURRENT_TIMESTAMP
+);
 
 
 
