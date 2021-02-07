@@ -247,11 +247,17 @@ module.exports = function (app) {
 
   /////////////////////////////////////////////////////
   app.get('/', lib.passport.ensureAuthenticated, function (req, res, next) {
-    console.log (req.session.passport.user);
+    if(req.session.passport.user.grade == undefined) {
+      return res.redirect('/logout');
+    }
     res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin')});
   });
   app.get('/admin', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin')});
+    if(req.session.passport.user.grade == undefined) {
+      console.log ('redirect', `/member/${req.session.passport.user.rcn}`);
+      res.redirect(`/member/${req.session.passport.user.id}`);
+    }
+    else res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin')});
   });
   app.get('/admin/profile', lib.passport.ensureAuthenticated, function (req, res, next) {
     res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/profile')});

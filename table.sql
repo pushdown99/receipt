@@ -446,12 +446,11 @@ DROP TABLE user_deal_history;
 CREATE TABLE IF NOT EXISTS user_deal_history (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   email          varchar(32) NOT NULL,
-  member         varchar(32) NOT NULL,
-  rcn            varchar(32) NOT NULL,
-  cpcode         varchar(32) NOT NULL,
-  dtype          varchar(8) NOT NULL.
-  amoutn         int DEFAULT 0,
-  accum          int DEFAULT 1,
+  member         varchar(32) DEFAULT "",
+  rcn            varchar(32) DEFAULT "",
+  cpcode         varchar(32) DEFAULT "",
+  dtype          varchar(8) DEFAULT "",
+  amount         int DEFAULT 0,
   registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
 

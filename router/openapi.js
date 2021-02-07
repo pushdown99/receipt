@@ -284,7 +284,6 @@ module.exports = function(app) {
     if(coupons.length < 1) return lib.response(req, res, 404);
     for(var i = 0; i < coupons.length; i++) {
       var member = lib.mysql.searchMemberForCouponByRcn ([coupons[i].rcn]);
-console.log ("#### member", member);
       coupons[i].distance  = coupons[i].distance * 1000;
       var icon = lib.mysql.searchMemberIcon ([coupons[i].bzcode]);
       coupons[i].icon = icon.icon_path;
