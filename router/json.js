@@ -214,6 +214,7 @@ module.exports = function (app) {
   /////////////////////////////////////////////////////////////////////////
   // ADMIN-NOTICE-REGISTER
   app.post('/json/admin/notice/register', function (req, res) {
+    var register = req.body.register;
     var title    = req.body.title;
     var gender   = req.body.gender;
     var age      = req.body.age;
@@ -302,6 +303,76 @@ console.log("params", cash, stamp);
 
   /////////////////////////////////////////////////////////////////////////
   // ADMIN-DASHBOARD-MEMBER
+  app.post('/json/admin/dashboard/main', function (req, res) {
+    var date1 = req.body.date1;
+
+    var data = {};
+    for(var i=0; i < 10; i++) {
+      var date = moment(date1, 'YYYY-MM-DD').subtract(i,'days').format('YYYY-MM-DD');
+
+      var member = lib.mysql.searchStatMembers([date]);
+      var user   = lib.mysql.searchStatUsers([date]);
+      var admin  = lib.mysql.searchStatAdmin([date]);
+      var deal   = lib.mysql.searchStatDeal([date]);
+      var coupon = lib.mysql.searchStatCoupon([date]);
+      var stamp  = lib.mysql.searchStatStamp([date]);
+
+      if (i == 0) {
+        data.member = member;
+        data.user   = user;
+        data.admin  = admin;
+        data.deal   = deal;
+        data.coupon = coupon;
+        data.stamp  = stamp;
+        data.member_regi_spark = [];
+        data.member_term_spark = [];
+        data.user_regi_spark = [];
+        data.user_term_spark = [];
+        data.admin_regi_spark = [];
+        data.admin_term_spark = [];
+        data.deal_deal_spark = [];
+        data.coupon_promotion_spark = [];
+        data.coupon_reward_spark = [];
+        data.coupon_stamp_spark = [];
+        data.stamp_accum_spark = [];
+        data.stamp_del_spark = [];
+        data.stamp_term_spark = [];
+        data.stamp_xchg_spark = [];
+      }
+      data.member_regi_spark.push(member.regi);
+      data.member_term_spark.push(member.term);
+      data.user_regi_spark.push(user.regi);
+      data.user_term_spark.push(user.term);
+      data.admin_regi_spark.push(user.regi);
+      data.admin_term_spark.push(user.term);
+      data.deal_deal_spark.push(deal.deal);
+      data.coupon_promotion_spark.push(coupon.promotion);
+      data.coupon_reward_spark.push(coupon.reward);
+      data.coupon_stamp_spark.push(coupon.stamp);
+      data.stamp_accum_spark.push(stamp.accum);
+      data.stamp_xchg_spark.push(stamp.xchg);
+      data.stamp_del_spark.push(stamp.del);
+      data.stamp_term_spark.push(stamp.term);
+    }
+    data.member_regi_spark.reverse();
+    data.member_term_spark.reverse();
+    data.user_regi_spark.reverse();
+    data.user_term_spark.reverse();
+    data.admin_regi_spark.reverse();
+    data.admin_term_spark.reverse();
+    data.deal_deal_spark.reverse();
+    data.coupon_promotion_spark.reverse();
+    data.coupon_reward_spark.reverse();
+    data.coupon_stamp_spark.reverse();
+    data.stamp_accum_spark.reverse();
+    data.stamp_xchg_spark.reverse();
+    data.stamp_del_spark.reverse();
+    data.stamp_term_spark.reverse();
+    res.json(data);
+  });
+
+  /////////////////////////////////////////////////////////////////////////
+  // ADMIN-DASHBOARD-MEMBER
   app.post('/json/admin/dashboard/member', function (req, res) {
     var cond  = req.body.cond;
     var date1 = req.body.date1;
@@ -334,15 +405,63 @@ console.log("params", cash, stamp);
     
     switch (cond) {
     case '일':
-      var result = lib.mysql.searchAdminUserDay([date1, date2, date1, date2]);
+      var result = lib.mysql.searchAdminGenderDay([date1, date2, date1, date2]);
       return res.json(result);
       break;
     case '주':
-      var result = lib.mysql.searchAdminUserWeek([date1, date2, date1, date2]);
+      var result = lib.mysql.searchAdminGenderWeek([date1, date2, date1, date2]);
       return res.json(result);
       break;
     case '월':
-      var result = lib.mysql.searchAdminUserMonth([date1, date2, date1, date2]);
+      var result = lib.mysql.searchAdminGenderMonth([date1, date2, date1, date2]);
+      return res.json(result);
+      break;
+    }
+  });
+
+  /////////////////////////////////////////////////////////////////////////
+  // ADMIN-DASHBOARD-DEAL
+  app.post('/json/admin/dashboard/deal', function (req, res) {
+    var cond  = req.body.cond;
+    var date1 = req.body.date1;
+    var date2 = req.body.date2;
+
+
+    switch (cond) {
+    case '일':
+      var result = lib.mysql.searchUserDealDay([date1, date2, date1, date2]);
+      return res.json(result);
+      break;
+    case '주':
+      var result = lib.mysql.searchUserDealWeek([date1, date2, date1, date2]);
+      return res.json(result);
+      break;
+    case '월':
+      var result = lib.mysql.searchUserDealMonth([date1, date2, date1, date2]);
+      return res.json(result);
+      break;
+    }
+  });
+
+  /////////////////////////////////////////////////////////////////////////
+  // ADMIN-DASHBOARD-STAMP
+  app.post('/json/admin/dashboard/stamp', function (req, res) {
+    var cond  = req.body.cond;
+    var date1 = req.body.date1;
+    var date2 = req.body.date2;
+
+
+    switch (cond) {
+    case '일':
+      var result = lib.mysql.searchUserStampDay([date1, date2, date1, date2]);
+      return res.json(result);
+      break;
+    case '주':
+      var result = lib.mysql.searchUserStampWeek([date1, date2, date1, date2]);
+      return res.json(result);
+      break;
+    case '월':
+      var result = lib.mysql.searchUserStampMonth([date1, date2, date1, date2]);
       return res.json(result);
       break;
     }
@@ -438,8 +557,7 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
-  app.get('/json/admin/coupon/search/id/:id', function (req, res) {
-console.log("called");
+  app.post('/json/admin/coupon/search/id/:id', function (req, res) {
     var id = req.params.id;
     var result = lib.mysql.findAdminCouponId ([id]);
     res.json (result);
@@ -448,19 +566,22 @@ console.log("called");
   /////////////////////////////////////////////////////////////////////////
   // ADMIN-EVENT-SEARCH
   app.post('/json/admin/event/search', function (req, res) {
-    var coupon = (req.body.coupon == "all")? "%%": req.body.coupon;
-    var status = (req.body.status == "all")? "%%": req.body.status;
-    var date1  = req.body.date1;
-    var date2  = req.body.date2;
+    var coupon  = (req.body.coupon == "all")? "%%": req.body.coupon;
+    var status  = (req.body.status == "all")? "%%": req.body.status;
+    var date1   = req.body.date1;
+    var date2   = req.body.date2;
 
     var result = lib.mysql.searchAdminEvent ([status, coupon, date1, date2]);
     res.json (result);
   });
 
-  app.get('/json/admin/event/search/id/:id', function (req, res) {
-    var id = req.params.id;
-    var result = lib.mysql.findAdminEventId ([id]);
-    res.json (result);
+  app.post('/json/admin/event/search/id/:id', function (req, res) {
+    var id      = req.params.id;
+    var updater = req.body.updater;
+
+    var event = lib.mysql.findAdminEventId ([id]);
+    lib.mysql.putAdminEventHistory ([event.title, '', updater, moment().format("YYYY-MM-DD HH:mm:ss"), '조회', '','상세조회']);
+    res.json (event);
   });
 
   /////////////////////////////////////////////////////////////////////////
@@ -474,14 +595,17 @@ console.log("called");
     var date1 = req.body.date1;
     var date2 = req.body.date2;
 
-    var result = lib.mysql.searchAdminNotice([title, gender, age, area1, area2, date1, date2]);
-    res.json(result);
+    var notice = lib.mysql.searchAdminNotice([title, gender, age, area1, area2, date1, date2]);
+    res.json(notice);
   });
 
-  app.get('/json/admin/notice/search/id/:id', function (req, res) {
+  app.post('/json/admin/notice/search/id/:id', function (req, res) {
     var id = req.params.id;
-    var result = lib.mysql.findAdminNoticeId ([id]);
-    res.json (result);
+    var updater = req.body.updater;
+
+    var notice = lib.mysql.findAdminNoticeId ([id]);
+    lib.mysql.putAdminNoticeHistory ([notice.title, '', updater, moment().format("YYYY-MM-DD HH:mm:ss"), '조회', '','상세조회']);
+    res.json (notice);
   });
 
   /////////////////////////////////////////////////////////////////////////
@@ -531,10 +655,11 @@ console.log("called");
     var result = "";
 
     switch (cond) {
-    case "일": result = lib.mysql.searchMemberDashDay ([rcn, date1, date2]); break;
-    case "주": result = lib.mysql.searchMemberDashWeek([rcn, date1, date2]); break;
-    case "월": result = lib.mysql.searchMemberDashMon ([rcn, date1, date2]); break;
+    case "일": result = lib.mysql.searchMemberDashDealDay ([rcn, date1, date2]); break;
+    case "주": result = lib.mysql.searchMemberDashDealWeek([rcn, date1, date2]); break;
+    case "월": result = lib.mysql.searchMemberDashDealMon ([rcn, date1, date2]); break;
     }
+    console.log(lib.mysql.searchMemberDashCouponDay ([rcn, date1, date2]));
     res.json(result);
   });
 
@@ -543,7 +668,7 @@ console.log("called");
     var maxid = req.body.maxid;
     var minid = req.body.minid;
 
-    var result = lib.mysql.searchMemberDashRange ([rcn, minid, maxid]);
+    var result = lib.mysql.searchMemberDashDealRange ([rcn, minid, maxid]);
     res.json(result);
   });
 
@@ -607,6 +732,7 @@ console.log("called");
   //
   app.post('/json/admin/member/update', function (req, res) {
     var id     = req.body.id;
+    var status = req.body.status;
     var updater= req.body.updater;
     var name   = req.body.name;
     var owner  = req.body.owner;
@@ -621,7 +747,7 @@ console.log("called");
     var lat    = req.body.lat;
     var lng    = req.body.lng;
 
-    var result = lib.mysql.updAdminMember([name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr, lat, lng, updater, id]);
+    var result = lib.mysql.updAdminMember([status, name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr, lat, lng, updater, id]);
     res.json(result);
   });
 
@@ -901,7 +1027,9 @@ console.log("called");
 
   app.post('/json/admin/notice/delete/id', function (req, res) {
     var id = req.body.id;
+    var updater = req.body.updater;
 
+    var notice = lib.mysql.searchAdminNoticeById ([id]);
     var result = lib.mysql.delAdminNoticeId([id]);
     res.json(result);
   });
@@ -936,6 +1064,31 @@ console.log("called");
     res.json(result);
   });
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // HISTORY
+  //
+
+  app.post('/json/admin/member/history', function (req, res) {
+    var result = lib.mysql.searchMemberHistory ([]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/member/history/:rcn', function (req, res) {
+    var rcn = req.params.rcn;
+    var result = lib.mysql.searchMemberHistoryByRcn ([rcn]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/event/history', function (req, res) {
+    var result = lib.mysql.searchEventHistory ([]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/notice/history', function (req, res) {
+    var notice = lib.mysql.searchNoticeHistory ([]);
+    res.json(notice);
+  });
 
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -962,6 +1115,50 @@ console.log("called");
     var result = lib.mysql.getAdminMember([rcn, stat, area1, area2, date1, date2]);
     res.json(result);
   });
+
+  app.post('/json/admin/user/age', function (req, res) {
+    var cond  = req.body.cond;
+    var date1 = req.body.date1;
+    var date2 = req.body.date2;
+
+
+    switch (cond) {
+    case '일':
+      var result = lib.mysql.searchAdminUserGenDay([date1, date2]);
+      res.json(result);
+      break;
+    case '주':
+      var result = lib.mysql.searchAdminUserGenWeek([date1, date2]);
+      return res.json(result);
+      break;
+    case '월':
+      var result = lib.mysql.searchAdminUserGenMonth([date1, date2]);
+      return res.json(result);
+      break;
+    }
+  });
+
+  app.post('/json/admin/user/area', function (req, res) {
+    var cond  = req.body.cond;
+    var date1 = req.body.date1;
+    var date2 = req.body.date2;
+
+    switch (cond) {
+    case '일':
+      var result = lib.mysql.searchAdminUserDay([date1, date2]);
+      res.json(result);
+      break;
+    case '주':
+      var result = lib.mysql.searchAdminUserWeek([date1, date2]);
+      return res.json(result);
+      break;
+    case '월':
+      var result = lib.mysql.searchAdminUserMonth([date1, date2]);
+      return res.json(result);
+      break;
+    }
+  });
+
   app.post('/json/admin/profile/update', function (req, res) {
     name  = req.body.name;
     mobile = req.body.mobile;
@@ -1184,6 +1381,47 @@ console.log("called");
     lib.mysql.putAdminUserHistory([email, updater, updated, done, division, description]);
     res.json ({});
   });
+
+  app.post('/json/admin/coupon/history/register', function (req, res) {
+    var name        = req.body.name;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putAdminCouponHistory([name, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+  app.post('/json/admin/event/history/register', function (req, res) {
+    var name        = req.body.name;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putAdminEventHistory([name, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+  app.post('/json/admin/notice/history/register', function (req, res) {
+    var name        = req.body.name;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putAdminNoticeHistory([name, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //

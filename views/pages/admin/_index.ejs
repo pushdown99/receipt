@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="offset-lg-4 col-lg-4">
+      <div class="card">
+        <div class="card-body"><h5 class="m-0"> 
+            <div class="form-group col-md-12">
+              <div class="input-group">
+                <div class="input-group-prepend"><span id="date-left"  class="input-group-text"><i class="fas fa-chevron-left"></i></span></div>
+                <div class="input-group-prepend"><span id="date-right" class="input-group-text"><i class="fas fa-chevron-right"></i></span></div>
+
+                <input type="text" id="dashboard-date" class="form-control datetimepicker-input" data-target="#dashboard-date" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#dashboard-date" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <div id="dashboard-search" class="input-subgroup-text"><i class="fa fa-search fa-lg"></i></div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+  <hr>
+    <div class="col-lg-4">
+      <div class="card card-primary card-outline">
+        <div class="card-header"><h5 class="m-0">가맹점</h5></div>
+        <div class="card-body">
+          <p class="card-text">
+           <div class="row">
+           <div class="col-lg-4">가입</div>
+           <div class="col-lg-8" id="member-regi"></div>
+           <div class="col-lg-4">해지</div>
+           <div class="col-lg-8" id="member-term"></div>
+           </div>
+          </p>
+          <a href="/admin/member/search" class="card-link">자세히보기 <i class="right fas fa-angle-double-right"></i></a>
+        </div>
+      </div><!-- /.card -->
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card card-primary card-outline">
+        <div class="card-header"><h5 class="m-0">사용자</h5></div>
+        <div class="card-body">
+          <p class="card-text">
+           <div class="row">
+           <div class="col-lg-4">가입</div>
+           <div class="col-lg-8" id="user-regi"></div>
+           <div class="col-lg-4">해지</div>
+           <div class="col-lg-8" id="user-term"></div>
+           </div>
+          </p>
+          <a href="/admin/user/search" class="card-link">자세히보기 <i class="right fas fa-angle-double-right"></i></a>
+        </div>
+      </div><!-- /.card -->
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card card-primary card-outline">
+        <div class="card-header"><h5 class="m-0">관리자</h5></div>
+        <div class="card-body">
+          <p class="card-text">
+           <div class="row">
+           <div class="col-lg-4">사용</div>
+           <div class="col-lg-8" id="admin-regi"></div>
+           <div class="col-lg-4">중지</div>
+           <div class="col-lg-8" id="admin-term"></div>
+           </div>
+          </p>
+          <a href="/admin/admin/search" class="card-link">자세히보기 <i class="right fas fa-angle-double-right"></i></a>
+        </div>
+      </div><!-- /.card -->
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card card-primary card-outline">
+        <div class="card-header"><h5 class="m-0">거래금액</h5></div>
+        <div class="card-body">
+          <p class="card-text">
+           <div class="row">
+           <div class="col-lg-4">전체</div>
+           <div class="col-lg-8" id="deal"></div>
+           </div>
+          </p>
+          <a href="/admin/dashboard/deal" class="card-link">자세히보기 <i class="right fas fa-angle-double-right"></i></a>
+        </div>
+      </div><!-- /.card -->
+    </div>
+    <div class="col-lg-4">
+      <div class="card card-primary card-outline">
+        <div class="card-header"><h5 class="m-0">쿠폰 사용</h5></div>
+        <div class="card-body">
+          <p class="card-text">
+           <div class="row">
+           <div class="col-lg-4">프로모션</div>
+           <div class="col-lg-8" id="coupon-promotion"></div>
+           <div class="col-lg-4">리워드</div>
+           <div class="col-lg-8" id="coupon-reward"></div>
+           <div class="col-lg-4">스탬프</div>
+           <div class="col-lg-8" id="coupon-stamp"></div>
+           </div>
+          </p>
+          <a href="/admin/dashboard/deal" class="card-link">자세히보기 <i class="right fas fa-angle-double-right"></i></a>
+        </div>
+      </div><!-- /.card -->
+    </div>
+    <div class="col-lg-4">
+      <div class="card card-primary card-outline">
+        <div class="card-header"><h5 class="m-0">스탬프</h5></div>
+        <div class="card-body">
+          <p class="card-text">
+           <div class="row">
+           <div class="col-lg-4">적립</div>
+           <div class="col-lg-8" id="stamp-accum"></div>
+           <div class="col-lg-4">교환/사용</div>
+           <div class="col-lg-8" id="stamp-xchg"></div>
+           <div class="col-lg-4">만료</div>
+           <div class="col-lg-8" id="stamp-term"></div>
+           <div class="col-lg-4">삭제</div>
+           <div class="col-lg-8" id="stamp-del"></div>
+           </div>
+          </p>
+          <a href="/admin/dashboard/stamp" class="card-link">자세히보기 <i class="right fas fa-angle-double-right"></i></a>
+        </div>
+      </div><!-- /.card -->
+    </div>
+
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <button id="search" class="btn btn-default" style="float: right;" hidden>검색</button>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <div id="results"></div>
+      <div id="pageid" style="display: none;">admin-dashboard-main</div>
+    </div>
+  </div>
+
+  <!-- /.row -->
+</div><!-- /.container-fluid -->

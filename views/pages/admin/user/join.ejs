@@ -5,12 +5,12 @@
       <div class="card card-primary card-outline">
         <div class="card-body">
 
+
           <div class="form-row">
 
             <div class="form-group col-md-1">
             <label for="member">기간</label>
             </div>
-
             <div class="form-group col-md-5">
               <div class="input-group">
                 <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
@@ -23,16 +23,13 @@
                 </div>
               </div>
             </div>
-
-
             <div class="form-group col-md-6">
-              <div class="input-group">
-                <button id="day"   class="btn btn-outline-secondary" type="button">일</button>&nbsp;
-                <button id="week"  class="btn btn-outline-secondary" type="button">주</button>&nbsp;
-                <button id="month" class="btn btn-outline-secondary" type="button">월</button>&nbsp;
+              <div class="form-check">
+              <label class="radio-inline">&nbsp;<input type="radio" id="status" name="status" value="일" checked>&nbsp;&nbsp;일&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" id="status" name="status" value="주">&nbsp;&nbsp;주&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" id="status" name="status" value="월">&nbsp;&nbsp;월&nbsp;&nbsp;</label>
               </div>
             </div>
-
           </div>
 
           <div class="form-row">
@@ -45,7 +42,7 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <div id="results"></div>
-              <div id="pageid" style="display: none;">user-join-search</div>
+              <div id="pageid" style="display: none;">admin-user-join-search</div>
             </div>
           </div>
 

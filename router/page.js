@@ -11,9 +11,9 @@ module.exports = {
     switch (d) {
     case '/admin':
       info.title = 'Dashboard';
-      info.name = 'admin/index';
+      info.name = 'admin/dashboard/dashboard';
       info.navigation = '관리자';
-      info.page = 'admin/index';
+      info.page = 'admin/dashboard/dashboard';
       return info;
 
     case '/admin/profile':
@@ -23,31 +23,38 @@ module.exports = {
       info.page = 'admin/profile';
       return info;
 
+    case '/admin/dashboard/dashboard':
+      info.title = 'Dashboard';
+      info.name = 'admin/dashboard/dashboard';
+      info.navigation = '관리자';
+      info.page = 'admin/dashboard/dashboard';
+      return info;
+
     case '/admin/dashboard/member':
-      info.title = '가맹점가입';
+      info.title = '가맹점가입통계';
       info.name = 'admin/dashboard/member';
-      info.navigation = '대시보드 / 가맹점가입';
+      info.navigation = '대시보드 / 가맹점가입통계';
       info.page = 'admin/dashboard/member';
       return info;
 
     case '/admin/dashboard/user':
-      info.title = '사용자가입';
+      info.title = '사용자가입통계';
       info.name = 'admin/dashboard/user';
-      info.navigation = '대시보드 / 사용자가입';
+      info.navigation = '대시보드 / 사용자가입통계';
       info.page = 'admin/dashboard/user';
       return info;
 
     case '/admin/dashboard/deal':
-      info.title = '사용자거래';
+      info.title = '사용자거래통계';
       info.name = 'admin/dashboard/deal';
-      info.navigation = '대시보드 / 사용자거래';
+      info.navigation = '대시보드 / 사용자거래통계';
       info.page = 'admin/dashboard/deal';
       return info;
 
     case '/admin/dashboard/stamp':
-      info.title = '사용자스탬프';
+      info.title = '사용자스탬프통계';
       info.name = 'admin/dashboard/stamp';
-      info.navigation = '대시보드 / 사용자스탬프';
+      info.navigation = '대시보드 / 사용자스탬프통계';
       info.page = 'admin/dashboard/stamp';
       return info;
 

@@ -11,85 +11,86 @@
 
         <li class="nav-item" id="sb-dashboard"><a href="javascript:void(0);" class="nav-parent nav-link"><i class="fas fa-tachometer-alt nav-icon"></i><p>대시보드<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="/admin/dashboard/member"    id="sb-member-register" class="nav-child nav-link"><i class="fas fa-box-open nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;가맹점 가입</p></a></li>
-            <li class="nav-item"><a href="/admin/dashboard/user"      id="sb-member-register" class="nav-child nav-link"><i class="fas fa-user nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자 가입</p></a></li>
-            <li class="nav-item"><a href="/admin/dashboard/deal"      id="sb-member-register" class="nav-child nav-link"><i class="fas fa-credit-card nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자 거래</p></a></li>
-            <li class="nav-item"><a href="/admin/dashboard/stamp"     id="sb-member-register" class="nav-child nav-link"><i class="fas fa-stamp nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자 스탬프</p></a></li>
+            <li class="nav-item"><a href="/admin/dashboard/dashboard" id="sb-dashboard-dashboard" class="nav-child nav-link"><i class="fas fa-tachometer-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;대시보드</p></a></li>
+            <li class="nav-item"><a href="/admin/dashboard/member"    id="sb-dashboard-member" class="nav-child nav-link"><i class="fas fa-box-open nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;가맹점가입통계</p></a></li>
+            <li class="nav-item"><a href="/admin/dashboard/user"      id="sb-dashboard-user" class="nav-child nav-link"><i class="fas fa-user nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자가입통계</p></a></li>
+            <li class="nav-item"><a href="/admin/dashboard/deal"      id="sb-dashboard-deal" class="nav-child nav-link"><i class="fas fa-credit-card nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자거래통계</p></a></li>
+            <li class="nav-item"><a href="/admin/dashboard/stamp"     id="sb-dashboard-stamp" class="nav-child nav-link"><i class="fas fa-stamp nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자스탬프통계</p></a></li>
           </ul>
         </li>
 
         <li class="nav-item" id="sb-member"><a href="javascript:void(0);" class="nav-parent nav-link"><i class="fas fa-box-open nav-icon"></i><p>가맹점 관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="/admin/member/search"   id="sb-member-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;가맹점 조회</p></a></li>
-            <li class="nav-item"><a href="/admin/member/register" id="sb-member-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;가맹점 등록</p></a></li>
+            <li class="nav-item"><a href="/admin/member/search"   id="sb-member-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;가맹점조회</p></a></li>
+            <li class="nav-item"><a href="/admin/member/register" id="sb-member-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;가맹점등록</p></a></li>
           </ul>
         </li>
 
         <li class="nav-item" id="sb-user"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-user nav-icon"></i><p>사용자 관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="/admin/user/search"     id="sb-user-search" class="nav-child nav-link"><i class="far fa-user nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자 조회</p></a></li>
-            <li class="nav-item" id="sb-user-stat"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="far fa-chart-bar nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자 통계<i class="right fas fa-angle-left"></i></p></a>
+            <li class="nav-item"><a href="/admin/user/search"     id="sb-user-search" class="nav-child nav-link"><i class="far fa-user nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자조회</p></a></li>
+            <li class="nav-item" id="sb-user-stat"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="far fa-chart-bar nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;사용자통계<i class="right fas fa-angle-left"></i></p></a>
               <ul class="nav nav-treeview">
-                <li class="nav-item"><a href="/admin/user/join"   id="sb-user-join" class="nav-child nav-link"><i class="fas fa-file-signature nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 통계</p></a></li>
-                <li class="nav-item"><a href="/admin/user/age"    id="sb-user-age" class="nav-child nav-link"><i class="fas fa-history nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;연령 통계</p></a></li>
-                <li class="nav-item"><a href="/admin/user/gender" id="sb-user-gender" class="nav-child nav-link"><i class="fas fa-venus-mars nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;성별 통계</p></a></li>
-                <li class="nav-item"><a href="/admin/user/area"   id="sb-user-area" class="nav-child nav-link"><i class="fas fa-map-marker-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;지역 통계</p></a></li>
+                <li class="nav-item"><a href="/admin/user/join"   id="sb-user-join" class="nav-child nav-link"><i class="fas fa-file-signature nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입통계</p></a></li>
+                <li class="nav-item"><a href="/admin/user/age"    id="sb-user-age" class="nav-child nav-link"><i class="fas fa-history nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;연령통계</p></a></li>
+                <li class="nav-item"><a href="/admin/user/gender" id="sb-user-gender" class="nav-child nav-link"><i class="fas fa-venus-mars nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;성별통계</p></a></li>
+                <li class="nav-item"><a href="/admin/user/area"   id="sb-user-area" class="nav-child nav-link"><i class="fas fa-map-marker-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;지역통계</p></a></li>
               </ul>
             </li>
           </ul>
         </li>
 
-        <li class="nav-item" id="sb-coupon"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-ticket-alt nav-icon"></i><p>쿠폰 관리<i class="right fas fa-angle-left"></i></p></a>
+        <li class="nav-item" id="sb-coupon"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-ticket-alt nav-icon"></i><p>쿠폰관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="/admin/coupon/search"   id="sb-coupon-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;쿠폰 조회</p></a></li>
-            <li class="nav-item"><a href="/admin/coupon/register" id="sb-coupon-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;쿠폰 등록</p></a></li>
+            <li class="nav-item"><a href="/admin/coupon/search"   id="sb-coupon-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;쿠폰조회</p></a></li>
+            <li class="nav-item"><a href="/admin/coupon/register" id="sb-coupon-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;쿠폰등록</p></a></li>
           </ul>
         </li>
 
-        <li class="nav-item" id="sb-event"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-calendar-day nav-icon"></i><p>이벤트/광고 관리<i class="right fas fa-angle-left"></i></p></a>
+        <li class="nav-item" id="sb-event"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-calendar-day nav-icon"></i><p>이벤트/광고관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="/admin/event/search"   id="sb-event-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;이벤트/광고 조회</p></a></li>
-            <li class="nav-item"><a href="/admin/event/register" id="sb-event-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;이벤트/광고 등록</p></a></li>
+            <li class="nav-item"><a href="/admin/event/search"   id="sb-event-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;이벤트/광고조회</p></a></li>
+            <li class="nav-item"><a href="/admin/event/register" id="sb-event-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;이벤트/광고등록</p></a></li>
           </ul>
         </li>
 
-        <li class="nav-item" id="sb-notice"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-bullhorn nav-icon"></i><p>공지사항 관리<i class="right fas fa-angle-left"></i></p></a>
+        <li class="nav-item" id="sb-notice"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-bullhorn nav-icon"></i><p>공지사항관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="/admin/notice/search"   id="sb-notice-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;공지사항 조회</p></a></li>
-            <li class="nav-item"><a href="/admin/notice/register" id="sb-notice-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;공지사항 등록</p></a></li>
+            <li class="nav-item"><a href="/admin/notice/search"   id="sb-notice-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;공지사항조회</p></a></li>
+            <li class="nav-item"><a href="/admin/notice/register" id="sb-notice-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;공지사항등록</p></a></li>
           </ul>
         </li>
 
-        <li class="nav-item" id="sb-admin"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-user nav-icon"></i><p>관리자 관리<i class="right fas fa-angle-left"></i></p></a>
+        <li class="nav-item" id="sb-admin"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-user nav-icon"></i><p>관리자관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="/admin/admin/search"   id="sb-admin-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;관리자 조회</p></a></li>
-            <li class="nav-item"><a href="/admin/admin/register" id="sb-admin-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;관리자 등록</p></a></li>
+            <li class="nav-item"><a href="/admin/admin/search"   id="sb-admin-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;관리자조회</p></a></li>
+            <li class="nav-item"><a href="/admin/admin/register" id="sb-admin-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;관리자등록</p></a></li>
           </ul>
         </li>
 
         <li class="nav-item" id="sb-class"><a href="javascript:void(0);" class="nav-parent nav-link "></i><i class="fas fa-sliders-h nav-icon"></i><p>설정<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-layer-group nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;업종 분류코드 관리<i class="right fas fa-angle-left"></i></p></a>
+            <li class="nav-item"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-layer-group nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;업종분류코드관리<i class="right fas fa-angle-left"></i></p></a>
               <ul class="nav nav-treeview">
-                <li class="nav-item"><a href="/admin/class/search"   id=sb-class-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업종 분류코드 조회</p></a></li>
-                <li class="nav-item"><a href="/admin/class/register" id=sb-class-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업종 분류코드 등록</p></a></li>
+                <li class="nav-item"><a href="/admin/class/search"   id=sb-class-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업종분류코드조회</p></a></li>
+                <li class="nav-item"><a href="/admin/class/register" id=sb-class-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업종분류코드등록</p></a></li>
               </ul>
             </li>
           </ul>
         </li>
 
-        <li class="nav-item" id="sb-group"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-lock nav-icon"></i><p>권한그룹&권한 관리<i class="right fas fa-angle-left"></i></p></a>
+        <li class="nav-item" id="sb-group"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-lock nav-icon"></i><p>권한그룹/권한관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-key nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;권한그룹 관리<i class="right fas fa-angle-left"></i></p></a>
+            <li class="nav-item"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-key nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;권한그룹관리<i class="right fas fa-angle-left"></i></p></a>
               <ul class="nav nav-treeview">
-                <li class="nav-item"><a href="/admin/group/search"   id="sb-group-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;권한그룹 조회</p></a></li>
-                <li class="nav-item"><a href="/admin/group/register" id="sb-group-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;권한그룹 등록</p></a></li>
+                <li class="nav-item"><a href="/admin/group/search"   id="sb-group-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;권한그룹조회</p></a></li>
+                <li class="nav-item"><a href="/admin/group/register" id="sb-group-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;권한그룹등록</p></a></li>
               </ul>
             </li>
 
-            <li class="nav-item" id="sb-role"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-hand-paper nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;권한 관리<i class="right fas fa-angle-left"></i></p></a>
+            <li class="nav-item" id="sb-role"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-hand-paper nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;권한관리<i class="right fas fa-angle-left"></i></p></a>
               <ul class="nav nav-treeview">
-                <li class="nav-item"><a href="/admin/role/search"   id="sb-role-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;권한 조회</p></a></li>
+                <li class="nav-item"><a href="/admin/role/search"   id="sb-role-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;권한조회</p></a></li>
               </ul>
             </li>
           </ul>

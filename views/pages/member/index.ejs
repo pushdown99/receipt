@@ -52,11 +52,11 @@
 </div>
 
 <div class="modal fade" id="modal-member-dashboard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+  <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-body">
 
-          <h5>가맹점 스탬프 거래내역조회 &nbsp;-&nbsp;<%= member["name"] %>&nbsp;(<%= member["rcn"] %>)</h5>
+          <h5>거래내역조회 &nbsp;-&nbsp;<%= member["name"] %>&nbsp;(<%= member["rcn"] %>)</h5>
           <hr>
           <div class="form-row">
             <div class="form-group col-md-12">
@@ -65,10 +65,14 @@
           </div>
           <hr>
           <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
-              <button id="m-update" class="btn btn-default" style="float: right;">수정</button>
-              <button id="m-delete" class="btn btn-default" style="float: right;">삭제</button>
+            </div>
+            <div class="form-group col-md-6">
+              <span style="float: right;">
+              <button id="m-delete" class="btn btn-default">삭제</button>
+              <button id="m-update" class="btn btn-default">수정</button>
+              </span>
             </div>
           </div>
 

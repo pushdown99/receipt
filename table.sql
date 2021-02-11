@@ -322,6 +322,43 @@ INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('123-45-12347', 'https:
 INSERT INTO admin_member_info (rcn, logo, intro) VALUES ('123-45-12348', 'https://tric.kr/rc/images/img_store_leaflet', '고속도로 도보 10분거리에 있는 이마트 전주점입니다. 신선한 야채, 유제품, 생활용품 등 다양한 품목 할인판매중입니다. 많은이용바랍니다.');
 
 
+DROP TABLE admin_coupon_history;
+CREATE TABLE IF NOT EXISTS admin_coupon_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  menu           varchar(32) DEFAULT "",
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp NOT NULL,
+  done           varchar(32) DEFAULT "",
+  division       varchar(32) DEFAULT "",
+  description    varchar(32) DEFAULT ""
+);
+
+DROP TABLE admin_event_history;
+CREATE TABLE IF NOT EXISTS admin_event_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  menu           varchar(32) DEFAULT "",
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp NOT NULL,
+  done           varchar(32) DEFAULT "",
+  division       varchar(32) DEFAULT "",
+  description    varchar(32) DEFAULT ""
+);
+
+DROP TABLE admin_notice_history;
+CREATE TABLE IF NOT EXISTS admin_notice_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  menu           varchar(32) DEFAULT "",
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp NOT NULL,
+  done           varchar(32) DEFAULT "",
+  division       varchar(32) DEFAULT "",
+  description    varchar(32) DEFAULT ""
+);
+
+
 
 
 
@@ -788,6 +825,29 @@ CREATE TABLE IF NOT EXISTS area_users (
   cn          int, -- 충남
   et          int, -- 기타
   registered  timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE member_dashboard;
+CREATE TABLE IF NOT EXISTS member_dashboard (
+  id          int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  rcn         varchar(32) DEFAULT '',
+  day         varchar(32) NOT NULL,
+  types       varchar(8) NOT NULL,
+  mindid      int DEFAULT 0,
+  maxdid      int DEFAULT 0, 
+  mincid      int DEFAULT 0, 
+  maxcid      int DEFAULT 0, 
+  minsid      int DEFAULT 0, 
+  maxsid      int DEFAULT 0, 
+  amount      int DEFAULT 0,
+  promotion   int DEFAULT 0,
+  reward      int DEFAULT 0,
+  stamp       int DEFAULT 0,
+  stamp_accum int DEFAULT 0,
+  stamp_xchg  int DEFAULT 0,
+  stamp_del   int DEFAULT 0,
+  stamp_term  int DEFAULT 0,
+  updated     timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 

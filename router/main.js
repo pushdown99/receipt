@@ -206,12 +206,55 @@ function migrationReceipts () {
   });
 }
 
+function updateMemberDashboardDeal (rcn, day, types, amount, stamp, maxid, minid) {
+  var res = lib.mysql.query ("UPDATE member_dashboard SET amount = ?, stamp_accum = ?, maxdid = ?, mindid = ? WHERE rcn = ? AND day = ? AND types = ?", [amount, stamp, maxid, minid, rcn, day, types]);
+  if (res.affectedRows == 0) {
+    lib.mysql.query ("INSERT INTO member_dashboard (rcn, day, types, amount, stamp_accum, maxdid, mindid) VALUES (?, ?, ?, ?, ?, ?, ?)", [rcn, day, types, amount, stamp, maxid, minid]);
+  }
+}
+
+function updateMemberDashboardCoupon (rcn, day, types, promotion, reward, stamp, maxid, minid) {
+  var res = lib.mysql.query ("UPDATE member_dashboard SET promotion = ?, reward = ?, stamp = ?, maxcid = ?, mincid = ? WHERE rcn = ? AND day = ? AND types = ?", [promotion, reward, stamp, maxid, minid, rcn, day, types]);
+  if (res.affectedRows == 0) {
+    lib.mysql.query ("INSERT INTO member_dashboard (rcn, day, types, amount, maxdid, mindid, promotion, reward, stamp, maxcid, mincid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [rcn, day, types, 0, 0, 0, promotion, reward, stamp, maxid, minid]);
+  }
+}
+
+function updateMemberDashboard () {
+console.log ("updateMemberDashboard");
+  var rcns = lib.mysql.query("SELECT * FROM receipts GROUP BY rcn");
+
+  rcns.forEach(rcn => { // 일
+    var receipts = lib.mysql.query("SELECT DATE_FORMAT(registered, '%Y-%m-%d') day, DATE_FORMAT(registered, '%Y-%m-%d') pattern, rcn, registered, sum(amount) amount, n_stamp, max(id) maxdid, min(id) mindid FROM receipts WHERE rcn = ? GROUP BY DATE(registered) ORDER BY registered DESC", [rcn.rcn]);
+    var coupons  = lib.mysql.query("SELECT DATE_FORMAT(registered, '%Y-%m-%d') day, DATE_FORMAT(registered, '%Y-%m-%d') pattern, rcn, SUM(IF(ctype = '프로모션',1,0)) promotion, SUM(IF(ctype = '리워드',1,0)) reward, SUM(IF(ctype = '스탬프',1,0)) stamp, max(id) maxcid, min(id) mincid FROM user_coupon WHERE rcn = ? GROUP BY DATE(registered) ORDER BY registered DESC", [rcn.rcn]);
+    receipts.forEach(receipt => { updateMemberDashboardDeal (receipt.rcn, receipt.day, "일", receipt.amount, receipt.n_stamp, receipt.maxdid, receipt.mindid); });
+    coupons.forEach(coupon => { updateMemberDashboardCoupon (coupon.rcn, coupon.day, "일", coupon.promotion, coupon.reward, coupon.stamp, coupon.maxcid, coupon.mincid); });
+  });
+
+  rcns.forEach(rcn => { // 주
+    var receipts = lib.mysql.query("SELECT DATE_FORMAT(registered, '%Y-%m-%d') day, DATE_FORMAT(registered, '%X %V') pattern, rcn, registered, sum(amount) amount, n_stamp, max(id) maxdid, min(id) mindid FROM receipts WHERE rcn = ? GROUP BY pattern ORDER BY registered DESC", [rcn.rcn]);
+    var coupons  = lib.mysql.query("SELECT DATE_FORMAT(registered, '%Y-%m-%d') day, DATE_FORMAT(registered, '%X %V') pattern, rcn, SUM(IF(ctype = '프로모션',1,0)) promotion, SUM(IF(ctype = '리워드',1,0)) reward, SUM(IF(ctype = '스탬프',1,0)) stamp, max(id) maxcid, min(id) mincid FROM user_coupon WHERE rcn = ? GROUP BY pattern ORDER BY registered DESC", [rcn.rcn]);
+    receipts.forEach(receipt => { updateMemberDashboardDeal (receipt.rcn, receipt.day, "주", receipt.amount, receipt.n_stamp, receipt.maxdid, receipt.mindid); });
+    coupons.forEach(coupon => { updateMemberDashboardCoupon (coupon.rcn, coupon.day, "주", coupon.promotion, coupon.reward, coupon.stamp, coupon.maxcid, coupon.mincid); });
+  });
+
+  rcns.forEach(rcn => { // 월
+    var receipts = lib.mysql.query("SELECT DATE_FORMAT(registered, '%Y-%m') day, DATE_FORMAT(registered, '%X %c') pattern, rcn, registered, sum(amount) amount, n_stamp, max(id) maxdid, min(id) mindid FROM receipts WHERE rcn = ? GROUP BY pattern ORDER BY registered DESC", [rcn.rcn]);
+    var coupons  = lib.mysql.query("SELECT DATE_FORMAT(registered, '%Y-%m') day, DATE_FORMAT(registered, '%X %c') pattern, rcn, SUM(IF(ctype = '프로모션',1,0)) promotion, SUM(IF(ctype = '리워드',1,0)) reward, SUM(IF(ctype = '스탬프',1,0)) stamp, max(id) maxcid, min(id) mincid FROM user_coupon WHERE rcn = ? GROUP BY pattern ORDER BY registered DESC", [rcn.rcn]);
+    receipts.forEach(receipt => { updateMemberDashboardDeal (receipt.rcn, receipt.day, "월", receipt.amount, receipt.n_stamp, receipt.maxdid, receipt.mindid); });
+    coupons.forEach(coupon => { updateMemberDashboardCoupon (coupon.rcn, coupon.day, "월", coupon.promotion, coupon.reward, coupon.stamp, coupon.maxcid, coupon.mincid); });
+  });
+
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // SIMULATION
 //
 function cbFunc () {
   cbCounter = cbCounter + 1;
+
+  if((cbCounter % 60) == 1) updateMemberDashboard ();
   //if(cbCounter <= 1) initData ();
   //if((cbCounter % 5) == 0) runUsersEvent ();
   //runMemberEvent ();
@@ -257,10 +300,13 @@ module.exports = function (app) {
       console.log ('redirect', `/member/${req.session.passport.user.rcn}`);
       res.redirect(`/member/${req.session.passport.user.id}`);
     }
-    else res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin')});
+    else res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/dashboard/dashboard')});
   });
   app.get('/admin/profile', lib.passport.ensureAuthenticated, function (req, res, next) {
     res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/profile')});
+  });
+  app.get('/admin/dashboard/dashboard', lib.passport.ensureAuthenticated, function (req, res, next) {
+    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/dashboard/dashboard')});
   });
   app.get('/admin/dashboard/member', lib.passport.ensureAuthenticated, function (req, res, next) {
     res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/dashboard/member')});

@@ -90,7 +90,7 @@
 
 
 <div class="modal fade" id="modal-member-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+  <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-body">
 
@@ -98,6 +98,16 @@
           <h5>가맹점 상세정보</h5>
           <hr>
           <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="rcn">상태*</label>
+            </div>
+            <div class="form-group col-md-10">
+              <div class="form-check">
+              <label class="radio-inline">&nbsp;<input type="radio" id="m-status1" name="m-status" value="가입" checked>&nbsp;&nbsp;가입&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" id="m-status2" name="m-status" value="해지">&nbsp;&nbsp;해지&nbsp;&nbsp;</label>
+              </div>
+            </div>
 
             <div class="form-group col-md-2">
             <label for="rcn">사업자번호</label>
@@ -129,12 +139,12 @@
             <div class="form-group col-md-2">
             <label for="m-owner">대표자명</label>
             </div>
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-3">
               <div class="input-group">
                 <input id="m-owner" type="text" class="form-control" value="" placeholder="대표자명">
               </div>
             </div>
-            <div class="form-group col-md-8"><span id="area-comment" class="form-comment">대표자명을 입력해주세요</span></div>
+            <div class="form-group col-md-7"><span id="area-comment" class="form-comment">대표자명을 입력해주세요</span></div>
 
             <div class="form-group col-md-2">
             <label for="m-bzcond">업태/업종</label>
@@ -237,6 +247,102 @@
               </span>
             </div>
           </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-member-hist-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+          <h5>가맹점 로그조회</h5>
+          <hr>
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="rcn">조회필터</label>
+            </div>
+            <div class="form-group col-md-1">
+            <label for="member">수정자</label>
+            </div>
+            <div class="form-group col-md-9">
+              <div class="input-group">
+              <div class="form-check">
+                <label class="radio-inline">&nbsp;<input type="radio" id="ftotal" name="range" value="전체" checked>&nbsp;&nbsp;전체&nbsp;&nbsp;</label>
+                <label class="radio-inline">&nbsp;<input type="radio" id="fpartial" name="range" value="일부">&nbsp;&nbsp;일부&nbsp;&nbsp;</label>
+
+                <label for="member">(</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fadmin"  name="whose" value="가맹점">&nbsp;&nbsp;가맹점&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fmember" name="whose" value="관리자">&nbsp;&nbsp;관리자&nbsp;&nbsp;</label>
+              </div>
+              <div class="input-group-append date2-area" data-target="#date2" data-toggle="datetimepicker">
+                <input type="text" class="form-control">
+              </div>
+                <label for="member">)</label>
+            </div>
+            </div>
+
+            <div class="form-group offset-md-2 col-md-5">
+              <div class="input-group">
+                <input type="text" id="m-date7" class="form-control datetimepicker-input" data-target="#m-date7" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date7" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="m-date8" class="form-control datetimepicker-input" data-target="#m-date8" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date8" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                </span>
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div>
+
+
+
+            <div class="form-group col-md-2">
+            <label for="member">조회대상</label>
+            </div>
+            <div class="form-group col-md-10">
+              <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fmain" value="메인">&nbsp;&nbsp;가맹점&nbsp;&nbsp;</label>
+              <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fmain" value="메인">&nbsp;&nbsp;쿠폰&nbsp;&nbsp;</label>
+              <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fmain" value="메인">&nbsp;&nbsp;스탬프&nbsp;&nbsp;</label>
+              <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fevent" value="이벤트">&nbsp;&nbsp;광고&nbsp;&nbsp;</label>
+            </div>
+
+            <div class="form-group offset-md-2 col-md-1">
+            <label for="member">검색어</label>
+            </div>
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control">
+            </div>
+            <div class="form-group col-md-3"></div>
+
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button id="search"  class="btn btn-default" style="float: right;">검색</button>
+          </div>
+        </div>
+        <hr>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <div id="m-hist-results"></div>
+            <div id="pageid" style="display: none;">admin-event-search</div>
+          </div>
+        </div>
+
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
 
       </div>
     </div>
