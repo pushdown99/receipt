@@ -54,10 +54,12 @@ function numberWithCommas(x) {
 // jQuery READY
 //
 $(function() {
+  //console.log('nav-link', sessionStorage.getItem("main-sidebar"));
+
   var pageid = $('#pageid').text();
   console.log ("current page is", pageid);
   switch(pageid) {
-  case 'admin-dashboard-main':
+  case 'admin-dashboard-main': sessionStorage.clear();
   case 'admin-dashboard-member':
   case 'admin-dashboard-user':
   case 'admin-dashboard-search':
@@ -152,6 +154,19 @@ console.log('dashboiard');
   if ($("#rgb2").length)   { $("#rgb2").colorpicker() }
   if ($("#m-rgb1").length) { $("#m-rgb1").colorpicker() }
   if ($("#m-rgb2").length) { $("#m-rgb2").colorpicker() }
+
+  function getGroup1 () {
+    $.getJSON(`/json/group/search`, function(data) {
+      html = '';
+      $.each(data, function(i, t) {
+        html += `<a class="dropdown-item group1-item">${t.name}</a>`;
+      });
+      $("#group1").html(html);
+    });
+    $("#btn-gname").html(userInfo.grade);
+    if(userInfo.grade != '시스템관리자') $("#btn-gname").prop('disabled', true);
+  }
+  if ($("#group1").length) getGroup1 ();
 
   function getArea1 () {
     $.getJSON(`/json/city/search`, function(data) {
@@ -523,6 +538,7 @@ function admin_admin_register () {
 
   $ .postJSON('/json/admin/admin/register', params).then(res => {
     console.log(res);
+    logAdminAdmin(params.name, "", userInfo.name, getCur(), "생성", "관리자", "");
     admin_admin_register_complete();
   });
 }
@@ -547,11 +563,29 @@ function admin_class_register () {
   formData.append( 'file3', $('#file3')[0].files[0]);
   $.postFORM ('/json/admin/class/register', formData);
   dynamicAlert("업종명이 정상적으로 등록되었습니다.");
+  logAdminClass(name, "", userInfo.name, getCur(), "생성", "업종분류코드", "");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // ADMIN-GROUP-REGISTER
 function admin_group_register () {
+  var params = {
+    gname    : $("#btn-gname").html(),
+    name     : $("#name").val(),
+    fcoupon  : ($("#fcoupon").is(":checked"))?   1 : 0,
+    fevent   : ($("#fevent").is(":checked"))?  1 : 0,
+    fnotice  : ($("#fnotice").is(":checked"))?  1 : 0,
+    fadmin   : ($("#fadmin").is(":checked"))?  1 : 0,
+    fgroup   : ($("#fgroup").is(":checked"))?  1 : 0,
+    homepage : $('input[type=radio][name=homepage]:checked').val(),
+    register : userInfo.name
+  }
+  if (params.name == "") { dynamicAlert("그룹권한명을 입력해주세요"); return }
+  $.postJSON('/json/admin/group/register', params).then(res => {
+    console.log(res);
+    dynamicAlert("그룹권한이 정상적으로 등록되었습니다.");
+    logAdminGroup(params.name, "", userInfo.name, getCur(), "생성", "그룹권한", "");
+  });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -1495,16 +1529,18 @@ console.log (res);
 function admin_group_search () {
   var params = {
     name  : ($("#name").val() == "")? "all": $("#name").val(),
-    date1 : $("#date1").val(),
-    date2 : $("#date2").val()
+    date1 : $("#date1").val() + ' 00:00:00',
+    date2 : $("#date2").val() + ' 23:59:59'
   }
-  $.postJSON('/json/group/search', params).then(res => {
+  $.postJSON('/json/admin/group/search', params).then(res => {
+    console.log (res);
     html = '<div class="table-responsive">';
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
     html += '<tr>';
     if (width > shrink)
     html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">상위그룹권한</th>';
     html += '<th style="text-align: center;">권한그룹명</th>';
     html += '<th style="text-align: center;">분류</th>';
     html += '<th style="text-align: center;">수정</th>';
@@ -1520,8 +1556,9 @@ function admin_group_search () {
       html += '<tr>';
       if (width > shrink)
       html += `<td style="text-align: center;">${i}</td>`;
-      html += `<td style="text-align: left;">${t.group_name}</td>`;
-      html += `<td style="text-align: left;">${t.group_type}</td>`;
+      html += `<td style="text-align: left;">${t.gname}</td>`;
+      html += `<td style="text-align: left;"><a id="group-detail" modal-id="${t.id}" href="javascript:void(0);">${t.name}</a></td>`;
+      html += `<td style="text-align: left;">${t.gtype}</td>`;
       html += `<td style="text-align: center;">${t.updater}</td>`;
       html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
       if (width > shrink)
@@ -1668,7 +1705,7 @@ $(document).on('click', '#m-update', function (event) {
   case 'admin-notice-search'  : return admin_notice_update ();
   case 'admin-admin-search'   : return admin_admin_update  ();
   case 'admin-class-search'   : return admin_class_update  ();
-  case 'admin-group-search'   : return;
+  case 'admin-group-search'   : return admin_group_update  ();
 
   case 'member-coupon-search' : return member_coupon_update ();
   }
@@ -1942,6 +1979,9 @@ function admin_admin_update () {
   if (params.name   == "")   { dynamicAlert("관리자이름을 입력해주세요.");  return }
   if (params.mobile1 == "" || params.mobile2 == "" || params.mobile3 == "") { dynamicAlert("휴대폰 번호를 입력해주세요."); return }
 
+  if(params.name  != modal_admin.name)  logAdminAdmin (modal_admin.name, "",  userInfo.name, getCur(), "수정", "공지사항", `이름변경:  ${modal_admin.name} => ${params.name}`);
+  if(params.status  != modal_admin.status)  logAdminAdmin (modal_admin.name, "",  userInfo.name, getCur(), "수정", "공지사항", `이름변경:  ${modal_admin.status} => ${params.status}`);
+
   $.postJSON('/json/admin/admin/update', params).then(res => {
     console.log(res);
     dynamicAlert("관리자정보가 정상적으로 변경되었습니다");
@@ -1966,8 +2006,43 @@ function admin_class_update () {
   formData.append('file1',   $('#file1')[0].files[0]);
   formData.append('file2',   $('#file2')[0].files[0]);
   formData.append('file3',   $('#file3')[0].files[0]);
+
+  if(name  != modal_class.name)  logAdminClass (modal_class.name, "",  userInfo.name, getCur(), "수정", "공지사항", `업종명변경: ${modal_class.name} => ${name}`);
+
   $.postFORM ('/json/admin/class/update', formData);
   dynamicAlert("업종명이 정상적으로 변경되었습니다");
+}
+
+function admin_group_update () {
+  console.log (modal_group);
+
+  var params = {
+    id      : modal_group.id,
+    updater : userInfo.name,
+    gname   : $("#m-gname").val(),
+    name    : $("#m-name").val(),
+    fcoupon  : ($("#fcoupon").is(":checked"))?   1 : 0,
+    fevent   : ($("#fevent").is(":checked"))?  1 : 0,
+    fnotice  : ($("#fnotice").is(":checked"))?  1 : 0,
+    fadmin   : ($("#fadmin").is(":checked"))?  1 : 0,
+    fgroup   : ($("#fgroup").is(":checked"))?  1 : 0,
+    homepage : $('input[type=radio][name=homepage]:checked').val()
+  }
+  if (params.name   == "")   { dynamicAlert("그룹권한명을 입력해주세요.");  return }
+
+  if(params.name  != modal_group.name)          logAdminGroup (modal_group.name, "",  userInfo.name, getCur(), "수정", "그룹권한", `이름변경:  ${modal_group.name} => ${params.name}`);
+  if(params.fcoupon  != modal_group.fcoupon)    logAdminGroup (modal_group.name, "",  userInfo.fcoupon, getCur(), "수정", "그룹권한", `쿠폰권한변경:  ${modal_group.fcoupon} => ${params.fcoupon}`);
+  if(params.fevent  != modal_group.fevent)      logAdminGroup (modal_group.name, "",  userInfo.fevent, getCur(), "수정", "그룹권한", `이벤트권한변경:  ${modal_group.fevent} => ${params.fevent}`);
+  if(params.fnotice  != modal_group.fnotice)    logAdminGroup (modal_group.name, "",  userInfo.fnotice, getCur(), "수정", "그룹권한", `공지사항권한변경:  ${modal_group.fnotice} => ${params.fnotice}`);
+  if(params.fadmin  != modal_group.fadmin)      logAdminGroup (modal_group.name, "",  userInfo.fadmin, getCur(), "수정", "그룹권한", `관리자권한변경:  ${modal_group.fadmin} => ${params.fadmin}`);
+  if(params.fgroup  != modal_group.fgroup)      logAdminGroup (modal_group.name, "",  userInfo.fgroup, getCur(), "수정", "그룹권한", `그룹권한변경:  ${modal_group.fgroup} => ${params.fgroup}`);
+  if(params.homepage  != modal_group.homepage)  logAdminGroup (modal_group.name, "",  userInfo.homepage, getCur(), "수정", "그룹권한", `로그인페이지변경:  ${modal_group.homepage} => ${params.homepage}`);
+
+  $.postJSON('/json/admin/group/update', params).then(res => {
+    console.log(res);
+    dynamicAlert("그룹권한이 정상적으로 변경되었습니다");
+  });
+
 }
 
 
@@ -2095,7 +2170,7 @@ $(document).on('click', '#m-delete', function (event) {
   case 'admin-notice-search'  : return admin_notice_delete ();
   case 'admin-admin-search'   : return admin_admin_delete  ();
   case 'admin-class-search'   : return admin_class_delete  (); 
-  case 'admin-group-search'   : return;
+  case 'admin-group-search'   : return admin_group_delete  ();
 
   case 'member-coupon-search' : return member_coupon_delete ();
   }
@@ -2124,8 +2199,8 @@ function admin_event_delete () {
   }
   $.postJSON('/json/admin/event/delete/id/', params).then(res => {
     console.log(res);
-    dynamicAlert("이벤트/광고정보가 정상적으로 삭제되었습니다");
     logAdminEvent(modal_event.title, "", userInfo.name, getCur(), "삭제", "이벤트", "");
+    dynamicAlert("이벤트/광고정보가 정상적으로 삭제되었습니다");
     $("#m-update").prop('disabled', true);
     $("#m-delete").prop('disabled', true);
   });
@@ -2155,6 +2230,7 @@ function admin_admin_delete () {
   $.postJSON('/json/admin/admin/delete/id/', params).then(res => {
     console.log(res);
     dynamicAlert("공지사항이 정상적으로 삭제되었습니다");
+    logAdminAdmin(modal_admin.name, "", userInfo.name, getCur(), "삭제", "관리자", "");
     $("#m-update").prop('disabled', true);
     $("#m-delete").prop('disabled', true);
   });
@@ -2169,6 +2245,22 @@ function admin_class_delete () {
   $.postJSON('/json/admin/class/delete/id/', params).then(res => {
     console.log(res);
     dynamicAlert("업종명이 정상적으로 삭제되었습니다");
+    logAdminClass(modal_class.name, "", userInfo.name, getCur(), "삭제", "업종분류코드", "");
+    $("#m-update").prop('disabled', true);
+    $("#m-delete").prop('disabled', true);
+  });
+}
+
+function admin_group_delete () {
+  console.log (modal_group);
+  var params = {
+    id:   modal_group.id,
+    updater: userInfo.name
+  }
+  $.postJSON('/json/admin/group/delete/id/', params).then(res => {
+    console.log(res);
+    dynamicAlert("그룹권한이 정상적으로 삭제되었습니다");
+    logAdminGroup(modal_group.name, "", userInfo.name, getCur(), "삭제", "그룹권한", "");
     $("#m-update").prop('disabled', true);
     $("#m-delete").prop('disabled', true);
   });
@@ -2194,9 +2286,13 @@ function member_coupon_delete () {
 $(document).on('click', '#history', function (event) {
   var pageid = $('#pageid').text();
   switch(pageid) {
-  case 'admin-member-search'     : return admin_member_history     ();
-  case 'admin-event-search'      : return admin_event_history      ();
-  case 'admin-notice-search'     : return admin_notice_history     ();
+  case 'admin-member-search'     : return admin_member_history  ();
+  case 'admin-event-search'      : return admin_event_history   ();
+  case 'admin-coupon-search'     : return admin_coupon_history  ();
+  case 'admin-notice-search'     : return admin_notice_history  ();
+  case 'admin-admin-search'      : return admin_admin_history   ();
+  case 'admin-group-search'      : return admin_group_history   ();
+  case 'admin-class-search'      : return admin_class_history   ();
   }
 });
 
@@ -2272,6 +2368,42 @@ function admin_event_history () {
   });
 }
 
+function admin_coupon_history () {
+  $("#modal-coupon-hist-detail").modal('show');
+  $.postJSON('/json/admin/coupon/history', {}).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="modal-coupon-hist-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">쿠폰명</th>';
+    html += '<th style="text-align: center;">액션</th>';
+    html += '<th style="text-align: center;">범위</th>';
+    html += '<th style="text-align: center;">수정상세</th>';
+    html += '<th style="text-align: center;">수정일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
+      html += `<td style="text-align: left;"><div class="ropa">${t.name}</div></td>`;
+      html += `<td style="text-align: center;">${t.done}</td>`;
+      html += `<td style="text-align: center;">${(t.menu == null)? "":t.menu}</td>`;
+      html += `<td style="text-align: center;">${(t.description == null)? "":t.description}</td>`;
+      html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
+    });
+    $("#m-hist-results").html(html);
+    $('#modal-coupon-hist-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
 function admin_notice_history () {
   $("#modal-notice-hist-detail").modal('show');
   $.postJSON('/json/admin/notice/history', {}).then(res => {
@@ -2307,6 +2439,115 @@ function admin_notice_history () {
     });
   });
 }
+
+function admin_admin_history () {
+  $("#modal-admin-hist-detail").modal('show');
+  $.postJSON('/json/admin/admin/history', {}).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="modal-admin-hist-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">관리자명</th>';
+    html += '<th style="text-align: center;">액션</th>';
+    html += '<th style="text-align: center;">범위</th>';
+    html += '<th style="text-align: center;">수정상세</th>';
+    html += '<th style="text-align: center;">수정일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
+      html += `<td style="text-align: left;"><div class="ropa">${t.name}</div></td>`;
+      html += `<td style="text-align: center;">${t.done}</td>`;
+      html += `<td style="text-align: center;">${(t.division == null)? "":t.division}</td>`;
+      html += `<td style="text-align: center;">${(t.description == null)? "":t.description}</td>`;
+      html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
+    });
+    $("#m-hist-results").html(html);
+    $('#modal-admin-hist-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
+function admin_class_history () {
+  $("#modal-class-hist-detail").modal('show');
+  $.postJSON('/json/admin/class/history', {}).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="modal-class-hist-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">업종명</th>';
+    html += '<th style="text-align: center;">액션</th>';
+    html += '<th style="text-align: center;">범위</th>';
+    html += '<th style="text-align: center;">수정상세</th>';
+    html += '<th style="text-align: center;">수정일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
+      html += `<td style="text-align: left;"><div class="ropa">${t.name}</div></td>`;
+      html += `<td style="text-align: center;">${t.done}</td>`;
+      html += `<td style="text-align: center;">${(t.division == null)? "":t.division}</td>`;
+      html += `<td style="text-align: center;">${(t.description == null)? "":t.description}</td>`;
+      html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
+    });
+    $("#m-hist-results").html(html);
+    $('#modal-class-hist-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
+function admin_group_history () {
+  $("#modal-group-hist-detail").modal('show');
+  $.postJSON('/json/admin/group/history', {}).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="modal-group-hist-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">이벤트명</th>';
+    html += '<th style="text-align: center;">액션</th>';
+    html += '<th style="text-align: center;">범위</th>';
+    html += '<th style="text-align: center;">수정상세</th>';
+    html += '<th style="text-align: center;">수정일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
+      html += `<td style="text-align: left;"><div class="ropa">${t.name}</div></td>`;
+      html += `<td style="text-align: center;">${t.done}</td>`;
+      html += `<td style="text-align: center;">${(t.division == null)? "":t.division}</td>`;
+      html += `<td style="text-align: center;">${(t.description == null)? "":t.description}</td>`;
+      html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
+    });
+    $("#m-hist-results").html(html);
+    $('#modal-group-hist-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
 
 
 
@@ -2647,10 +2888,10 @@ function member_dashbaord_search () {
     $.each(res, function(i, t) {
       html += '<tr>';
       html += `<td style="text-align: center;">${t.day}</td>`;
-      html += `<td style="text-align: center;"><a id="item-member-dashboard" maxid="${t.maxid}" minid="${t.minid}" href="javascript:void(0);">${numberWithCommas(t.total)}</a></td>`;
-      html += `<td style="text-align: center;">0</td>`;
-      html += `<td style="text-align: center;">0</td>`;
-      html += `<td style="text-align: center;">0</td>`;
+      html += `<td style="text-align: center;"><a id="item-member-dashboard" maxid="${t.maxdid}" minid="${t.mindid}" href="javascript:void(0);">${numberWithCommas(t.amount)}</a></td>`;
+      html += `<td style="text-align: center;">${t.promotion}</td>`;
+      html += `<td style="text-align: center;">${t.stamp}</td>`;
+      html += `<td style="text-align: center;">${t.reward}</td>`;
       html += `<td style="text-align: center;">0</td>`;
       html += `<td style="text-align: center;">0</td>`;
       html += `<td style="text-align: center;">0</td>`;
@@ -2958,6 +3199,7 @@ function pos_sign_up () {
   });
 }
 
+/*
 function admin_admin_register_checkup (params) {
   console.log (params);
   if (params.email == "" || params.valid == "0") { dynamicAlert("유효한 이메일을 입력해주세요"); return false; }
@@ -3017,6 +3259,7 @@ function admin_admin_register () {
     admin_admin_register_complete();
   });
 }
+*/
 
 function admin_profile_register () {
   var params = {
@@ -3126,6 +3369,16 @@ $('.modal').on('shown.bs.modal', function(event) {
 
 $('input[type=radio][name=status]').change(function() {
   console.log (this.value);
+});
+
+$('input[type=checkbox][name=authority]').change(function() {
+  switch(this.value) {
+  case '쿠폰관리'       : $("#hp-coupon").prop("disabled", ($("#fcoupon").is(":checked"))? false : true); break;
+  case '이벤트/광고관리': $("#hp-event").prop("disabled",  ($("#fevent").is(":checked"))? false : true);  break;
+  case '공지사항관리'   : $("#hp-notice").prop("disabled", ($("#fnotice").is(":checked"))? false : true); break;
+  case '관리자관리'     : $("#hp-admin").prop("disabled",  ($("#fadmin").is(":checked"))? false : true);  break;
+  case '그룹권한관리'   : $("#hp-group").prop("disabled",  ($("#fgroup").is(":checked"))? false : true);  break;
+  }
 });
 
 $('#coupon-generate').on('click', function(event) {
@@ -3414,6 +3667,35 @@ $(document).on('click', '#class-detail', function (event) {
   });
 });
 
+var modal_group = {};
+
+$(document).on('click', '#group-detail', function (event) {
+  var id = $(this).attr("modal-id");
+
+  $("#modal-group-detail").modal('show');
+  $.getJSON(`/json/admin/group/search/id/${id}`, function (res) {
+    modal_group = res;
+    console.log ('group-detail', res);
+    $("#m-gname").val(res.gname);
+    $("#m-name").val(res.name);
+    if(res.fcoupon) { $("#fcoupon").prop('checked', true); $("#hp-coupon").prop('disabled', false); } else { $("#fcoupon").prop('checked', false); $("#hp-coupon").prop('disabled', true); }
+    if(res.fevent)  { $("#fevent").prop('checked', true);  $("#hp-event").prop('disabled', false); }  else { $("#fevent").prop('checked', false); $("#hp-event").prop('disabled', true);   }
+    if(res.fnotice) { $("#fnotice").prop('checked', true); $("#hp-notice").prop('disabled', false); } else { $("#fnotice").prop('checked', false); $("#hp-notice").prop('disabled', true); }
+    if(res.fadmin)  { $("#fadmin").prop('checked', true);  $("#hp-admin").prop('disabled', false); }  else { $("#fadmin").prop('checked', false); $("#hp-admin").prop('disabled', true);   }
+    if(res.fgroup)  { $("#fgroup").prop('checked', true);  $("#hp-group").prop('disabled', false); }  else { $("#fgroup").prop('checked', false); $("#hp-group").prop('disabled', true);   }
+
+    switch(res.homepage) {
+    case '대시보드'       : $("#hp-dashboard").prop('checked', true); break;
+    case '쿠폰관리'       : $("#hp-coupon").prop('checked', true);    break;
+    case '이벤트/광고관리': $("#hp-event").prop('checked', true);     break;
+    case '공지사항관리'   : $("#hp-notice").prop('checked', true);    break;
+    case '관리자관리'     : $("#hp-admin").prop('checked', true);     break;
+    case '그룹권한관리'   : $("#hp-group").prop('checked', true);     break;
+    }
+  });
+});
+
+
 var modal_admin = {};
 
 $(document).on('click', '#admin-detail', function (event) {
@@ -3613,32 +3895,41 @@ $(document).on('click', '#dashboard-search', function (event) {
 //
 // MODAL CLOSING
 //
-/*
 $("#modal-member-detail").on('hide.bs.modal', function () {
-  location.reload();
+  //location.reload();
+  admin_member_search ();
 });
 $("#modal-coupon-detail").on('hide.bs.modal', function () {
-  location.reload();
+  //location.reload();
+  admin_coupon_search ();
 });
 $("#modal-user-detail").on('hide.bs.modal', function () {
-  location.reload();
+  //location.reload();
+  admin_user_search ();
 });
 $("#modal-event-detail").on('hide.bs.modal', function () {
-  location.reload();
+  //location.reload();
+  admin_event_search ();
 });
 $("#modal-notice-detail").on('hide.bs.modal', function () {
-  location.reload();
+  //location.reload();
+  admin_notice_search ();
 });
 $("#modal-admin-detail").on('hide.bs.modal', function () {
-  location.reload();
+  //location.reload();
+  admin_admin_search ();
 });
 $("#modal-class-detail").on('hide.bs.modal', function () {
-  location.reload();
+  //location.reload();
+  admin_class_search ();
+});
+$("#modal-group-detail").on('hide.bs.modal', function () {
+  //location.reload();
+  admin_group_search ();
 });
 $("#modal-member-coupon").on('hide.bs.modal', function () {
   location.reload();
 });
-*/
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -3704,6 +3995,43 @@ function logAdminNotice(name, menu, updater, updated, done, division, descriptio
   $.postFORM ('/json/admin/notice/history/register', formData);
 }
 
+function logAdminGroup(name, menu, updater, updated, done, division, description) {
+  var formData = new FormData();
+  formData.append('name',        name);
+  formData.append('menu',        menu);
+  formData.append('updater',     updater);
+  formData.append('updated',     updated);
+  formData.append('done',        done);
+  formData.append('division',    division);
+  formData.append('description', description);
+  $.postFORM ('/json/admin/group/history/register', formData);
+}
+
+
+function logAdminClass(name, menu, updater, updated, done, division, description) {
+  var formData = new FormData();
+  formData.append('name',        name);
+  formData.append('menu',        menu);
+  formData.append('updater',     updater);
+  formData.append('updated',     updated);
+  formData.append('done',        done);
+  formData.append('division',    division);
+  formData.append('description', description);
+  $.postFORM ('/json/admin/class/history/register', formData);
+}
+
+function logAdminAdmin(name, menu, updater, updated, done, division, description) {
+  var formData = new FormData();
+  formData.append('name',        name);
+  formData.append('menu',        menu);
+  formData.append('updater',     updater);
+  formData.append('updated',     updated);
+  formData.append('done',        done);
+  formData.append('division',    division);
+  formData.append('description', description);
+  $.postFORM ('/json/admin/admin/history/register', formData);
+}
+
 
 
 /*
@@ -3726,3 +4054,6 @@ console.log ('table exist');
 });
 */
 
+$(document).on('click', '.nav-link', function(event) {
+  sessionStorage.setItem("main-sidebar", $("#main-sidebar").html());
+});

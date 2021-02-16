@@ -293,92 +293,107 @@ module.exports = function (app) {
     if(req.session.passport.user.grade == undefined) {
       return res.redirect('/logout');
     }
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin')});
+    else {
+      req.session.group = lib.mysql.searchAdminGroupByName([req.session.passport.user.grade]);
+      res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin')});
+    }
   });
   app.get('/admin', lib.passport.ensureAuthenticated, function (req, res, next) {
     if(req.session.passport.user.grade == undefined) {
       console.log ('redirect', `/member/${req.session.passport.user.rcn}`);
       res.redirect(`/member/${req.session.passport.user.id}`);
     }
-    else res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/dashboard/dashboard')});
+    else  {
+      req.session.group = lib.mysql.searchAdminGroupByName([req.session.passport.user.grade]);
+      switch(req.session.group.homepage) {
+      case '대시보드'       : return res.redirect('/admin/dashboard/dashboard'); 
+      case '쿠폰관리'       : return res.redirect('/admin/coupon/search'); 
+      case '이벤트/광고관리': return res.redirect('/admin/event/search'); 
+      case '공지사항관리'   : return res.redirect('/admin/notice/search'); 
+      case '관리자관리'     : return res.redirect('/admin/admin/search'); 
+      case '그룹권한관리'   : return res.redirect('/admin/group/search'); 
+      default               : return res.redirect('/admin/dashboard/dashboard'); 
+      }
+      //res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/dashboard/dashboard')});
+    }
   });
   app.get('/admin/profile', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/profile')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/profile')});
   });
   app.get('/admin/dashboard/dashboard', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/dashboard/dashboard')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/dashboard/dashboard')});
   });
   app.get('/admin/dashboard/member', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/dashboard/member')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/dashboard/member')});
   });
   app.get('/admin/dashboard/user', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/dashboard/user')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/dashboard/user')});
   });
   app.get('/admin/dashboard/deal', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/dashboard/deal')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/dashboard/deal')});
   });
   app.get('/admin/dashboard/stamp', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/dashboard/stamp')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/dashboard/stamp')});
   });
   app.get('/admin/member/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/member/search')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/member/search')});
   });
   app.get('/admin/member/register', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/member/register')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/member/register')});
   });
   app.get('/admin/coupon/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/coupon/search')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/coupon/search')});
   });
   app.get('/admin/coupon/register', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/coupon/register')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/coupon/register')});
   });
   app.get('/admin/user/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/user/search')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/user/search')});
   });
   app.get('/admin/user/join', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/user/join')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/user/join')});
   });
   app.get('/admin/user/age', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/user/age')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/user/age')});
   });
   app.get('/admin/user/gender', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/user/gender')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/user/gender')});
   });
   app.get('/admin/user/area', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/user/area')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/user/area')});
   });
   app.get('/admin/event/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/event/search')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/event/search')});
   });
   app.get('/admin/event/register', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/event/register')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/event/register')});
   });
   app.get('/admin/notice/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/notice/search')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/notice/search')});
   });
   app.get('/admin/notice/register', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/notice/register')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/notice/register')});
   });
   app.get('/admin/admin/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/admin/search')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/admin/search')});
   });
   app.get('/admin/admin/register', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/admin/register')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/admin/register')});
   });
   app.get('/admin/class/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/class/search')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/class/search')});
   });
   app.get('/admin/class/register', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/class/register')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/class/register')});
   });
   app.get('/admin/group/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/group/search')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/group/search')});
   });
   app.get('/admin/group/register', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/group/register')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/group/register')});
   });
   app.get('/admin/role/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/admin/role/search')});
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/role/search')});
   });
 
   app.get('/test', lib.passport.ensureAuthenticated, function (req, res, next) {

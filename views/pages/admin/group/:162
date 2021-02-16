@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">상위그룹권한</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+<!--
+                <input id="gname" type="text" class="form-control" value="" disabled>
+-->
+                <button id="btn-gname" class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">선택</button>
+                <div id="group1" class="dropdown-menu">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">그룹권한명</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="name" type="text" class="form-control" value="" placeholder="그룹권한명">
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+
+            <div class="form-group col-md-2">
+            <label for="member">그룹메뉴권한*</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fcoupon" name="authority" value="쿠폰관리">&nbsp;&nbsp;쿠폰관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fevent"  name="authority" value="이벤트/광고관리">&nbsp;&nbsp;이벤트/광고관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fnotice" name="authority" value="공지사항관리">&nbsp;&nbsp;공지사항관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fadmin"  name="authority" value="관리자관리">&nbsp;&nbsp;관리자관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fgroup"  name="authority" value="그룹권한관리">&nbsp;&nbsp;그룹권한관리&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-5"><span class="form-comment">메뉴권한을 설정해주세요</span></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">로그인초기페이지*</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-coupon" name="homepage" value="쿠폰관리">&nbsp;&nbsp;쿠폰관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-event"  name="homepage" value="이벤트/광고관리">&nbsp;&nbsp;이벤트/광고관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-notice" name="homepage" value="공지사항관리">&nbsp;&nbsp;공지사항관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-admin"  name="homepage" value="관리자관리">&nbsp;&nbsp;관리자관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-group"  name="homepage" value="그룹권한관리">&nbsp;&nbsp;그룹권한관리&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-5"><span class="form-comment">로그인 초기페이지를 설정해주세요</span></div>
+
+
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="list"   class="btn btn-default" style="float: left;" >목록</button>
+              <button id="register" class="btn btn-default" style="float: right;">등록</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="results"></div>
+              <div id="pageid" style="display: none;">admin-group-register</div>
+            </div>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+

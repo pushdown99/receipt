@@ -7,31 +7,16 @@
 
           <div class="form-row">
 
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-2">
             <label for="member">권한그룹</label>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">권한그룹명</div></div>
                 <input id="name" type="text" class="form-control" value="" placeholder="권한그룹명">
               </div>
             </div>
-
-            <div class="form-group col-md-3">
-              <div class="input-group dropdown">
-                <div class="input-group-prepend"><div class="input-group-text">상태</div></div>
-  
-                <button id="stat" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
-                <div id="dropUsed" class="dropdown-menu">
-                  <a class="dropdown-item">전체</a>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item">가입</a>
-                  <a class="dropdown-item">해지</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-6">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text text-left">기간</div></div>
                 <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
@@ -68,6 +53,149 @@
           </div>
 
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-group-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+        <h5>그룹권한 상세조회</h5>
+        <hr>
+        <div class="form-row">
+
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">상위그룹권한</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="m-gname" type="text" class="form-control" value="" disabled>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">그룹권한명</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="m-name" type="text" class="form-control" value="" placeholder="그룹권한명">
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+
+            <div class="form-group col-md-2">
+            <label for="member">그룹메뉴권한*</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fcoupon" name="authority" value="쿠폰관리">&nbsp;&nbsp;쿠폰관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fevent"  name="authority" value="이벤트/광고관리">&nbsp;&nbsp;이벤트/광고관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fnotice" name="authority" value="공지사항관리">&nbsp;&nbsp;공지사항관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fadmin"  name="authority" value="관리자관리">&nbsp;&nbsp;관리자관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fgroup"  name="authority" value="그룹권한관리">&nbsp;&nbsp;그룹권한관리&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-5"><span class="form-comment">메뉴권한을 설정해주세요</span></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">로그인초기페이지*</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-coupon" name="homepage" value="쿠폰관리" disabled>&nbsp;&nbsp;쿠폰관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-event"  name="homepage" value="이벤트/광고관리" disabled>&nbsp;&nbsp;이벤트/광고관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-notice" name="homepage" value="공지사항관리" disabled>&nbsp;&nbsp;공지사항관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-admin"  name="homepage" value="관리자관리" disabled>&nbsp;&nbsp;관리자관리&nbsp;&nbsp;</label>
+                <label class="checkbox-inline">&nbsp;<input type="radio" id="hp-group"  name="homepage" value="그룹권한관리" disabled>&nbsp;&nbsp;그룹권한관리&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-5"><span class="form-comment">로그인 초기페이지를 설정해주세요</span></div>
+
+
+          </div>
+
+
+        </div>
+
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+          </div>
+          <div class="form-group col-md-6">
+            <span style="float: right;">
+            <button id="m-delete"  class="btn btn-default">삭제</button>
+            <button id="m-update"  class="btn btn-default">수정</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-group-hist-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+        <h5>그룹권한 변경이력 조회</h5>
+        <hr>
+        <div class="form-row">
+
+          <div class="form-group col-md-1">
+          <label for="member">이력필터</label>
+          </div>
+
+          <div class="form-group col-md-4">
+            <div class="input-group">
+              <input id="m-rcn" type="text" class="form-control" placeholder="관리자">
+            </div>
+          </div>
+          <div class="form-group col-md-7">
+            <div class="input-group">
+              <div class="input-group-prepend"><div class="input-group-text text-left">수정일</div></div>
+              <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+              <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+              </div>
+              <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+              <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button id="search"  class="btn btn-default" style="float: right;">검색</button>
+          </div>
+        </div>
+        <hr>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <div id="m-hist-results"></div>
+          </div>
+        </div>
+
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

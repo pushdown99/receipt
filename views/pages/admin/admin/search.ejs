@@ -7,7 +7,7 @@
 
           <div class="form-row">
 
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-2">
             <label for="member">관리자</label>
             </div>
             <div class="form-group col-md-3">
@@ -24,7 +24,6 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group col-md-3">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">상태</div></div>
@@ -37,15 +36,14 @@
                 </div>
               </div>
             </div>
-
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4">
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">관리자 정보</div></div>
                 <input id="name" type="text" class="form-control" value="" placeholder="ID/이름">
               </div>
             </div>
 
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-2">
             <label for="member">수정일</label>
             </div>
             <div class="form-group col-md-5">
@@ -61,7 +59,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-5"></div>
 
           </div>
 
@@ -241,6 +239,64 @@
             <button id="m-passwd-update" type="button" class="btn btn-default" style="float: right;">비밀번호변경</button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-admin-hist-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+        <h5>관리자 변경이력 조회</h5>
+        <hr>
+        <div class="form-row">
+
+          <div class="form-group col-md-1">
+          <label for="member">이력필터</label>
+          </div>
+
+          <div class="form-group col-md-4">
+            <div class="input-group">
+              <input id="m-rcn" type="text" class="form-control" placeholder="관리자">
+            </div>
+          </div>
+          <div class="form-group col-md-7">
+            <div class="input-group">
+              <div class="input-group-prepend"><div class="input-group-text text-left">수정일</div></div>
+              <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+              <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+              </div>
+              <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+              <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button id="search"  class="btn btn-default" style="float: right;">검색</button>
+          </div>
+        </div>
+        <hr>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <div id="m-hist-results"></div>
+          </div>
+        </div>
+
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

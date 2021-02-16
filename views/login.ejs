@@ -72,7 +72,12 @@
      if($("#member").is(":checked")) $("#member").val("1");
   });
 
+  function dynamicAlert (body) {
+  $("#alert-body").html(body);
+  $("#modal-alert").modal('show');
+  }
   </script>
 </body>
 </html>
+
 

@@ -274,6 +274,23 @@ module.exports = function (app) {
   });
 
   /////////////////////////////////////////////////////////////////////////
+  // ADMIN-GROUP-REGISTER
+  app.post('/json/admin/group/register', function (req, res) {
+    var gname    = req.body.gname;
+    var name     = req.body.name;
+    var fcoupon  = req.body.fcoupon;
+    var fevent   = req.body.fevent;
+    var fnotice  = req.body.fnotice;
+    var fadmin   = req.body.fadmin;
+    var fgroup   = req.body.fgroup;
+    var homepage = req.body.homepage;
+    var register = req.body.register;
+
+    var result = lib.mysql.putAdminGroup ([gname, name, fcoupon, fevent, fnotice, fadmin, fgroup, homepage, register]);
+    res.json (result);
+  });
+
+  /////////////////////////////////////////////////////////////////////////
   // MEMBER-COUPON-REGISTER
   app.post('/json/member/coupon/register', function (req, res) {
     var member  = req.body.member;
@@ -644,6 +661,22 @@ console.log("params", cash, stamp);
     res.json (result);
   });
 
+  /////////////////////////////////////////////////////////////////////////
+  // ADMIN-GROUP-SEARCH
+  app.post('/json/admin/group/search', function (req, res) {
+    var name  = (req.body.name =="all")? '%%':'%'+req.body.name+'%';
+    var date1 = req.body.date1;
+    var date2 = req.body.date2;
+
+    var result = lib.mysql.getAdminGroup([name, date1, date2]);
+    res.json(result);
+  });
+
+  app.get('/json/admin/group/search/id/:id', function (req, res) {
+    var id = req.params.id;
+    var result = lib.mysql.findAdminGroupId ([id]);
+    res.json (result);
+  });
 
   /////////////////////////////////////////////////////////////////////////
   // MEMBER-DASHBOARD-SEARCH
@@ -654,12 +687,9 @@ console.log("params", cash, stamp);
     var date2 = req.body.date2;
     var result = "";
 
-    switch (cond) {
-    case "일": result = lib.mysql.searchMemberDashDealDay ([rcn, date1, date2]); break;
-    case "주": result = lib.mysql.searchMemberDashDealWeek([rcn, date1, date2]); break;
-    case "월": result = lib.mysql.searchMemberDashDealMon ([rcn, date1, date2]); break;
-    }
-    console.log(lib.mysql.searchMemberDashCouponDay ([rcn, date1, date2]));
+    date1  = (cond == '월')? moment(date1, 'YYYY-MM-DD').format('YYYY-MM'): date1;
+    date2  = (cond == '월')? moment(date2, 'YYYY-MM-DD').format('YYYY-MM'): date2;
+    result = lib.mysql.searchMemberDashDeal ([rcn, date1, date2, cond]);
     res.json(result);
   });
 
@@ -847,6 +877,22 @@ console.log("params", cash, stamp);
 
     var result = lib.mysql.updAdminEvent([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, event, main, detail, rgb1, rgb2, coupon, date3, date4, '', updater, id]);
     res.json(result);
+  });
+
+  app.post('/json/admin/group/update', function (req, res) {
+    var id       = req.body.id;
+    var gname    = req.body.gname;
+    var name     = req.body.name;
+    var fcoupon  = req.body.fcoupon;
+    var fevent   = req.body.fevent;
+    var fnotice  = req.body.fnotice;
+    var fadmin   = req.body.fadmin;
+    var fgroup   = req.body.fgroup;
+    var homepage = req.body.homepage;
+    var updater  = req.body.updater;
+
+    var result = lib.mysql.updAdminGroup ([gname, name, fcoupon, fevent, fnotice, fadmin, fgroup, homepage, updater, id]);
+    res.json (result);
   });
 
   app.post('/json/admin/notice/update', function (req, res) {
@@ -1048,6 +1094,13 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
+  app.post('/json/admin/group/delete/id', function (req, res) {
+    var id = req.body.id;
+
+    var result = lib.mysql.delAdminGroupId([id]);
+    res.json(result);
+  });
+
   /////////////////////////////////////////////////////////////////////////
   // MEMBER-COUPON-DELETE
   app.post('/json/member/coupon/delete/id', function (req, res) {
@@ -1084,11 +1137,27 @@ console.log("params", cash, stamp);
     var result = lib.mysql.searchEventHistory ([]);
     res.json(result);
   });
-
+  app.post('/json/admin/coupon/history', function (req, res) {
+    var result = lib.mysql.searchCouponHistory ([]);
+    res.json(result);
+  });
   app.post('/json/admin/notice/history', function (req, res) {
     var notice = lib.mysql.searchNoticeHistory ([]);
     res.json(notice);
   });
+  app.post('/json/admin/admin/history', function (req, res) {
+    var admin = lib.mysql.searchAdminHistory ([]);
+    res.json(admin);
+  });
+  app.post('/json/admin/class/history', function (req, res) {
+    var cl = lib.mysql.searchClassHistory ([]);
+    res.json(cl);
+  });
+  app.post('/json/admin/Group/history', function (req, res) {
+    var group = lib.mysql.searchGroupHistory ([]);
+    res.json(group);
+  });
+
 
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1160,9 +1229,9 @@ console.log("params", cash, stamp);
   });
 
   app.post('/json/admin/profile/update', function (req, res) {
-    name  = req.body.name;
-    mobile = req.body.mobile;
-    phone  = req.body.phone;
+    var name   = req.body.name;
+    var mobile = req.body.mobile;
+    var phone  = req.body.phone;
 
     var result = lib.mysql.updAdminUser ([name, mobile, phone]);
     res.join (result);
@@ -1249,17 +1318,13 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
-  app.post('/json/group/search', function (req, res) {
-    var name  = (req.body.name =="all")? '%%':'%'+req.body.name+'%';
-    var date1 = req.body.date1;
-    var date2 = req.body.date2;
-
-    var result = lib.mysql.getAdminGroup([name, date1, date2]);
+  app.get('/json/city/search', function (req, res) {
+    var result = lib.mysql.getCityArea1 ();
     res.json(result);
   });
 
-  app.get('/json/city/search', function (req, res) {
-    var result = lib.mysql.getCityArea1 ();
+  app.get('/json/group/search', function (req, res) {
+    var result = lib.mysql.getGroup1 ();
     res.json(result);
   });
 
@@ -1418,6 +1483,45 @@ console.log("params", cash, stamp);
     var description = req.body.description;
 
     lib.mysql.putAdminNoticeHistory([name, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+  app.post('/json/admin/group/history/register', function (req, res) {
+    var name        = req.body.name;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putAdminGroupHistory([name, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+  app.post('/json/admin/class/history/register', function (req, res) {
+    var name        = req.body.name;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putAdminClassHistory([name, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+  app.post('/json/admin/admin/history/register', function (req, res) {
+    var name        = req.body.name;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putAdminAdminHistory([name, menu, updater, updated, done, division, description]);
     res.json ({});
   });
 

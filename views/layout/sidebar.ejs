@@ -40,33 +40,41 @@
           </ul>
         </li>
 
+<% if (group["fcoupon"] == 1) {  %>
         <li class="nav-item" id="sb-coupon"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-ticket-alt nav-icon"></i><p>쿠폰관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
             <li class="nav-item"><a href="/admin/coupon/search"   id="sb-coupon-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;쿠폰조회</p></a></li>
             <li class="nav-item"><a href="/admin/coupon/register" id="sb-coupon-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;쿠폰등록</p></a></li>
           </ul>
         </li>
+<% } %>
 
+<% if (group["fevent"] == 1) {  %>
         <li class="nav-item" id="sb-event"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-calendar-day nav-icon"></i><p>이벤트/광고관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
             <li class="nav-item"><a href="/admin/event/search"   id="sb-event-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;이벤트/광고조회</p></a></li>
             <li class="nav-item"><a href="/admin/event/register" id="sb-event-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;이벤트/광고등록</p></a></li>
           </ul>
         </li>
+<% } %>
 
+<% if (group["fnotice"] == 1) {  %>
         <li class="nav-item" id="sb-notice"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-bullhorn nav-icon"></i><p>공지사항관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
             <li class="nav-item"><a href="/admin/notice/search"   id="sb-notice-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;공지사항조회</p></a></li>
             <li class="nav-item"><a href="/admin/notice/register" id="sb-notice-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;공지사항등록</p></a></li>
           </ul>
         </li>
+<% } %>
 
+<% if (group["fadmin"] == 1) {  %>
         <li class="nav-item" id="sb-admin"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-user nav-icon"></i><p>관리자관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
             <li class="nav-item"><a href="/admin/admin/search"   id="sb-admin-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;관리자조회</p></a></li>
             <li class="nav-item"><a href="/admin/admin/register" id="sb-admin-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;관리자등록</p></a></li>
           </ul>
         </li>
+<% } %>
 
         <li class="nav-item" id="sb-class"><a href="javascript:void(0);" class="nav-parent nav-link "></i><i class="fas fa-sliders-h nav-icon"></i><p>설정<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
@@ -79,21 +87,14 @@
           </ul>
         </li>
 
-        <li class="nav-item" id="sb-group"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-lock nav-icon"></i><p>권한그룹/권한관리<i class="right fas fa-angle-left"></i></p></a>
+<% if (group["fgroup"] == 1) {  %>
+        <li class="nav-item" id="sb-group"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-lock nav-icon"></i><p>그룹권한관리<i class="right fas fa-angle-left"></i></p></a>
           <ul class="nav nav-treeview">
-            <li class="nav-item"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-key nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;권한그룹관리<i class="right fas fa-angle-left"></i></p></a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item"><a href="/admin/group/search"   id="sb-group-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;권한그룹조회</p></a></li>
-                <li class="nav-item"><a href="/admin/group/register" id="sb-group-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;권한그룹등록</p></a></li>
-              </ul>
-            </li>
-
-            <li class="nav-item" id="sb-role"><a href="javascript:void(0);" class="nav-parent nav-link "><i class="fas fa-hand-paper nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;권한관리<i class="right fas fa-angle-left"></i></p></a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item"><a href="/admin/role/search"   id="sb-role-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;권한조회</p></a></li>
-              </ul>
-            </li>
+            <li class="nav-item"><a href="/admin/group/search"   id="sb-group-search" class="nav-child nav-link"><i class="fas fa-search nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;그룹권한조회</p></a></li>
+            <li class="nav-item"><a href="/admin/group/register" id=sb-group-register" class="nav-child nav-link"><i class="fas fa-feather-alt nav-icon"></i><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;그룹권한등록</p></a></li>
           </ul>
+        </li>
+<% } %>
         </li>
 
       </ul>

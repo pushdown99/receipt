@@ -178,24 +178,17 @@ module.exports = {
       return info;
 
     case '/admin/group/search':
-      info.title = '권한그룹 조회';
+      info.title = '그룹권한조회';
       info.name = 'admin/group/search';
-      info.navigation = '권한그룹&권한관리 / 권한그룹관리 / 권한그룹조회';
+      info.navigation = '그룹권한관리 / 그룹권한조회';
       info.page = 'admin/group/search';
       return info;
 
     case '/admin/group/register':
-      info.title = '권한그룹 등록';
+      info.title = '그룹권한등록';
       info.name = 'admin/group/register';
-      info.navigation = '권한그룹&권한관리 / 권한그룹관리 / 권한그룹등록';
+      info.navigation = '그룹권한관리 / 그룹권한등록';
       info.page = 'admin/group/search';
-      return info;
-
-    case '/admin/role/search':
-      info.title = '권한 조회';
-      info.name = 'admin/role/search';
-      info.navigation = '권한그룹&권한관리 / 권한관리 / 권한조회';
-      info.page = 'admin/grade/search';
       return info;
 
     /////////////////////////////////////////////////

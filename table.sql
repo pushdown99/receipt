@@ -229,6 +229,31 @@ CREATE TABLE IF NOT EXISTS admin_group (
   registered     timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE admin_group;
+CREATE TABLE IF NOT EXISTS admin_group (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  gname          varchar(32) DEFAULT "",
+  gtype          varchar(32) DEFAULT "관리자",
+  gdepth         int DEFAULT 0,
+  name           varchar(32) UNIQUE,
+  fcoupon        int DEFAULT 0,
+  fevent         int DEFAULT 0,
+  fnotice        int DEFAULT 0,
+  fadmin         int DEFAULT 0,
+  fgroup         int DEFAULT 0,
+  homepage       varchar(32) NOT NULL,
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  register       varchar(32) DEFAULT "",
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO admin_group (gname, gtype, gdepth, name, fcoupon, fevent, fnotice, fadmin, fgroup, homepage, register) VALUES ('시스템관리자', '관리자', 0, '시스템관리자', 1, 1, 1, 1, 1, '대시보드', '시스템');
+INSERT INTO admin_group (gname, gtype, gdepth, name, fcoupon, fevent, fnotice, fadmin, fgroup, homepage, register) VALUES ('시스템관리자', '관리자', 1, '운영관리자',   0, 0, 0, 1, 1, '대시보드', '시스템');
+INSERT INTO admin_group (gname, gtype, gdepth, name, fcoupon, fevent, fnotice, fadmin, fgroup, homepage, register) VALUES ('운영관리자',   '관리자', 2, '서비스관리자', 0, 0, 0, 1, 1, '대시보드', '시스템');
+INSERT INTO admin_group (gname, gtype, gdepth, name, fcoupon, fevent, fnotice, fadmin, fgroup, homepage, register) VALUES ('운영관리자',   '관리자', 2, '가맹점관리자', 0, 0, 0, 1, 1, '대시보드', '시스템');
+
+
 INSERT INTO admin_group (group_name, group_type, updater, register, refid) VALUES ('시스템관리자', '시스템', '관리자A', '관리자A', 0);
 INSERT INTO admin_group (group_name, group_type, updater, register, refid) VALUES ('운영관리자',   '시스템', '관리자A', '관리자A', 1);
 INSERT INTO admin_group (group_name, group_type, updater, register, refid) VALUES ('서비스관리자', '시스템', '관리자A', '관리자A', 1);
@@ -357,6 +382,43 @@ CREATE TABLE IF NOT EXISTS admin_notice_history (
   division       varchar(32) DEFAULT "",
   description    varchar(32) DEFAULT ""
 );
+
+DROP TABLE admin_group_history;
+CREATE TABLE IF NOT EXISTS admin_group_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  menu           varchar(32) DEFAULT "",
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp NOT NULL,
+  done           varchar(32) DEFAULT "",
+  division       varchar(32) DEFAULT "",
+  description    varchar(32) DEFAULT ""
+);
+
+DROP TABLE admin_admin_history;
+CREATE TABLE IF NOT EXISTS admin_admin_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  menu           varchar(32) DEFAULT "",
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp NOT NULL,
+  done           varchar(32) DEFAULT "",
+  division       varchar(32) DEFAULT "",
+  description    varchar(32) DEFAULT ""
+);
+
+DROP TABLE admin_class_history;
+CREATE TABLE IF NOT EXISTS admin_class_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  menu           varchar(32) DEFAULT "",
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp NOT NULL,
+  done           varchar(32) DEFAULT "",
+  division       varchar(32) DEFAULT "",
+  description    varchar(32) DEFAULT ""
+);
+
 
 
 
