@@ -221,7 +221,6 @@ function updateMemberDashboardCoupon (rcn, day, types, promotion, reward, stamp,
 }
 
 function updateMemberDashboard () {
-console.log ("updateMemberDashboard");
   var rcns = lib.mysql.query("SELECT * FROM receipts GROUP BY rcn");
 
   rcns.forEach(rcn => { // 일
