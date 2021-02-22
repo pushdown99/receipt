@@ -49,6 +49,22 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function registerDeactivated (message) {
+  dynamicAlert (message);
+  $("#m-update").prop('disabled', true);
+}
+
+function deleteDeactivated (message) {
+  dynamicAlert (message);
+  $("#m-update").prop('disabled', true);
+  $("#m-delete").prop('disabled', true);
+}
+
+function deleteActivated () {
+  $("#m-update").prop('disabled', false);
+  $("#m-delete").prop('disabled', false);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // jQuery READY
@@ -297,25 +313,6 @@ $(document).on('click', '#register', function (event) {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // ADMIN-MEMBER-REGISTER
-function admin_member_register_complete () {
-  $("#rcn").val("");
-  $("#rcn-valid").val("0");
-  $("#password1").val("");
-  $("#password2").val("");
-  $("#name").val("");
-  $("#owner").val("");
-  $("#bzcond").val("");
-  $("#bztype").val("");
-  $("#btn-bzname").html("");
-  $("#phone").val("");
-  $("#date1").val("");
-  $("#btn-area1").html("");
-  $("#btn-area2").html("");
-  $("#addr").val("");
-  dynamicAlert("가맹점 정보가 정상적으로 등록되었습니다.");
-  return true;
-}
-
 function admin_member_register () {
   var params = {
     register:  userInfo.name,
@@ -347,22 +344,26 @@ function admin_member_register () {
 
   $.postJSON('/json/admin/member/register', params).then(res => {
     console.log(res);
-    admin_member_register_complete();
+    $("#rcn").val("");
+    $("#rcn-valid").val("0");
+    $("#password1").val("");
+    $("#password2").val("");
+    $("#name").val("");
+    $("#owner").val("");
+    $("#bzcond").val("");
+    $("#bztype").val("");
+    $("#btn-bzname").html("");
+    $("#phone").val("");
+    $("#date1").val("");
+    $("#btn-area1").html("");
+    $("#btn-area2").html("");
+    $("#addr").val("");
+    dynamicAlert("가맹점 정보가 정상적으로 등록되었습니다.");
   });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // ADMIN-COUPON-REGISTER
-function admin_coupon_register_complete () {
-  $("#cpcode").val("");
-  $("#cpcode-valid").val("0");
-  $("#cpname").val("");
-  $("#btn-member1").html("선택");
-  $("#benefit").val("");
-  $("#notice").val("");
-  dynamicAlert("쿠폰 정보가 정상적으로 등록되었습니다.");
-}
-
 function admin_coupon_register () {
   var params = {
     register       : userInfo.name,
@@ -388,7 +389,13 @@ function admin_coupon_register () {
   console.log (params);
   $.postJSON('/json/admin/coupon/register', params).then(res => {
     logAdminCoupon(params.cpname, "", userInfo.name, getCur(), "생성", "프로모션", "");
-    admin_coupon_register_complete();
+    $("#cpcode").val("");
+    $("#cpcode-valid").val("0");
+    $("#cpname").val("");
+    $("#btn-member1").html("선택");
+    $("#benefit").val("");
+    $("#notice").val("");
+    dynamicAlert("쿠폰 정보가 정상적으로 등록되었습니다");
   });
 }
 
@@ -549,6 +556,9 @@ function admin_class_register () {
   console.log (userInfo);
   var name  = $("#name").val() ;
   var register  = userInfo.name;
+  var file1 = $("#file1").val() ;
+  var file2 = $("#file2").val() ;
+  var file3 = $("#file3").val() ;
 
   if (name == "")  { dynamicAlert("업종명을 입력해주세요"); return }
   if (file1 == "") { dynamicAlert("1x 이미지 파일을 지정해주세요"); return }
@@ -2185,9 +2195,7 @@ function admin_coupon_delete () {
   $.postJSON('/json/admin/coupon/delete/id/', params).then(res => {
     console.log(res);
     logAdminCoupon(modal_coupon.name, "", userInfo.name, getCur(), "삭제", modal_coupon.ctype, "");
-    dynamicAlert("쿠폰이 정상적으로 삭제되었습니다");
-    $("#m-update").prop('disabled', true);
-    $("#m-delete").prop('disabled', true);
+    deleteDeactivated ("쿠폰이 정상적으로 삭제되었습니다");
   });
 }
 
@@ -2200,9 +2208,7 @@ function admin_event_delete () {
   $.postJSON('/json/admin/event/delete/id/', params).then(res => {
     console.log(res);
     logAdminEvent(modal_event.title, "", userInfo.name, getCur(), "삭제", "이벤트", "");
-    dynamicAlert("이벤트/광고정보가 정상적으로 삭제되었습니다");
-    $("#m-update").prop('disabled', true);
-    $("#m-delete").prop('disabled', true);
+    deleteDeactivated ("이벤트/광고정보가 정상적으로 삭제되었습니다");
   });
 }
 
@@ -2214,10 +2220,8 @@ function admin_notice_delete () {
   }
   $.postJSON('/json/admin/notice/delete/id/', params).then(res => {
     console.log(res);
-    dynamicAlert("공지사항이 정상적으로 삭제되었습니다");
+    deleteDeactivated ("공지사항이 정상적으로 삭제되었습니다");
     logAdminNotice(modal_notice.title, "", userInfo.name, getCur(), "삭제", "공지사항", "");
-    $("#m-update").prop('disabled', true);
-    $("#m-delete").prop('disabled', true);
   });
 }
 
@@ -2229,10 +2233,8 @@ function admin_admin_delete () {
   }
   $.postJSON('/json/admin/admin/delete/id/', params).then(res => {
     console.log(res);
-    dynamicAlert("공지사항이 정상적으로 삭제되었습니다");
+    deleteDeactivated ("공지사항이 정상적으로 삭제되었습니다");
     logAdminAdmin(modal_admin.name, "", userInfo.name, getCur(), "삭제", "관리자", "");
-    $("#m-update").prop('disabled', true);
-    $("#m-delete").prop('disabled', true);
   });
 }
 
@@ -2244,10 +2246,8 @@ function admin_class_delete () {
   }
   $.postJSON('/json/admin/class/delete/id/', params).then(res => {
     console.log(res);
-    dynamicAlert("업종명이 정상적으로 삭제되었습니다");
+    deleteDeactivated ("업종명이 정상적으로 삭제되었습니다");
     logAdminClass(modal_class.name, "", userInfo.name, getCur(), "삭제", "업종분류코드", "");
-    $("#m-update").prop('disabled', true);
-    $("#m-delete").prop('disabled', true);
   });
 }
 
@@ -2259,10 +2259,8 @@ function admin_group_delete () {
   }
   $.postJSON('/json/admin/group/delete/id/', params).then(res => {
     console.log(res);
-    dynamicAlert("그룹권한이 정상적으로 삭제되었습니다");
+    deleteDeactivated ("그룹권한이 정상적으로 삭제되었습니다");
     logAdminGroup(modal_group.name, "", userInfo.name, getCur(), "삭제", "그룹권한", "");
-    $("#m-update").prop('disabled', true);
-    $("#m-delete").prop('disabled', true);
   });
 }
 
@@ -2273,9 +2271,7 @@ function member_coupon_delete () {
   }
   $.postJSON('/json/member/coupon/delete/id/', params).then(res => {
     console.log(res);
-    dynamicAlert("쿠폰이 정상적으로 삭제되었습니다");
-    $("#m-update").prop('disabled', true);
-    $("#m-delete").prop('disabled', true);
+    deleteDeactivated ("쿠폰이 정상적으로 삭제되었습니다");
   });
 }
 
@@ -3897,38 +3893,48 @@ $(document).on('click', '#dashboard-search', function (event) {
 //
 $("#modal-member-detail").on('hide.bs.modal', function () {
   //location.reload();
+  deleteActivated ();
   admin_member_search ();
 });
 $("#modal-coupon-detail").on('hide.bs.modal', function () {
   //location.reload();
+  deleteActivated ();
   admin_coupon_search ();
 });
 $("#modal-user-detail").on('hide.bs.modal', function () {
   //location.reload();
+  deleteActivated ();
   admin_user_search ();
 });
 $("#modal-event-detail").on('hide.bs.modal', function () {
   //location.reload();
+  deleteActivated ();
   admin_event_search ();
 });
 $("#modal-notice-detail").on('hide.bs.modal', function () {
   //location.reload();
+  deleteActivated ();
   admin_notice_search ();
 });
 $("#modal-admin-detail").on('hide.bs.modal', function () {
   //location.reload();
+  deleteActivated ();
   admin_admin_search ();
 });
 $("#modal-class-detail").on('hide.bs.modal', function () {
   //location.reload();
+  deleteActivated ();
   admin_class_search ();
 });
 $("#modal-group-detail").on('hide.bs.modal', function () {
   //location.reload();
+  deleteActivated ();
   admin_group_search ();
 });
 $("#modal-member-coupon").on('hide.bs.modal', function () {
-  location.reload();
+  //location.reload();
+  deleteActivated ();
+  member_coupon_search ();
 });
 
 /////////////////////////////////////////////////////////////////////////////////////
