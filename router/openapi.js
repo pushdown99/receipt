@@ -43,7 +43,7 @@ module.exports = function(app) {
     if(user.activated != "Y") return lib.response(req, res, 203);
 
     var ret = lib.mysql.updUser([fcmkey, email]);
-    if(ret.affectedRows > 0) return lib.response(req, res, 200);
+    if(ret.affectedRows > 0) return lib.response(req, res, 200,  {list: [user]});
 
     return lib.response(req, res, 409);
   });

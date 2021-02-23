@@ -848,6 +848,7 @@ console.log("params", cash, stamp);
     var rgb1    = req.body.rgb1;
     var rgb2    = req.body.rgb2;
     var coupon  = req.body.coupon;
+    var cid     = req.body.cid;
     var date3   = req.body.date3;
     var date4   = req.body.date4;
 
@@ -875,7 +876,7 @@ console.log("params", cash, stamp);
       detail = `/rc/banner/event-detail-${id}`;
     }
 
-    var result = lib.mysql.updAdminEvent([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, event, main, detail, rgb1, rgb2, coupon, date3, date4, '', updater, id]);
+    var result = lib.mysql.updAdminEvent([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, event, main, detail, rgb1, rgb2, coupon, date3, date4, `/publish/event/coupon/${cid}`, updater, id]);
     res.json(result);
   });
 

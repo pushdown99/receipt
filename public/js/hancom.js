@@ -186,7 +186,7 @@ console.log('dashboiard');
 
   function getArea1 () {
     $.getJSON(`/json/city/search`, function(data) {
-      html = '<a class="dropdown-item area1-item">전체</a><div role="separator" class="dropdown-divider"></div>';
+      html += `<a class="dropdown-item area1-item">전체</a>`;
       $.each(data, function(i, t) {
         html += `<a class="dropdown-item area1-item">${t.sido_nm}</a>`;
       });
@@ -197,7 +197,7 @@ console.log('dashboiard');
 
   function getModalArea1 () {
     $.getJSON(`/json/city/search`, function(data) {
-      html = '';
+      html = '<a class="dropdown-item area1-item">전체</a><div role="separator" class="dropdown-divider"></div>';
       $.each(data, function(i, t) {
         html += `<a class="dropdown-item modal-area1-item">${t.sido_nm}</a>`;
       });
@@ -244,7 +244,7 @@ console.log("admin-coupon");
     $.getJSON(`/json/admin/coupon/select`, function(data) {
       html = '';
       $.each(data, function(i, t) {
-        html += `<a class="dropdown-item admin-coupon1-item" cpid="${t.id}" data=${JSON.stringify(t)} date1="${moment(t.date1).format('YYYY-MM-DD')}" date2="${moment(t.date2).format('YYYY-MM-DD')}"cpcode="${t.cpcode}">${t.member}:${t.name}</a>`;
+        html += `<a class="dropdown-item admin-coupon1-item" cpid="${t.id}" data=${JSON.stringify(t)} date1="${moment(t.date1).format('YYYY-MM-DD')}" date2="${moment(t.date2).format('YYYY-MM-DD')}" cid="${t.id}" cpcode="${t.cpcode}">${t.member}:${t.name}</a>`;
       });
       $("#admin-coupon1").html(html);
     });
@@ -359,6 +359,23 @@ function admin_member_register () {
     $("#btn-area2").html("");
     $("#addr").val("");
     dynamicAlert("가맹점 정보가 정상적으로 등록되었습니다.");
+
+    $("#rcn").val(""),
+    $("#rcn-valid").val(""),
+    $("#password1").val(""),
+    $("#password2").val(""),
+    $("#name").val(""),
+    $("#owner").val(""),
+    $("#bzcond").val(""),
+    $("#bztype").val(""),
+    $("#btn-bzname").html("선택"),
+    $("#phone").val(""),
+    $("#date1").val(""),
+    $("#btn-area1").html("선택"),
+    $("#btn-area2").html("선택"),
+    $("#addr").val(""),
+    $("#lat").val(""),
+    $("#lng").val("")
   });
 }
 
@@ -396,6 +413,17 @@ function admin_coupon_register () {
     $("#benefit").val("");
     $("#notice").val("");
     dynamicAlert("쿠폰 정보가 정상적으로 등록되었습니다");
+
+    $("#cpcode").val(""),
+    $("#cpcode-valid").html(""),
+    $("#cpname").val(""),
+    $("#member1-bzcode").html(""),
+    $("#member1-rcn").html(""),
+    $("#btn-member1").html(""),
+    $("#date1").val(""),
+    $("#date2").val(""),
+    $("#benefit").val(""),
+    $("#notice").val("")
   });
 }
 
@@ -417,7 +445,7 @@ function admin_event_register () {
   var date2   = $("#date2").val() + " 23:59:59";
   var rgb1    = $("#rgb1").val();
   var rgb2    = $("#rgb2").val();
-  var coupon  = ($("#btn-admin-coupon1").html() == "선택")? "무":"유";
+  var coupon  = ($("#btn-admin-coupon1").html() == "선택")? "선택":$("#btn-admin-coupon1").html();
   var date3   = $("#validity1").html();
   var date4   = $("#validity2").html();
 
@@ -492,28 +520,23 @@ function admin_notice_register () {
   $.postFORM ('/json/admin/notice/register', formData);
   dynamicAlert("공지사항이 정상적으로 등록되었습니다.");
   logAdminNotice(title, "", userInfo.name, getCur(), "생성", "공지사항", "");
+
+  $("#title").val("");
+  $("#btn-gender").html("전체");
+  $("#btn-age").html("전체");
+  $("#btn-area1").html("전체");
+  $("#btn-area2").html("전체");
+  $("#date1").val("");
+  $("#date2").val("");
+  $("#notice").val("");
+  $("#file1").val("");
+  $("#file2").val("");
+  $("#file3").val("");
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // ADMIN-ADMIN-REGISTER
-function admin_admin_register_complete () {
-  $("#rcn").val("");
-  $("#rcn-valid").val("0");
-  $("#password1").val("");
-  $("#password2").val("");
-  $("#name").val("");
-  $("#owner").val("");
-  $("#bzcond").val("");
-  $("#bztype").val("");
-  $("#btn-bzname").html("");
-  $("#phone").val("");
-  $("#date1").val("");
-  $("#btn-area1").html("");
-  $("#btn-area2").html("");
-  $("#addr").val("");
-  dynamicAlert("관리자 정보가 정상적으로 등록되었습니다.");
-}
-
 function admin_admin_register () {
   var params = {
     register: userInfo.name,
@@ -546,7 +569,22 @@ function admin_admin_register () {
   $ .postJSON('/json/admin/admin/register', params).then(res => {
     console.log(res);
     logAdminAdmin(params.name, "", userInfo.name, getCur(), "생성", "관리자", "");
-    admin_admin_register_complete();
+    dynamicAlert("관리자 정보가 정상적으로 등록되었습니다.");
+
+    $("#rcn").val("");
+    $("#rcn-valid").val("0");
+    $("#password1").val("");
+    $("#password2").val("");
+    $("#name").val("");
+    $("#owner").val("");
+    $("#bzcond").val("");
+    $("#bztype").val("");
+    $("#btn-bzname").html("");
+    $("#phone").val("");
+    $("#date1").val("");
+    $("#btn-area1").html("");
+    $("#btn-area2").html("");
+    $("#addr").val("");
   });
 }
 
@@ -574,6 +612,11 @@ function admin_class_register () {
   $.postFORM ('/json/admin/class/register', formData);
   dynamicAlert("업종명이 정상적으로 등록되었습니다.");
   logAdminClass(name, "", userInfo.name, getCur(), "생성", "업종분류코드", "");
+
+  $("#name").val("") ;
+  $("#file1").val("") ;
+  $("#file2").val("") ;
+  $("#file3").val("") ;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -1254,6 +1297,7 @@ function admin_coupon_search () {
     html += '<th style="text-align: center;">쿠폰명</th>';
     html += '<th style="text-align: center;"></th>';
     html += '<th style="text-align: center;">상태</th>';
+    html += '<th style="text-align: center;">발급처</th>';
     if (width > shrink) 
     html += '<th style="text-align: center;">수정자</th>';
     if (width > shrink) 
@@ -1273,6 +1317,7 @@ function admin_coupon_search () {
       html += `<td style="text-align: left;"><a id="coupon-detail" modal-id="${t.id}" href="javascript:void(0);">${t.name}</a></td>`;
       html += `<td style="text-align: center;"><a id="coupon-history" modal-id="${t.id}" href="javascript:void(0);"><i class="fas fa-history fa-sm"></i></a></td>`;
       html += `<td style="text-align: center;">${t.status}</td>`;
+      html += `<td style="text-align: center;">${(t.admin=='Y')?'관리자':'가맹점'}</td>`;
       if (width > shrink) 
       html += `<td style="text-align: center;">${t.updater}</td>`;
       if (width > shrink) 
@@ -1860,9 +1905,10 @@ function admin_event_update () {
   var detail  = modal_event.detail;
   var rgb1    = $("#m-rgb1").val();
   var rgb2    = $("#m-rgb2").val();
-  var coupon  = ($("#m-btn-admin-coupon1").html() == "선택")? "무":"유";
+  var coupon  = ($("#btn-admin-coupon1").html() == "선택")? "무":$("#btn-admin-coupon1").html();
   var date3   = $("#m-validity1").html();
   var date4   = $("#m-validity2").html();
+  var cid     = $("#m-cid").html();
 
   if (title   == "") { dynamicAlert("이벤트명을 입력해주세요.");                  return }
   //if (rgb1    == "") { dynamicAlert("상단 네비게이션 컬러를 지정해주세요.");      return }
@@ -1900,6 +1946,7 @@ function admin_event_update () {
   formData.append('coupon',  coupon);
   formData.append('date3',   date3);
   formData.append('date4',   date4);
+  formData.append('cid',     cid);
   $.postFORM ('/json/admin/event/update', formData);
   dynamicAlert("이벤트정보가 정상적으로 변경되었습니다");
 
@@ -2233,7 +2280,7 @@ function admin_admin_delete () {
   }
   $.postJSON('/json/admin/admin/delete/id/', params).then(res => {
     console.log(res);
-    deleteDeactivated ("공지사항이 정상적으로 삭제되었습니다");
+    deleteDeactivated ("관리자정보가 정상적으로 삭제되었습니다");
     logAdminAdmin(modal_admin.name, "", userInfo.name, getCur(), "삭제", "관리자", "");
   });
 }
@@ -3056,7 +3103,7 @@ function getArea2 (area1) {
 
 function getModalArea2 (area1) {
   $.getJSON(`/json/city/search/${area1}`, function(res) {
-    html = '';
+    html = `<a class="dropdown-item">전체</a>`;
     $.each(res, function(i, t) {
       html += `<a class="dropdown-item">${t.sigungu_nm}</a>`;
     });
@@ -3569,24 +3616,32 @@ $(document).on('click', '#event-detail', function (event) {
     $("#m-rgb2").val (res.rgb2);
     $("#m-rgb1").css("background-color", $("#m-rgb1").val());
     $("#m-rgb2").css("background-color", $("#m-rgb2").val());
+    $("#m-date1").val (moment(res.date1).format('YYYY-MM-DD'));
+    $("#m-date2").val (moment(res.date2).format('YYYY-MM-DD'));
+
     if(res.fnotice) $("#fnotice").prop('checked', true);
+    else            $("#fnotice").prop('checked', false);
     if(res.fmain)   $("#fmain").prop('checked', true);
+    else            $("#fmain").prop('checked', false);
     if(res.fevent)  $("#fevent").prop('checked', true);
-    if(res.fmain)  elemShow(".main-banner");
+    else            $("#fevent").prop('checked', false);
+
+    if(res.fmain)   elemShow(".main-banner");
     else            elemHide(".main-banner");
-    if(res.fevent) elemShow(".event-banner");
+    if(res.fevent)  elemShow(".event-banner");
     else            elemHide(".event-banner");
 
     if(res.status == '사용') $("#m-status1").prop('checked', true);
     else $("#m-status2").prop('checked', true);
+    if(res.coupon != "무") $("#btn-admin-coupon1").html(res.coupon);
     $("#m-validity1").html(moment(res.date3).format('YYYY-MM-DD'));
     $("#m-validity2").html(moment(res.date4).format('YYYY-MM-DD'));
 
     $("#m-img1").attr("src", "");
     $("#m-img2").attr("src", "");
     $("#m-img3").attr("src", "");
-    if(res.event != null && res.event != "") {
-    $("#m-prefix1").val(res.event.split("/").pop());
+    if(res.event != null && res.event != "" && res.event != "null") {
+    //$("#m-prefix1").val(res.event.split("/").pop());
     $("#m-img1").attr("src", res.event + ".png");
     $("#m-img2").attr("src", res.event + "@2x.png");
     $("#m-img3").attr("src", res.event + "@3x.png");
@@ -3595,8 +3650,8 @@ $(document).on('click', '#event-detail', function (event) {
     $("#m-img4").attr("src", "");
     $("#m-img5").attr("src", "");
     $("#m-img6").attr("src", "");
-    if(res.main != null && res.main != "") {
-    $("#m-prefix2").val(res.main.split("/").pop());
+    if(res.main != null && res.main != "" && res.main != "null") {
+    //$("#m-prefix2").val(res.main.split("/").pop());
     $("#m-img4").attr("src", res.main + ".png");
     $("#m-img5").attr("src", res.main + "@2x.png");
     $("#m-img6").attr("src", res.main + "@3x.png");
@@ -3605,8 +3660,8 @@ $(document).on('click', '#event-detail', function (event) {
     $("#m-img7").attr("src", "");
     $("#m-img8").attr("src", "");
     $("#m-img9").attr("src", "");
-    if(res.detail != null && res.detail != "") {
-    $("#m-prefix3").val(res.detail.split("/").pop());
+    if(res.detail != null && res.detail != "" && res.detail != "null") {
+    //$("#m-prefix3").val(res.detail.split("/").pop());
     $("#m-img7").attr("src", res.detail + ".png");
     $("#m-img8").attr("src", res.detail + "@2x.png");
     $("#m-img9").attr("src", res.detail + "@3x.png");
@@ -3635,7 +3690,7 @@ $(document).on('click', '#notice-detail', function (event) {
     if($("#m-date2").val() == '2038-01-18') { $("#m-no-date2").prop('checked', true);  elemHide(".m-date2-area"); }
     else                                    { $("#m-no-date2").prop('checked', false); elemShow(".m-date2-area"); }
     $("#m-notice").val (res.description);
-    if(res.detail) {
+    if(res.detail != "" && res.detail != null && res.detail != "null") {
     $("#img1").attr("src", res.detail + ".png");
     $("#img2").attr("src", res.detail + "@2x.png");
     $("#img3").attr("src", res.detail + "@3x.png");
@@ -3862,10 +3917,12 @@ $(document).on('click', '.admin-coupon1-item', function (event) {
   var data  = $(this).attr("data");
   var date1 = $(this).attr("date1");
   var date2 = $(this).attr("date2");
+  var cid   = $(this).attr("cid");
   console.log (data);
   console.log (date1, date2);
-  $("#validity1").html (date1);
-  $("#validity2").html (date2);
+  $("#m-cid").html (cid);
+  $("#m-validity1").html (date1);
+  $("#m-validity2").html (date2);
 });
 
 $(function () {
