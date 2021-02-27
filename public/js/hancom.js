@@ -571,20 +571,21 @@ function admin_admin_register () {
     logAdminAdmin(params.name, "", userInfo.name, getCur(), "생성", "관리자", "");
     dynamicAlert("관리자 정보가 정상적으로 등록되었습니다.");
 
-    $("#rcn").val("");
-    $("#rcn-valid").val("0");
+    $("#admin-email").val("");
+    $("#admin-email-valid").val("");
+    $("#password1").val("");
     $("#password1").val("");
     $("#password2").val("");
     $("#name").val("");
-    $("#owner").val("");
-    $("#bzcond").val("");
-    $("#bztype").val("");
-    $("#btn-bzname").html("");
-    $("#phone").val("");
-    $("#date1").val("");
-    $("#btn-area1").html("");
-    $("#btn-area2").html("");
-    $("#addr").val("");
+    $("#mobile1").val();
+    $("#mobile1").val("");
+    $("#mobile3").val("");
+    $("#mobile3").val("");
+    $("#phone1").val("");
+    $("#phone1").val("");
+    $("#phone2").val("");
+    $("#phone3").val("");
+    $("#btn-role").html("선택");
   });
 }
 
