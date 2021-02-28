@@ -7,6 +7,7 @@ module.exports = function (app) {
   let verbose = true;
 
   app.get('/member', lib.passport.ensureAuthenticated, function (req, res, next) {
+    console.log ('req.session.member',req.session.member);
     var member = lib.mysql.findAdminMemberId ([req.session.member]);
     res.render('member', {member: member, user: req.session.passport.user, page: router.page.getPage('/member')});
   });

@@ -186,7 +186,7 @@ console.log('dashboiard');
 
   function getArea1 () {
     $.getJSON(`/json/city/search`, function(data) {
-      html += `<a class="dropdown-item area1-item">전체</a>`;
+      var html = `<a class="dropdown-item area1-item">전체</a>`;
       $.each(data, function(i, t) {
         html += `<a class="dropdown-item area1-item">${t.sido_nm}</a>`;
       });
@@ -293,6 +293,7 @@ $(document).on('click', '#register', function (event) {
   case 'admin-class-register'   : return admin_class_register  ();
   case 'admin-group-register'   : return admin_group_register  ();
 
+  case 'member-profile'         : return member_profile_register ();
   case 'member-coupon-register' : return member_coupon_register ();
 
   case 'admin-member-search'    : return $(location).attr('href', '/admin/member/register');
@@ -651,7 +652,22 @@ function admin_profile_register () {
     phone  : $("#phone").val(),
   }
   if (params.name == "" | params.mobile == "") { dynamicAlert("공란을 채워주세요"); return }
-  $.postJSON('/json/admin/class/register', params).then(res => {
+  $.postJSON('/json/admin/profile/update', params).then(res => {
+    dynamicAlert("관리자 프로필이 정상적으로 변경되었습니다.");
+    console.log(res);
+  });
+}
+
+function member_profile_register () {
+  var params = {
+    id    : memberInfo.id,
+    email : $("#email").val(),
+    name  : $("#name").val(),
+    phone : $("#phone").val(),
+  }
+  if (params.name == "" || params.phone == "" || params.email == "") { dynamicAlert("공란을 채워주세요"); return }
+  $.postJSON('/json/member/profile/update', params).then(res => {
+    dynamicAlert("가맹점 프로필이 정상적으로 변경되었습니다.");
     console.log(res);
   });
 }
@@ -687,7 +703,18 @@ console.log (params);
   console.log (params);
   $.postJSON('/json/member/coupon/register', params).then(res => {
     logAdminCoupon(params.cpname, "", userInfo.name, getCur(), "생성", params.ctype, "");
-    admin_coupon_register_complete();
+    dynamicAlert("가맹점 쿠폰이 정상적으로 등록되었습니다.");
+
+    $("#cpcode").val("");
+    $("#cpcode-valid").html("");
+    $("#cpname").val("");
+    $("#cash").val("");
+    $("#btn-stamp").html("");
+    $("#btn-ctype").html("");
+    $("#date1").val("");
+    $("#date2").val("");
+    $("#benefit").val("");
+    $("#notice").val("");
   });
 }
 
@@ -2137,6 +2164,8 @@ $(document).on('click', '#m-passwd-update', function (event) {
   case 'admin-admin-search'   : return admin_admin_password_update  ();
   case 'admin-class-search'   : return;
   case 'admin-group-search'   : return;
+
+  case 'member-profile'        : return member_profile_password_update ();
   }
 });
 
@@ -2145,7 +2174,7 @@ function admin_profile_password_update () {
   var params = {
     id     :   userInfo.id,
     passwd1:   $("#m-password1").val(),
-    passwd2:   $("#m-password1").val()
+    passwd2:   $("#m-password2").val()
   }
   console.log (params);
   if (params.passwd1 == "") {dynamicAlert("패스워드를 입력해주세요"); return; }
@@ -2154,6 +2183,25 @@ function admin_profile_password_update () {
 
   $.postJSON('/json/admin/admin/update/passwd/', params).then(res => {
     console.log(res);
+    dynamicAlert("패스워드가 정상적으로 변경되었습니다");
+  });
+}
+
+function member_profile_password_update () {
+  console.log (memberInfo);
+  var params = {
+    id     :   memberInfo.id,
+    passwd1:   $("#m-password1").val(),
+    passwd2:   $("#m-password1").val()
+  }
+  console.log (params);
+  if (params.passwd1 == "") {dynamicAlert("패스워드를 입력해주세요"); return; }
+  if (params.passwd2 == "") {dynamicAlert("패스워드를 재입력해주세요"); return; }
+  if (params.passwd1 != params.passwd2) {dynamicAlert("패스워드가 상이합니다."); return; }
+
+  $.postJSON('/json/admin/member/update/passwd/', params).then(res => {
+    console.log(res);
+    logAdminMember(modal_member.name, modal_member.rcn, "", userInfo.name, getCur(), "수정", "가맹점", "패스워드");
     dynamicAlert("패스워드가 정상적으로 변경되었습니다");
   });
 }
@@ -2221,7 +2269,7 @@ function admin_admin_password_update () {
 $(document).on('click', '#m-delete', function (event) {
   var pageid = $('#pageid').text();
   switch(pageid) {
-  case 'admin-member-search'  : return;
+  case 'admin-member-search'  : return admin_member_delete ();
   case 'admin-user-search'    : return;
   case 'admin-coupon-search'  : return admin_coupon_delete ();
   case 'admin-event-search'   : return admin_event_delete  ();
@@ -2233,6 +2281,19 @@ $(document).on('click', '#m-delete', function (event) {
   case 'member-coupon-search' : return member_coupon_delete ();
   }
 });
+
+function admin_member_delete () {
+  console.log (modal_member);
+  var params = {
+    id:   modal_member.id,
+    updater: userInfo.name
+  }
+  $.postJSON('/json/admin/member/delete/id/', params).then(res => {
+    console.log(res);
+    logAdminMember(modal_member.name, modal_member.rcn, "", userInfo.name, getCur(), "삭제", "가맹점", "가맹점정보 삭제");
+    deleteDeactivated ("가맹점정보가 정상적으로 삭제되었습니다");
+  });
+}
 
 function admin_coupon_delete () {
   console.log (modal_coupon);
@@ -2974,6 +3035,7 @@ function member_coupon_search () {
     html += '<th style="text-align: center;">쿠폰종류</th>';
     html += '<th style="text-align: center;">쿠폰명</th>';
     html += '<th style="text-align: center;">상태</th>';
+    html += '<th style="text-align: center;">발급</th>';
     html += '<th style="text-align: center;">수정자</th>';
     html += '<th style="text-align: center;">수정일</th>';
     html += '<th style="text-align: center;">등록자</th>';
@@ -2987,8 +3049,9 @@ console.log(t);
       html += '<tr>';
       html += `<td style="text-align: center;">${i}</td>`;
       html += `<td style="text-align: center;">${t.ctype}</td>`;
-      html += `<td style="text-align: center;"><a id="item-member-coupon" modal-id="${t.id}" href="javascript:void(0);">${t.name}</a></td>`;
+      html += `<td style="text-align: left;"><a id="item-member-coupon" modal-id="${t.id}" href="javascript:void(0);">${t.name}</a></td>`;
       html += `<td style="text-align: center;">${t.status}</td>`;
+      html += `<td style="text-align: center;">${(t.admin=='Y')? '관리자':'가맹점'}</td>`;
       html += `<td style="text-align: center;">${t.updater}</td>`;
       html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
       html += `<td style="text-align: center;">${t.register}</td>`;

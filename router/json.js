@@ -1058,6 +1058,13 @@ console.log("params", cash, stamp);
   // DELETE
   //
 
+  app.post('/json/admin/member/delete/id', function (req, res) {
+    var id = req.body.id;
+
+    var result = lib.mysql.delAdminMemberId([id]);
+    res.json(result);
+  });
+
   app.post('/json/admin/coupon/delete/id', function (req, res) {
     var id = req.body.id;
 
@@ -1235,7 +1242,17 @@ console.log("params", cash, stamp);
     var phone  = req.body.phone;
 
     var result = lib.mysql.updAdminUser ([name, mobile, phone]);
-    res.join (result);
+    res.json (result);
+  });
+
+  app.post('/json/member/profile/update', function (req, res) {
+    var id     = req.body.id;
+    var name   = req.body.name;
+    var email  = req.body.email;
+    var phone  = req.body.phone;
+
+    var result = lib.mysql.updAdminMemberProfile ([name, phone, email, id]);
+    res.json (result);
   });
 
   app.get('/json/member/search/:rcn/:stat/:area1/:area2/:date1/:date2', function (req, res) {
