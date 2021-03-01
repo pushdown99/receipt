@@ -3017,6 +3017,7 @@ function member_dashbaord_search () {
 
 function member_coupon_search () {
 
+  console.log ('member_coupon_search');
   var params = {
     rcn   : memberInfo.rcn,
     ctype : ($("#btn-ctype").html() == "전체")? "%%":"%"+$("#btn-ctype").html()+"%",
@@ -4019,6 +4020,7 @@ $("#modal-member-detail").on('hide.bs.modal', function () {
 });
 $("#modal-coupon-detail").on('hide.bs.modal', function () {
   //location.reload();
+  console.log('modal-coupon-detail');
   deleteActivated ();
   admin_coupon_search ();
 });
@@ -4054,6 +4056,7 @@ $("#modal-group-detail").on('hide.bs.modal', function () {
 });
 $("#modal-member-coupon").on('hide.bs.modal', function () {
   //location.reload();
+  console.log('modal-member-coupon"');
   deleteActivated ();
   member_coupon_search ();
 });
@@ -4158,28 +4161,6 @@ function logAdminAdmin(name, menu, updater, updated, done, division, description
   formData.append('description', description);
   $.postFORM ('/json/admin/admin/history/register', formData);
 }
-
-
-
-/*
-$(document).on('click', '#exporttable', function(event) {
-console.log('event');
-  var table = $('#exporttable').attr('target');
-  if(table && table.length){
-console.log ('table exist');
-    $(table).table2excel({
-      exclude: ".noExl",
-      name: "Excel Document Name",
-      filename: "BBBootstrap" + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls",
-      fileext: ".xls",
-      exclude_img: true,
-      exclude_links: true,
-      exclude_inputs: true,
-      preserveColors: false
-    });
-  }
-});
-*/
 
 $(document).on('click', '.nav-link', function(event) {
   sessionStorage.setItem("main-sidebar", $("#main-sidebar").html());
