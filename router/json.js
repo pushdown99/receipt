@@ -1347,6 +1347,12 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
+  app.get('/json/group/search/:name', function (req, res) {
+    var name   = '%' + req.params.name + '%';
+    var result = lib.mysql.getGroup1ByName ([name]);
+    res.json(result);
+  });
+
   app.get('/json/city/search/:area1', function (req, res) {
     var area1 = (req.params.name =="all")? '%%':'%'+req.params.area1+'%';
     var result = lib.mysql.getCityArea2 ([area1]);
