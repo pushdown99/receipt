@@ -172,14 +172,15 @@ console.log('dashboiard');
   if ($("#m-rgb2").length) { $("#m-rgb2").colorpicker() }
 
   function getGroup1 () {
-    $.getJSON(`/json/group/search`, function(data) {
-      html = '';
+    $.getJSON(`/json/group/search/${userInfo.grade}`, function(data) {
+      var html = `<a class="dropdown-item group1-item">선택</a>`;
       $.each(data, function(i, t) {
-        html += `<a class="dropdown-item group1-item">${t.name}</a>`;
+        console.log (t);
+        html += `<a class="dropdown-item group1-item" group-pattern="${t.pattern}" group-depth="${t.gdepth}">${t.name}</a>`;
       });
       $("#group1").html(html);
     });
-    $("#btn-gname").html(userInfo.grade);
+    //$("#btn-gname").html(userInfo.grade);
     if(userInfo.grade != '시스템관리자') $("#btn-gname").prop('disabled', true);
   }
   if ($("#group1").length) getGroup1 ();
@@ -627,6 +628,8 @@ function admin_group_register () {
   var params = {
     gname    : $("#btn-gname").html(),
     name     : $("#name").val(),
+    pattern  : $("#pattern").html()+'/'+$("#name").val(),
+    depth    : $("#depth").html(),
     fcoupon  : ($("#fcoupon").is(":checked"))?   1 : 0,
     fevent   : ($("#fevent").is(":checked"))?  1 : 0,
     fnotice  : ($("#fnotice").is(":checked"))?  1 : 0,
@@ -635,11 +638,22 @@ function admin_group_register () {
     homepage : $('input[type=radio][name=homepage]:checked').val(),
     register : userInfo.name
   }
+console.log(params);
+  if (params.gname == "선택") { dynamicAlert("상위그룹 권한명을 선택해주세요"); return }
   if (params.name == "") { dynamicAlert("그룹권한명을 입력해주세요"); return }
+  if (params.homepage == "" || params.homepage == undefined) { dynamicAlert("로그인 초기페이지를 자정해주세요"); return }
   $.postJSON('/json/admin/group/register', params).then(res => {
     console.log(res);
     dynamicAlert("그룹권한이 정상적으로 등록되었습니다.");
     logAdminGroup(params.name, "", userInfo.name, getCur(), "생성", "그룹권한", "");
+
+    $("#btn-gname").html("선택");
+    $("#name").val("");
+    $("#fcoupon").prop("checked", false);
+    $("#fevent").prop("checked", false);
+    $("#fnotice").prop("checked", false);
+    $("#fadmin").prop("checked", false);
+    $("#fgroup").prop("checked", false);
   });
 }
 
@@ -1613,7 +1627,8 @@ function admin_group_search () {
   var params = {
     name  : ($("#name").val() == "")? "all": $("#name").val(),
     date1 : $("#date1").val() + ' 00:00:00',
-    date2 : $("#date2").val() + ' 23:59:59'
+    date2 : $("#date2").val() + ' 23:59:59',
+    grade : userInfo.grade
   }
   $.postJSON('/json/admin/group/search', params).then(res => {
     console.log (res);
@@ -1623,7 +1638,7 @@ function admin_group_search () {
     html += '<tr>';
     if (width > shrink)
     html += '<th style="text-align: center;">No</th>';
-    html += '<th style="text-align: center;">상위그룹권한</th>';
+    html += '<th style="text-align: center;">권한경로</th>';
     html += '<th style="text-align: center;">권한그룹명</th>';
     html += '<th style="text-align: center;">분류</th>';
     html += '<th style="text-align: center;">수정</th>';
@@ -1639,7 +1654,7 @@ function admin_group_search () {
       html += '<tr>';
       if (width > shrink)
       html += `<td style="text-align: center;">${i}</td>`;
-      html += `<td style="text-align: left;">${t.gname}</td>`;
+      html += `<td style="text-align: left;"><a id="group-detail" modal-id="${t.id}" href="javascript:void(0);">${t.pattern}</a></td>`;
       html += `<td style="text-align: left;"><a id="group-detail" modal-id="${t.id}" href="javascript:void(0);">${t.name}</a></td>`;
       html += `<td style="text-align: left;">${t.gtype}</td>`;
       html += `<td style="text-align: center;">${t.updater}</td>`;
@@ -3390,6 +3405,14 @@ $(document).on('click', '#pdf-viewer', function(event) {
   return false;        
 });    
 
+$(document).on('click', '.group1-item', function (event) {
+  console.log ($(this).text());
+  var depth   = $(this).attr("group-depth");
+  var pattern = $(this).attr("group-pattern");
+  $("#depth").html(parseInt(depth)+1);
+  $("#pattern").html(pattern);
+});
+
 $(document).on('click', '.area1-item', function (event) {
   console.log($(this).text());
   getArea2($(this).text());
@@ -3948,6 +3971,7 @@ $(document).on('change', '#m-rgb2', function (event) {
 $(document).on('change', '#btn-member-ctype', function (event) {
   console.log ("change", $("#btn-member-ctype").html());
 });
+
 $(document).on('click', '.ctype-item', function (event) {
   var ctype = $(this).html ();
   console.log (ctype);

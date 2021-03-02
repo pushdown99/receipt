@@ -667,8 +667,9 @@ console.log("params", cash, stamp);
     var name  = (req.body.name =="all")? '%%':'%'+req.body.name+'%';
     var date1 = req.body.date1;
     var date2 = req.body.date2;
+    var grade = '%'+req.body.grade+'%';
 
-    var result = lib.mysql.getAdminGroup([name, date1, date2]);
+    var result = lib.mysql.getAdminGroup([name, date1, date2, grade]);
     res.json(result);
   });
 
