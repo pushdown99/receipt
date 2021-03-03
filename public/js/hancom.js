@@ -756,6 +756,7 @@ $(document).on('click', '#search', function (event) {
   case 'admin-admin-search'      : return admin_admin_search       ();
   case 'admin-class-search'      : return admin_class_search       ();
   case 'admin-group-search'      : return admin_group_search       ();
+  case 'admin-pos-search'        : return admin_pos_search         ();
 
   case 'member-dashboard-search' : return member_dashbaord_search  ();
   case 'member-coupon-search'    : return member_coupon_search     ();
@@ -1132,15 +1133,14 @@ function admin_user_search () {
     html += '<tr>';
     html += '<th style="text-align: center;">No</th>';
     html += '<th style="text-align: center;">사용자ID</th>';
-    html += '<th style="text-align: center;"></th>';
     html += '<th style="text-align: center;">운영체제</th>';
-    html += '<th style="text-align: center;">연령대</th>';
     html += '<th style="text-align: center;">성별</th>';
+    html += '<th style="text-align: center;">연령대</th>';
     html += '<th style="text-align: center;">지역</th>';
     html += '<th style="text-align: center;">시군구</th>';
     html += '<th style="text-align: center;">수정자</th>';
     html += '<th style="text-align: center;">수정일</th>';
-    html += '<th style="text-align: center;">등록일</th>';
+    html += '<th style="text-align: center;">가입일</th>';
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
@@ -1151,10 +1151,9 @@ function admin_user_search () {
       html += '<tr>';
       html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
       html += `<td style="text-align: left;">  <a id="user-detail"  modal-id="${t.id}" href="javascript:void(0);"><div class="ropa">${t.email}</div></a></td>`;
-      html += `<td style="text-align: center;"><a id="user-history" modal-id="${t.id}" href="javascript:void(0);"><i class="fas fa-history fa-sm"></i></a></td>`;
       html += `<td style="text-align: center;">${t.os}</td>`;
-      html += `<td style="text-align: center;">${t.age}</td>`;
       html += `<td style="text-align: center;"><div class="ropa">${t.gender}</div></td>`;
+      html += `<td style="text-align: center;">${t.age}</td>`;
       html += `<td style="text-align: center;"><div class="ropa">${t.area1}</div></td>`;
       html += `<td style="text-align: center;"><div class="ropa">${t.area2}</div></td>`;
       html += `<td style="text-align: center;">${t.updater}</td>`;
@@ -1333,40 +1332,31 @@ function admin_coupon_search () {
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
     html += '<tr>';
-    if (width > shrink) 
     html += '<th style="text-align: center;">No</th>';
     html += '<th style="text-align: center;">쿠폰종류</th>';
     html += '<th style="text-align: center;">쿠폰명</th>';
-    html += '<th style="text-align: center;"></th>';
     html += '<th style="text-align: center;">상태</th>';
+    html += '<th style="text-align: center;">유효기간</th>';
     html += '<th style="text-align: center;">발급처</th>';
-    if (width > shrink) 
     html += '<th style="text-align: center;">수정자</th>';
-    if (width > shrink) 
     html += '<th style="text-align: center;">수정일</th>';
-    if (width > shrink) 
     html += '<th style="text-align: center;">등록자</th>';
-    if (width > shrink) 
     html += '<th style="text-align: center;">등록일</th>';
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
     $.each(data, function(i, t) {
+console.log(t);
       html += '<tr>';
-      if (width > shrink) 
       html += `<td style="text-align: center;">${i}</td>`;
       html += `<td style="text-align: left;">${t.ctype}</td>`;
       html += `<td style="text-align: left;"><a id="coupon-detail" modal-id="${t.id}" href="javascript:void(0);">${t.name}</a></td>`;
-      html += `<td style="text-align: center;"><a id="coupon-history" modal-id="${t.id}" href="javascript:void(0);"><i class="fas fa-history fa-sm"></i></a></td>`;
       html += `<td style="text-align: center;">${t.status}</td>`;
+      html += `<td style="text-align: center;">${moment(t.date1).format('YYYY-MM-DD')} - ${moment(t.date2).format('YYYY-MM-DD')}</td>`;
       html += `<td style="text-align: center;">${(t.admin=='Y')?'관리자':'가맹점'}</td>`;
-      if (width > shrink) 
       html += `<td style="text-align: center;">${t.updater}</td>`;
-      if (width > shrink) 
       html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
-      if (width > shrink) 
       html += `<td style="text-align: center;">${t.register}</td>`;
-      if (width > shrink) 
       html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
     });
     $("#results").html(html);
@@ -1673,6 +1663,50 @@ function admin_group_search () {
     });
   });
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// ADMIN-POS-SEARCH
+function admin_pos_search () {
+  var params = {
+    name  : ($("#name").val() == "")? "all": $("#name").val(),
+    date1 : $("#date1").val() + ' 00:00:00',
+    date2 : $("#date2").val() + ' 23:59:59',
+    grade : userInfo.grade
+  }
+  $.postJSON('/json/admin/pos/search', params).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">가맹점</th>';
+    html += '<th style="text-align: center;">사업자번호</th>';
+    html += '<th style="text-align: center;">하드웨어</th>';
+    html += '<th style="text-align: center;">라이센스</th>';
+    html += '<th style="text-align: center;">접속일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;">${i}</td>`;
+      html += `<td style="text-align: center;">${t.member.name}</td>`;
+      html += `<td style="text-align: center;">${t.rcn}</td>`;
+      html += `<td style="text-align: center;">${t.mac}</td>`;
+      html += `<td style="text-align: center;">${t.license}</td>`;
+      html += `<td style="text-align: center;">${(t.hbeat != '0000-00-00 00:00:00')? moment(t.hbeat).format('YYYY-MM-DD HH:mm:ss'):''}</td>`;
+    });
+    $("#results").html(html);
+    $('#admin-member-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //

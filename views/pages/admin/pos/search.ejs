@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+
+<!--
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">쿠폰</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text">쿠폰명</div></div>
+                <input id="name" type="text" class="form-control" value="" placeholder="쿠폰명">
+              </div>
+            </div>
+            <div class="form-group col-md-2">
+              <div class="input-group dropdown">
+                <div class="input-group-prepend"><div class="input-group-text">상태</div></div>
+
+                <button id="stat" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체</button>
+                <div id="dropUsed" class="dropdown-menu">
+                  <a class="dropdown-item">전체</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item">사용</a>
+                  <a class="dropdown-item">중지</a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <div class="input-group-prepend"><div class="input-group-text text-left">수정일</div></div>
+                <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="search" class="btn btn-default" style="float: right;">검색</button>
+            </div>
+          </div>
+          <hr>
+-->
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div id="results"></div>
+              <div id="pageid" style="display: none;">admin-pos-search</div>
+            </div>
+          </div>
+
+<!--
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button id="register" class="btn btn-default" style="float: left;" >등록</button>
+              <button id="history" class="btn btn-default" style="float: right;">변경이력조회</button>
+            </div>
+          </div>
+-->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-coupon-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+          <h5>쿠폰 상세정보</h5>
+          <hr>
+
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+            <label for="member">쿠폰코드</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="input-group">
+                <input id="m-cpcode" type="text" class="form-control" value="" disabled>
+              </div>
+            </div>
+
+            <div class="form-group col-md-7"><span id="cpcode-valid" hidden>0</span><span id="cpcode-valid-comment" class="form-comment"></span></div>
+
+            <div class="form-group col-md-2">
+            <label for="cpname">쿠폰명*</label>
+            </div>
+            <div class="form-group col-md-7">
+              <div class="input-group">
+                <input id="m-name" type="text" class="form-control" value="" placeholder="쿠폰명">
+              </div>
+            </div>
+            <div class="form-group col-md-3"></div>
+
+
+
+            <div class="form-group col-md-2">
+            <label for="member">상태*</label>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="form-check">
+              <label class="radio-inline">&nbsp;<input type="radio" name="m-status" id="m-status1" value="사용" checked>&nbsp;&nbsp;사용&nbsp;&nbsp;</label>
+              <label class="radio-inline">&nbsp;<input type="radio" name="m-status" id="m-status2" value="중지">&nbsp;&nbsp;중지&nbsp;&nbsp;</label>
+              </div>
+            </div>
+            <div class="form-group col-md-7"></div>
+
+            <div class="form-group col-md-2">
+            <label for="member">교환처</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group dropdown">
+                <button id="btn-m-member1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>선택</button>
+                <div id="member1" class="dropdown-menu">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-5"></div><span id="member1-rcn" hidden></span><span id="member1-bzcode" hidden></span>
+
+
+            <div class="form-group col-md-2">
+            <label for="days">유효기간*</label>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <input type="text" id="m-date1" class="form-control datetimepicker-input" data-target="#m-date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append" data-target="#m-date1" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+                <input type="text" id="m-date2" class="form-control datetimepicker-input m-date2-area" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+                <div class="input-group-append m-date2-area" data-target="#m-date2" data-toggle="datetimepicker">
+                  <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="input-group">
+                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="m-no-date2" value="모달종료일제한없음">&nbsp;&nbsp;종료일 제한없음&nbsp;&nbsp;</label>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="m-benefit">혜택*</label>
+            </div>
+            <div class="form-group col-md-10">
+              <div class="input-group">
+                <textarea id="m-benefit" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="m-notice">유의사항*</label>
+            </div>
+            <div class="form-group col-md-10">
+              <div class="input-group">
+                <textarea id="m-notice" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <hr>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;">닫기</button>
+            </div>
+            <div class="form-group col-md-6">
+              <span style="float: right;">
+              <button id="m-delete" class="btn btn-default">삭제</button>
+              <button id="m-update" class="btn btn-default">수정</button>
+              </span>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-coupon-hist-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable  modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+        <h5>쿠폰 변경이력 조회</h5>
+        <hr>
+        <div class="form-row">
+
+          <div class="form-group col-md-1">
+          <label for="member">이력필터</label>
+          </div>
+
+          <div class="form-group col-md-4">
+            <div class="input-group">
+              <input id="m-rcn" type="text" class="form-control" placeholder="관리자">
+            </div>
+          </div>
+          <div class="form-group col-md-7">
+            <div class="input-group">
+              <div class="input-group-prepend"><div class="input-group-text text-left">수정일</div></div>
+              <input type="text" id="date1" class="form-control datetimepicker-input" data-target="#date1" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+              <div class="input-group-append" data-target="#date1" data-toggle="datetimepicker">
+                <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+              </div>
+              <input type="text" id="date2" class="form-control datetimepicker-input" placeholder="YYYY-MM-DD" data-inputmask='"mask": "9999-99-99"' data-mask>
+              <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                <div class="input-subgroup-text"><i class="fa fa-calendar-alt fa-lg"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button id="search"  class="btn btn-default" style="float: right;">검색</button>
+          </div>
+        </div>
+        <hr>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <div id="m-hist-results"></div>
+          </div>
+        </div>
+
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-default" style="float: left;" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

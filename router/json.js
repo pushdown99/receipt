@@ -680,6 +680,18 @@ console.log("params", cash, stamp);
   });
 
   /////////////////////////////////////////////////////////////////////////
+  // ADMIN-POS-SEARCH
+  app.post('/json/admin/pos/search', function (req, res) {
+    var result = lib.mysql.getAdminPos([]);
+    for(var i = 0; i < result.length; i++) {
+      var pos = result[i];
+      console.log(result[i]);
+      result[i].member = lib.mysql.searchMemberByRcn ([pos.rcn]);
+    }
+    res.json(result);
+  });
+
+  /////////////////////////////////////////////////////////////////////////
   // MEMBER-DASHBOARD-SEARCH
   app.post('/json/member/dashboard/search', function (req, res) {
     var rcn   = req.body.rcn;

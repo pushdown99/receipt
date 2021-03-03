@@ -586,6 +586,7 @@ module.exports = function(app) {
     var ret = lib.mysql.getPosMacRcn ([Mac, Rcn]);
     if(ret.length < 1) return lib.response(req, res, 404);
 
+    lib.mysql.updPosHbeat ([moment().format("YYYY-MM-DD HH:mm:ss"), ret[0].license]);
     return res.json({code: 200, license: ret[0].license});
   });
 

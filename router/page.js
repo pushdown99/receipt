@@ -191,6 +191,13 @@ module.exports = {
       info.page = 'admin/group/search';
       return info;
 
+    case '/admin/pos/search':
+      info.title = '판매시점관리기조회';
+      info.name = 'admin/pos/search';
+      info.navigation = '판매시점관리기관리 / 판매시점관리기조회';
+      info.page = 'admin/pos/search';
+      return info;
+
     /////////////////////////////////////////////////
 
     case '/test':
