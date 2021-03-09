@@ -394,8 +394,14 @@ module.exports = function (app) {
   app.get('/admin/role/search', lib.passport.ensureAuthenticated, function (req, res, next) {
     res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/role/search')});
   });
-  app.get('/admin/pos/search', lib.passport.ensureAuthenticated, function (req, res, next) {
-    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/pos/search')});
+  app.get('/admin/pos/license', lib.passport.ensureAuthenticated, function (req, res, next) {
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/pos/license')});
+  });
+  app.get('/admin/pos/monitor', lib.passport.ensureAuthenticated, function (req, res, next) {
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/pos/monitor')});
+  });
+  app.get('/admin/pos/version', lib.passport.ensureAuthenticated, function (req, res, next) {
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/pos/version')});
   });
 
   app.get('/test', lib.passport.ensureAuthenticated, function (req, res, next) {

@@ -121,9 +121,13 @@ console.log('dashboiard');
   case 'admin-group-register':
   case 'admin-role-search':
     $("#sb-group").addClass("menu-is-opening menu-open");
-    $("#sb-role").addClass("menu-is-opening menu-open");
     break;
 
+  case 'admin-pos-license':
+  case 'admin-pos-monitor':
+  case 'admin-pos-version':
+    $("#sb-pos").addClass("menu-is-opening menu-open");
+    break;
 
 
   case 'member-dashboard-search':
@@ -756,7 +760,9 @@ $(document).on('click', '#search', function (event) {
   case 'admin-admin-search'      : return admin_admin_search       ();
   case 'admin-class-search'      : return admin_class_search       ();
   case 'admin-group-search'      : return admin_group_search       ();
-  case 'admin-pos-search'        : return admin_pos_search         ();
+  case 'admin-pos-license'       : return admin_pos_license        ();
+  case 'admin-pos-monitor'       : return admin_pos_monitor        ();
+  case 'admin-pos-version'       : return admin_pos_version        ();
 
   case 'member-dashboard-search' : return member_dashbaord_search  ();
   case 'member-coupon-search'    : return member_coupon_search     ();
@@ -1666,7 +1672,7 @@ function admin_group_search () {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // ADMIN-POS-SEARCH
-function admin_pos_search () {
+function admin_pos_license () {
   var params = {
     name  : ($("#name").val() == "")? "all": $("#name").val(),
     date1 : $("#date1").val() + ' 00:00:00',
@@ -1680,22 +1686,24 @@ function admin_pos_search () {
     html += '<thead>';
     html += '<tr>';
     html += '<th style="text-align: center;">No</th>';
-    html += '<th style="text-align: center;">가맹점</th>';
     html += '<th style="text-align: center;">사업자번호</th>';
-    html += '<th style="text-align: center;">하드웨어</th>';
-    html += '<th style="text-align: center;">라이센스</th>';
-    html += '<th style="text-align: center;">접속일</th>';
+    html += '<th style="text-align: center;">가맹점상호</th>';
+    html += '<th style="text-align: center;">상태</th>';
+    html += '<th style="text-align: center;">라이선스</th>';
+    html += '<th style="text-align: center;">접속일시</th>';
+    html += '<th style="text-align: center;">등록일시</th>';
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
     $.each(res, function(i, t) {
       html += '<tr>';
       html += `<td style="text-align: center;">${i}</td>`;
+      html += `<td style="text-align: center;"><a id="pos-detail" modal-id="${t.id}" href="javascript:void(0);">${t.rcn}</a></td>`;
       html += `<td style="text-align: center;">${t.member.name}</td>`;
-      html += `<td style="text-align: center;">${t.rcn}</td>`;
-      html += `<td style="text-align: center;">${t.mac}</td>`;
+      html += `<td style="text-align: center;"></td>`;
       html += `<td style="text-align: center;">${t.license}</td>`;
       html += `<td style="text-align: center;">${(t.hbeat != '0000-00-00 00:00:00')? moment(t.hbeat).format('YYYY-MM-DD HH:mm:ss'):''}</td>`;
+      html += `<td style="text-align: center;"></td>`;
     });
     $("#results").html(html);
     $('#admin-member-table').DataTable({
@@ -3851,6 +3859,38 @@ $(document).on('click', '#group-detail', function (event) {
     console.log ('group-detail', res);
     $("#m-gname").val(res.gname);
     $("#m-name").val(res.name);
+    if(res.fcoupon) { $("#fcoupon").prop('checked', true); $("#hp-coupon").prop('disabled', false); } else { $("#fcoupon").prop('checked', false); $("#hp-coupon").prop('disabled', true); }
+    if(res.fevent)  { $("#fevent").prop('checked', true);  $("#hp-event").prop('disabled', false); }  else { $("#fevent").prop('checked', false); $("#hp-event").prop('disabled', true);   }
+    if(res.fnotice) { $("#fnotice").prop('checked', true); $("#hp-notice").prop('disabled', false); } else { $("#fnotice").prop('checked', false); $("#hp-notice").prop('disabled', true); }
+    if(res.fadmin)  { $("#fadmin").prop('checked', true);  $("#hp-admin").prop('disabled', false); }  else { $("#fadmin").prop('checked', false); $("#hp-admin").prop('disabled', true);   }
+    if(res.fgroup)  { $("#fgroup").prop('checked', true);  $("#hp-group").prop('disabled', false); }  else { $("#fgroup").prop('checked', false); $("#hp-group").prop('disabled', true);   }
+
+    switch(res.homepage) {
+    case '대시보드'       : $("#hp-dashboard").prop('checked', true); break;
+    case '쿠폰관리'       : $("#hp-coupon").prop('checked', true);    break;
+    case '이벤트/광고관리': $("#hp-event").prop('checked', true);     break;
+    case '공지사항관리'   : $("#hp-notice").prop('checked', true);    break;
+    case '관리자관리'     : $("#hp-admin").prop('checked', true);     break;
+    case '그룹권한관리'   : $("#hp-group").prop('checked', true);     break;
+    }
+  });
+});
+
+var modal_pos = {};
+
+$(document).on('click', '#pos-detail', function (event) {
+  var id = $(this).attr("modal-id");
+
+  $("#modal-pos-detail").modal('show');
+  $.getJSON(`/json/admin/pos/search/id/${id}`, function (res) {
+    modal_group = res;
+    console.log ('pos-detail', res);
+    $("#m-rcn").val(res.member.rcn);
+    $("#m-member").val(res.member.name);
+    $("#m-mac").val(res.mac);
+    $("#m-license").val(res.license);
+    $("#m-updated").val (moment(res.hbeat).format('YYYY-MM-DD HH:mm:ss'));
+    $("#m-registered").val (moment(res.registered).format('YYYY-MM-DD HH:mm:ss'));
     if(res.fcoupon) { $("#fcoupon").prop('checked', true); $("#hp-coupon").prop('disabled', false); } else { $("#fcoupon").prop('checked', false); $("#hp-coupon").prop('disabled', true); }
     if(res.fevent)  { $("#fevent").prop('checked', true);  $("#hp-event").prop('disabled', false); }  else { $("#fevent").prop('checked', false); $("#hp-event").prop('disabled', true);   }
     if(res.fnotice) { $("#fnotice").prop('checked', true); $("#hp-notice").prop('disabled', false); } else { $("#fnotice").prop('checked', false); $("#hp-notice").prop('disabled', true); }

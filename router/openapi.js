@@ -578,6 +578,17 @@ module.exports = function(app) {
     return res.json({'message': '쿠폰이 정상적으로 사용되었습니다.'});
   });
 
+  app.post('/pos/current/version', function(req, res) {
+    let Rcn    = req.body.Rcn;
+    let Mac    = req.body.Mac;
+    if(Rcn == undefined || Mac == undefined) return lib.response(req, res, 404);
+
+    var ret = lib.mysql.getPosMacRcn ([Mac, Rcn]);
+    if(ret.length < 1) return lib.response(req, res, 404);
+
+    return res.json({code: 200, license: ret[0].license});
+  });
+
   app.post('/pos/sign-in/', function(req, res) {
     let Rcn    = req.body.Rcn;
     let Mac    = req.body.Mac;

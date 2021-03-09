@@ -191,11 +191,25 @@ module.exports = {
       info.page = 'admin/group/search';
       return info;
 
-    case '/admin/pos/search':
-      info.title = '판매시점관리기조회';
-      info.name = 'admin/pos/search';
-      info.navigation = '판매시점관리기관리 / 판매시점관리기조회';
-      info.page = 'admin/pos/search';
+    case '/admin/pos/license':
+      info.title = '라이선스조회';
+      info.name = 'admin/pos/license';
+      info.navigation = 'POS Agent 관리 / 라이선스조회';
+      info.page = 'admin/pos/license';
+      return info;
+
+    case '/admin/pos/monitor':
+      info.title = '통신모니터링';
+      info.name = 'admin/pos/monitor';
+      info.navigation = 'POS Agent 관리 / 통신모니터링';
+      info.page = 'admin/pos/monitor';
+      return info;
+
+    case '/admin/pos/version':
+      info.title = '버전관리';
+      info.name = 'admin/pos/version';
+      info.navigation = 'POS Agent 관리 / 버전관리';
+      info.page = 'admin/pos/version';
       return info;
 
     /////////////////////////////////////////////////

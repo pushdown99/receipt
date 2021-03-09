@@ -691,6 +691,13 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
+  app.get('/json/admin/pos/search/id/:id', function (req, res) {
+    var id = req.params.id;
+    var result = lib.mysql.getAdminPosId ([id]);
+    result.member = lib.mysql.searchMemberByRcn ([result.rcn]);
+    res.json (result);
+  });
+
   /////////////////////////////////////////////////////////////////////////
   // MEMBER-DASHBOARD-SEARCH
   app.post('/json/member/dashboard/search', function (req, res) {
