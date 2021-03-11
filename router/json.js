@@ -212,6 +212,29 @@ module.exports = function (app) {
   });
 
   /////////////////////////////////////////////////////////////////////////
+  // ADMIN-POS-REGISTER
+  app.post('/json/admin/pos/version/register', function (req, res) {
+    var register    = req.body.register;
+    var version     = req.body.version;
+    var fupdate     = req.body.fupdate;
+    var description = req.body.description;
+
+    var id = lib.mysql.getAdminPosVersionAutoInc();
+
+    var setup = `setup-${version}`;
+    var f     = req.files.file1;
+    var p     = __dirname + '/../public/rc/install';
+    var u     = `${p}/${setup}.exe`;
+    f.mv(u, function(err) {
+      if (err) { res.json({}); }
+    });
+    setup = `/rc/install/setup-${version}.exe`;
+
+    var result = lib.mysql.putAdminPosVersion ([setup, version, f.size, fupdate, description, register]);
+    res.json(result[0]);
+  });
+
+  /////////////////////////////////////////////////////////////////////////
   // ADMIN-NOTICE-REGISTER
   app.post('/json/admin/notice/register', function (req, res) {
     var register = req.body.register;
@@ -681,8 +704,29 @@ console.log("params", cash, stamp);
 
   /////////////////////////////////////////////////////////////////////////
   // ADMIN-POS-SEARCH
-  app.post('/json/admin/pos/search', function (req, res) {
-    var result = lib.mysql.getAdminPos([]);
+  app.post('/json/admin/license/search', function (req, res) {
+    var name    = (req.body.name =="all")? '%%':'%'+req.body.name+'%';
+    var status  = (req.body.status =="all")? '%%':'%'+req.body.status+'%';
+    var license = (req.body.license =="all")? '%%':'%'+req.body.license+'%';
+    var date1 = req.body.date1;
+    var date2 = req.body.date2;
+
+    var result = lib.mysql.getAdminLicense([name, name, status, license, date1, date2]);
+    for(var i = 0; i < result.length; i++) {
+      var pos = result[i];
+      console.log(result[i]);
+      result[i].member = lib.mysql.searchMemberByRcn ([pos.rcn]);
+    }
+    res.json(result);
+  });
+
+  app.post('/json/admin/monitor/search', function (req, res) {
+    var name    = (req.body.name =="all")? '%%':'%'+req.body.name+'%';
+    var version = (req.body.version =="all")? '%%':'%'+req.body.version+'%';
+    var status  = (req.body.status =="all")? '%%':'%'+req.body.status+'%';
+    var network = (req.body.network =="all")? '%%':'%'+req.body.network+'%';
+
+    var result = lib.mysql.getAdminMonitor([name, name, version, status, network]);
     for(var i = 0; i < result.length; i++) {
       var pos = result[i];
       console.log(result[i]);
@@ -695,6 +739,17 @@ console.log("params", cash, stamp);
     var id = req.params.id;
     var result = lib.mysql.getAdminPosId ([id]);
     result.member = lib.mysql.searchMemberByRcn ([result.rcn]);
+    res.json (result);
+  });
+
+  app.post('/json/admin/pos/version/search', function (req, res) {
+    var result = lib.mysql.getVersion([]);
+    res.json(result);
+  });
+
+  app.get('/json/admin/pos/version/search/id/:id', function (req, res) {
+    var id = req.params.id;
+    var result = lib.mysql.getVersionId ([id]);
     res.json (result);
   });
 
@@ -975,6 +1030,15 @@ console.log("params", cash, stamp);
       icon = `/rc/banner/icon-${id}`;
     }
     var result = lib.mysql.updAdminClass([name, icon, updater, id]);
+    res.json(result);
+  });
+
+  app.post('/json/admin/pos/license/update', function (req, res) {
+    var id      = req.body.id;
+    var updater = req.body.updater;
+    var status  = req.body.status;
+
+    var result = lib.mysql.updAdminPosLicense([status, updater, id]);
     res.json(result);
   });
 
@@ -1361,6 +1425,12 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
+  app.get('/json/version/search', function (req, res) {
+    var result = lib.mysql.getVersion ();
+    res.json(result);
+  });
+
+
   app.get('/json/group/search', function (req, res) {
     var result = lib.mysql.getGroup1 ();
     res.json(result);
@@ -1566,6 +1636,45 @@ console.log("params", cash, stamp);
     var description = req.body.description;
 
     lib.mysql.putAdminAdminHistory([name, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+  app.post('/json/admin/license/history/register', function (req, res) {
+    var name        = req.body.name;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putPosLicenseHistory([name, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+  app.post('/json/admin/monitor/history/register', function (req, res) {
+    var name        = req.body.name;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putPosMonitorHistory([name, menu, updater, updated, done, division, description]);
+    res.json ({});
+  });
+
+  app.post('/json/admin/version/history/register', function (req, res) {
+    var name        = req.body.name;
+    var menu        = req.body.menu;
+    var updater     = req.body.updater;
+    var updated     = req.body.updated;
+    var done        = req.body.done;
+    var division    = req.body.division;
+    var description = req.body.description;
+
+    lib.mysql.putPosVersionHistory([name, menu, updater, updated, done, division, description]);
     res.json ({});
   });
 

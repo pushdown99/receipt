@@ -32,6 +32,7 @@ module.exports = function(app) {
     var email  = (req.body.id != undefined)? req.body.id: req.body.email;
     var passwd = (req.body.pwd!= undefined)? req.body.pwd: req.body.passwd;
     var fcmkey = req.body.key;
+    var uuid   = (req.body.uuid != undefined)? req.body.uuid: "uuid-unkown";
     var user = null;
 
     if (email == undefined || passwd == undefined || fcmkey == undefined) return lib.response(req, res, 400);
@@ -42,11 +43,26 @@ module.exports = function(app) {
 
     if(user.activated != "Y") return lib.response(req, res, 203);
 
-    var ret = lib.mysql.updUser([fcmkey, email]);
+    
+    var ret = lib.mysql.updUser([fcmkey, uuid, email]);
     if(ret.affectedRows > 0) return lib.response(req, res, 200,  {list: [user]});
 
     return lib.response(req, res, 409);
   });
+
+  app.post("/check-in", function (req, res) {
+    var email  = (req.body.id != undefined)? req.body.id: req.body.email;
+    var uuid   = (req.body.uuid != undefined)? req.body.uuid: "uuid-unkown";
+    var user = null;
+
+    if (email == undefined) return lib.response(req, res, 400);
+
+    if((user = lib.mysql.searchUsersByEmail ([email])) == null) return lib.response(req, res, 401);
+    if(user.uuid != "" && user.uuid != uuid) return lib.response(req, res, 503);
+
+    return lib.response(req, res, 200,  {list: [user]});
+  });
+
 
   app.post("/sign-in/profile", function (req, res) {
     var email = req.body.email;

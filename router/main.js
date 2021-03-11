@@ -403,6 +403,9 @@ module.exports = function (app) {
   app.get('/admin/pos/version', lib.passport.ensureAuthenticated, function (req, res, next) {
     res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/pos/version')});
   });
+  app.get('/admin/pos/register', lib.passport.ensureAuthenticated, function (req, res, next) {
+    res.render('admin', {user: req.session.passport.user, group: req.session.group, page: router.page.getPage('/admin/pos/register')});
+  });
 
   app.get('/test', lib.passport.ensureAuthenticated, function (req, res, next) {
     res.render('admin', {user: req.session.passport.user, page: router.page.getPage('/test')});

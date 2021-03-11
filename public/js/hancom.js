@@ -189,6 +189,18 @@ console.log('dashboiard');
   }
   if ($("#group1").length) getGroup1 ();
 
+  function getVersion () {
+    $.getJSON(`/json/version/search`, function(data) {
+      var html = `<a class="dropdown-item version-item">전체</a><div role="separator" class="dropdown-divider"></div>`;
+      $.each(data, function(i, t) {
+        html += `<a class="dropdown-item version-item">${t.version}</a>`;
+      });
+      $("#version").html(html);
+    });
+  }
+  if ($("#version").length) getVersion ();
+
+
   function getArea1 () {
     $.getJSON(`/json/city/search`, function(data) {
       var html = `<a class="dropdown-item area1-item">전체</a>`;
@@ -288,6 +300,7 @@ console.log("admin-coupon");
 //
 $(document).on('click', '#register', function (event) {
   var pageid = $('#pageid').text();
+console.log(pageid);
   switch(pageid) {
   case 'admin-profile'          : return admin_profile_register ();
   case 'admin-member-register'  : return admin_member_register ();
@@ -297,6 +310,7 @@ $(document).on('click', '#register', function (event) {
   case 'admin-admin-register'   : return admin_admin_register  ();
   case 'admin-class-register'   : return admin_class_register  ();
   case 'admin-group-register'   : return admin_group_register  ();
+  case 'admin-pos-register'     : return admin_pos_register    ();
 
   case 'member-profile'         : return member_profile_register ();
   case 'member-coupon-register' : return member_coupon_register ();
@@ -308,6 +322,7 @@ $(document).on('click', '#register', function (event) {
   case 'admin-admin-search'     : return $(location).attr('href', '/admin/admin/register');
   case 'admin-class-search'     : return $(location).attr('href', '/admin/class/register');
   case 'admin-group-search'     : return $(location).attr('href', '/admin/group/register');
+  case 'admin-pos-version'      : return $(location).attr('href', '/admin/pos/register');
 
   case 'member-coupon-search'   : return $(location).attr('href', '/member/coupon/register');
 
@@ -490,6 +505,30 @@ function admin_event_register () {
   $.postFORM ('/json/admin/event/register', formData);
   dynamicAlert("이벤트/공지 정보가 정상적으로 등록되었습니다.");
   logAdminEvent(title, "", userInfo.name, getCur(), "생성", "이벤트", "");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// ADMIN-POS-REGISTER
+function admin_pos_register () {
+  var register    = userInfo.name;
+  var file1       = $("#file1").val();
+  var version     = $("#ver").val();
+  var fupdate     = $("#btn-fupdate").html();
+  var description = $("#description").val();
+
+  if (file1   == "")     { dynamicAlert("POS Agent 프로그램을 선택해주세요.");  return }
+  if (version == "")     { dynamicAlert("POS Agent 버전을 입력해주세요.");      return }
+  if (fupdate == "선택") { dynamicAlert("강제업데이트 여부를 선택해주세요.");   return }
+
+  var formData = new FormData();
+  formData.append('register',    register);
+  formData.append('file1',       $('#file1')[0].files[0]);
+  formData.append('version',     version);
+  formData.append('fupdate',     fupdate);
+  formData.append('description', description);
+  $.postFORM ('/json/admin/pos/version/register', formData);
+  dynamicAlert("POS Agent 프로그램이 정상적으로 등록되었습니다.");
+  //logAdminEvent(title, "", userInfo.name, getCur(), "생성", "이벤트", "");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -782,6 +821,7 @@ $(document).on('click', '#list', function (event) {
   case 'admin-class-register'  : return $(location).attr('href', '/admin/class/search');
   case 'admin-coupon-register' : return $(location).attr('href', '/admin/coupon/search');
   case 'admin-notice-register' : return $(location).attr('href', '/admin/notice/search');
+  case 'admin-pos-register'    : return $(location).attr('href', '/admin/pos/version');
 
   case 'member-coupon-register': return $(location).attr('href', '/member/coupon/search');
   }
@@ -1674,15 +1714,17 @@ function admin_group_search () {
 // ADMIN-POS-SEARCH
 function admin_pos_license () {
   var params = {
-    name  : ($("#name").val() == "")? "all": $("#name").val(),
-    date1 : $("#date1").val() + ' 00:00:00',
-    date2 : $("#date2").val() + ' 23:59:59',
-    grade : userInfo.grade
+    name   : ($("#name").val() == "")? "all": $("#name").val(),
+    status : ($("#btn-status").html() == "전체")? "all": $("#btn-status").html(),
+    license: ($("#license").val() == "")? "all":$("#license").val(),
+    date1  : $("#date1").val() + ' 00:00:00',
+    date2  : $("#date2").val() + ' 23:59:59'
   }
-  $.postJSON('/json/admin/pos/search', params).then(res => {
+console.log (params);
+  $.postJSON('/json/admin/license/search', params).then(res => {
     console.log (res);
     html = '<div class="table-responsive">';
-    html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<table id="admin-license-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
     html += '<tr>';
     html += '<th style="text-align: center;">No</th>';
@@ -1698,15 +1740,15 @@ function admin_pos_license () {
     $.each(res, function(i, t) {
       html += '<tr>';
       html += `<td style="text-align: center;">${i}</td>`;
-      html += `<td style="text-align: center;"><a id="pos-detail" modal-id="${t.id}" href="javascript:void(0);">${t.rcn}</a></td>`;
+      html += `<td style="text-align: center;"><a id="license-detail" modal-id="${t.id}" href="javascript:void(0);">${t.rcn}</a></td>`;
       html += `<td style="text-align: center;">${t.member.name}</td>`;
-      html += `<td style="text-align: center;"></td>`;
+      html += `<td style="text-align: center;">${t.status}</td>`;
       html += `<td style="text-align: center;">${t.license}</td>`;
       html += `<td style="text-align: center;">${(t.hbeat != '0000-00-00 00:00:00')? moment(t.hbeat).format('YYYY-MM-DD HH:mm:ss'):''}</td>`;
-      html += `<td style="text-align: center;"></td>`;
+      html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
     });
     $("#results").html(html);
-    $('#admin-member-table').DataTable({
+    $('#admin-license-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
       "order": [[ 0, "desc" ]],
       "searching": false,
@@ -1714,6 +1756,103 @@ function admin_pos_license () {
     });
   });
 }
+
+function admin_pos_monitor () {
+  var params = {
+    name  : ($("#name").val() == "")? "all": $("#name").val(),
+    version : ($("#btn-version").html() == "전체")? "all": $("#btn-version").html(),
+    status : ($("#btn-status").html() == "전체")? "all": $("#btn-status").html(),
+    network: ($("#btn-network").html() == "전체")? "all":$("#btn-network").html()
+  }
+console.log (params);
+  $.postJSON('/json/admin/monitor/search', params).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="admin-monitor-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">사업자번호</th>';
+    html += '<th style="text-align: center;">가맹점상호</th>';
+    html += '<th style="text-align: center;">버전</th>';
+    html += '<th style="text-align: center;">라이선스상태</th>';
+    html += '<th style="text-align: center;">통신상태</th>';
+    html += '<th style="text-align: center;">통신로그</th>';
+    html += '<th style="text-align: center;">접속일시</th>';
+    html += '<th style="text-align: center;">등록일시</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;">${i}</td>`;
+      html += `<td style="text-align: center;"><a id="monitor-detail" modal-id="${t.id}" href="javascript:void(0);">${t.rcn}</a></td>`;
+      html += `<td style="text-align: center;">${t.member.name}</td>`;
+      html += `<td style="text-align: center;">${t.version}</td>`;
+      html += `<td style="text-align: center;">${t.status}</td>`;
+      html += `<td style="text-align: center;"></td>`;
+      html += `<td style="text-align: center;"></td>`;
+      html += `<td style="text-align: center;">${(t.hbeat != '0000-00-00 00:00:00')? moment(t.hbeat).format('YYYY-MM-DD HH:mm:ss'):''}</td>`;
+      html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+    });
+    $("#results").html(html);
+    $('#admin-monitor-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
+function admin_pos_version () {
+  var params = {
+    name  : ($("#name").val() == "")? "all": $("#name").val(),
+    date1 : $("#date1").val() + ' 00:00:00',
+    date2 : $("#date2").val() + ' 23:59:59',
+    grade : userInfo.grade
+  }
+  $.postJSON('/json/admin/pos/version/search', params).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="admin-version-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">프로그램</th>';
+    html += '<th style="text-align: center;">버전</th>';
+    html += '<th style="text-align: center;">크기</th>';
+    html += '<th style="text-align: center;">강제업데이트</th>';
+    html += '<th style="text-align: center;">수정자</th>';
+    html += '<th style="text-align: center;">수정일시</th>';
+    html += '<th style="text-align: center;">등록자</th>';
+    html += '<th style="text-align: center;">등록일시</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;">${i}</td>`;
+      html += `<td style="text-align: center;">${t.name}</td>`;
+      html += `<td style="text-align: center;"><a id="version-detail" modal-id="${t.id}" href="javascript:void(0);">${t.version}<a/></td>`;
+      html += `<td style="text-align: center;">${numberWithCommas(parseInt(t.fsize/1000))} KB</td>`;
+      html += `<td style="text-align: center;">${t.fupdate}</td>`;
+      html += `<td style="text-align: center;">${t.updater}</td>`;
+      html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+      html += `<td style="text-align: center;">${t.register}</td>`;
+      html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
+    });
+    $("#results").html(html);
+    $('#admin-version-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1846,6 +1985,10 @@ $(document).on('click', '#m-update', function (event) {
   case 'admin-admin-search'   : return admin_admin_update  ();
   case 'admin-class-search'   : return admin_class_update  ();
   case 'admin-group-search'   : return admin_group_update  ();
+
+  case 'admin-pos-license'    : return admin_license_update  ();
+  case 'admin-pos-monitor'    : return admin_monitor_update  ();
+  case 'admin-pos-version'    : return admin_version_update  ();
 
   case 'member-coupon-search' : return member_coupon_update ();
   }
@@ -2188,6 +2331,43 @@ function admin_group_update () {
 }
 
 
+function admin_license_update () {
+  console.log (modal_license);
+
+  var params = {
+    id      : modal_license.id,
+    updater : userInfo.name,
+    status  : $('input[type=radio][name=m-status]:checked').val(),
+  }
+  console.log (params);
+
+  if(params.status  != modal_license.status)          logPosLicense (modal_license.member.name, "",  userInfo.name, getCur(), "수정", "라이센스", `상태변경:  ${modal_license.status} => ${params.status}`);
+
+  $.postJSON('/json/admin/pos/license/update', params).then(res => {
+    console.log(res);
+    dynamicAlert("라이선스 정보가 정상적으로 변경되었습니다");
+  });
+}
+
+function admin_monitor_update () {
+  console.log (modal_monitor);
+
+  var params = {
+    id      : modal_monitor.id,
+    updater : userInfo.name,
+    status  : $('input[type=radio][name=m-status]:checked').val(),
+  }
+  console.log (params);
+
+  if(params.status  != modal_monitor.status)          logPosLicense (modal_monitor.member.name, "",  userInfo.name, getCur(), "수정", "라이센스", `상태변경:  ${modal_monitor.status} => ${params.status}`);
+
+  $.postJSON('/json/admin/pos/license/update', params).then(res => {
+    console.log(res);
+    dynamicAlert("라이선스 정보가 정상적으로 변경되었습니다");
+  });
+}
+
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // MEMBER-COUPON-UPDATE
 
@@ -2455,6 +2635,9 @@ $(document).on('click', '#history', function (event) {
   case 'admin-admin-search'      : return admin_admin_history   ();
   case 'admin-group-search'      : return admin_group_history   ();
   case 'admin-class-search'      : return admin_class_history   ();
+  case 'admin-pos-license'       : return admin_license_history ();
+  case 'admin-pos-monitor'       : return admin_monitor_history ();
+  case 'admin-pos-version'       : return admin_version_history ();
   }
 });
 
@@ -2709,6 +2892,115 @@ function admin_group_history () {
     });
   });
 }
+
+function admin_license_history () {
+  $("#modal-license-hist-detail").modal('show');
+  $.postJSON('/json/admin/group/history', {}).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="modal-group-hist-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">이벤트명</th>';
+    html += '<th style="text-align: center;">액션</th>';
+    html += '<th style="text-align: center;">범위</th>';
+    html += '<th style="text-align: center;">수정상세</th>';
+    html += '<th style="text-align: center;">수정일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
+      html += `<td style="text-align: left;"><div class="ropa">${t.name}</div></td>`;
+      html += `<td style="text-align: center;">${t.done}</td>`;
+      html += `<td style="text-align: center;">${(t.division == null)? "":t.division}</td>`;
+      html += `<td style="text-align: center;">${(t.description == null)? "":t.description}</td>`;
+      html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
+    });
+    $("#m-hist-results").html(html);
+    $('#modal-group-hist-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
+function admin_monitor_history () {
+  $("#modal-monitor-hist-detail").modal('show');
+  $.postJSON('/json/admin/group/history', {}).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="modal-group-hist-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">이벤트명</th>';
+    html += '<th style="text-align: center;">액션</th>';
+    html += '<th style="text-align: center;">범위</th>';
+    html += '<th style="text-align: center;">수정상세</th>';
+    html += '<th style="text-align: center;">수정일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
+      html += `<td style="text-align: left;"><div class="ropa">${t.name}</div></td>`;
+      html += `<td style="text-align: center;">${t.done}</td>`;
+      html += `<td style="text-align: center;">${(t.division == null)? "":t.division}</td>`;
+      html += `<td style="text-align: center;">${(t.description == null)? "":t.description}</td>`;
+      html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
+    });
+    $("#m-hist-results").html(html);
+    $('#modal-group-hist-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
+function admin_version_history () {
+  $("#modal-version-hist-detail").modal('show');
+  $.postJSON('/json/admin/group/history', {}).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="modal-group-hist-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">이벤트명</th>';
+    html += '<th style="text-align: center;">액션</th>';
+    html += '<th style="text-align: center;">범위</th>';
+    html += '<th style="text-align: center;">수정상세</th>';
+    html += '<th style="text-align: center;">수정일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
+      html += `<td style="text-align: left;"><div class="ropa">${t.name}</div></td>`;
+      html += `<td style="text-align: center;">${t.done}</td>`;
+      html += `<td style="text-align: center;">${(t.division == null)? "":t.division}</td>`;
+      html += `<td style="text-align: center;">${(t.description == null)? "":t.description}</td>`;
+      html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
+    });
+    $("#m-hist-results").html(html);
+    $('#modal-group-hist-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
 
 
 
@@ -3876,35 +4168,66 @@ $(document).on('click', '#group-detail', function (event) {
   });
 });
 
-var modal_pos = {};
+var modal_license = {};
 
-$(document).on('click', '#pos-detail', function (event) {
+$(document).on('click', '#license-detail', function (event) {
   var id = $(this).attr("modal-id");
 
-  $("#modal-pos-detail").modal('show');
+  $("#modal-license-detail").modal('show');
   $.getJSON(`/json/admin/pos/search/id/${id}`, function (res) {
-    modal_group = res;
-    console.log ('pos-detail', res);
+    modal_license = res;
+    console.log ('version-detail', res);
     $("#m-rcn").val(res.member.rcn);
     $("#m-member").val(res.member.name);
     $("#m-mac").val(res.mac);
+    $("#m-version").val(res.version);
+    if(res.status == '승인') $("#m-status1").prop('checked', true);
+    else $("#m-status2").prop('checked', true);
     $("#m-license").val(res.license);
     $("#m-updated").val (moment(res.hbeat).format('YYYY-MM-DD HH:mm:ss'));
     $("#m-registered").val (moment(res.registered).format('YYYY-MM-DD HH:mm:ss'));
-    if(res.fcoupon) { $("#fcoupon").prop('checked', true); $("#hp-coupon").prop('disabled', false); } else { $("#fcoupon").prop('checked', false); $("#hp-coupon").prop('disabled', true); }
-    if(res.fevent)  { $("#fevent").prop('checked', true);  $("#hp-event").prop('disabled', false); }  else { $("#fevent").prop('checked', false); $("#hp-event").prop('disabled', true);   }
-    if(res.fnotice) { $("#fnotice").prop('checked', true); $("#hp-notice").prop('disabled', false); } else { $("#fnotice").prop('checked', false); $("#hp-notice").prop('disabled', true); }
-    if(res.fadmin)  { $("#fadmin").prop('checked', true);  $("#hp-admin").prop('disabled', false); }  else { $("#fadmin").prop('checked', false); $("#hp-admin").prop('disabled', true);   }
-    if(res.fgroup)  { $("#fgroup").prop('checked', true);  $("#hp-group").prop('disabled', false); }  else { $("#fgroup").prop('checked', false); $("#hp-group").prop('disabled', true);   }
+  });
+});
 
-    switch(res.homepage) {
-    case '대시보드'       : $("#hp-dashboard").prop('checked', true); break;
-    case '쿠폰관리'       : $("#hp-coupon").prop('checked', true);    break;
-    case '이벤트/광고관리': $("#hp-event").prop('checked', true);     break;
-    case '공지사항관리'   : $("#hp-notice").prop('checked', true);    break;
-    case '관리자관리'     : $("#hp-admin").prop('checked', true);     break;
-    case '그룹권한관리'   : $("#hp-group").prop('checked', true);     break;
-    }
+var modal_monitor = {};
+
+$(document).on('click', '#monitor-detail', function (event) {
+  var id = $(this).attr("modal-id");
+
+  $("#modal-monitor-detail").modal('show');
+  $.getJSON(`/json/admin/pos/search/id/${id}`, function (res) {
+    modal_monitor = res;
+    console.log ('version-detail', res);
+    $("#m-rcn").val(res.member.rcn);
+    $("#m-member").val(res.member.name);
+    $("#m-mac").val(res.mac);
+    $("#m-version").val(res.version);
+    if(res.status == '승인') $("#m-status1").prop('checked', true);
+    else $("#m-status2").prop('checked', true);
+    $("#m-license").val(res.license);
+    $("#m-updated").val (moment(res.hbeat).format('YYYY-MM-DD HH:mm:ss'));
+    $("#m-registered").val (moment(res.registered).format('YYYY-MM-DD HH:mm:ss'));
+  });
+});
+
+
+
+var modal_version = {};
+
+$(document).on('click', '#version-detail', function (event) {
+  var id = $(this).attr("modal-id");
+
+  $("#modal-version-detail").modal('show');
+  $.getJSON(`/json/admin/pos/version/search/id/${id}`, function (res) {
+    modal_version = res;
+    console.log (res);
+    $("#m-name").val(res.name);
+    $("#m-version").val(res.version);
+    $("#m-fsize").val(numberWithCommas(parseInt(res.fsize/1024)));
+    $("#m-fupdate").val(res.fupdate);
+    $("#m-description").val(res.description);
+    $("#m-register").val(res.register);
+    $("#m-registered").val (moment(res.registered).format('YYYY-MM-DD HH:mm:ss'));
   });
 });
 
@@ -4152,6 +4475,11 @@ $("#modal-group-detail").on('hide.bs.modal', function () {
   deleteActivated ();
   admin_group_search ();
 });
+$("#modal-license-detail").on('hide.bs.modal', function () {
+  //location.reload();
+  deleteActivated ();
+  admin_pos_license ();
+});
 $("#modal-member-coupon").on('hide.bs.modal', function () {
   //location.reload();
   console.log('modal-member-coupon"');
@@ -4258,6 +4586,43 @@ function logAdminAdmin(name, menu, updater, updated, done, division, description
   formData.append('division',    division);
   formData.append('description', description);
   $.postFORM ('/json/admin/admin/history/register', formData);
+}
+
+function logPosLicense(name, menu, updater, updated, done, division, description) {
+console.log("logPosLicense");
+  var formData = new FormData();
+  formData.append('name',        name);
+  formData.append('menu',        menu);
+  formData.append('updater',     updater);
+  formData.append('updated',     updated);
+  formData.append('done',        done);
+  formData.append('division',    division);
+  formData.append('description', description);
+  $.postFORM ('/json/admin/license/history/register', formData);
+}
+
+function logPosMonitor(name, menu, updater, updated, done, division, description) {
+  var formData = new FormData();
+  formData.append('name',        name);
+  formData.append('menu',        menu);
+  formData.append('updater',     updater);
+  formData.append('updated',     updated);
+  formData.append('done',        done);
+  formData.append('division',    division);
+  formData.append('description', description);
+  $.postFORM ('/json/admin/monitor/history/register', formData);
+}
+
+function logPosVersion(name, menu, updater, updated, done, division, description) {
+  var formData = new FormData();
+  formData.append('name',        name);
+  formData.append('menu',        menu);
+  formData.append('updater',     updater);
+  formData.append('updated',     updated);
+  formData.append('done',        done);
+  formData.append('division',    division);
+  formData.append('description', description);
+  $.postFORM ('/json/admin/version/history/register', formData);
 }
 
 $(document).on('click', '.nav-link', function(event) {

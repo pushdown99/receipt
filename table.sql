@@ -217,6 +217,21 @@ CREATE TABLE IF NOT EXISTS city (
 );
 
 
+DROP TABLE version;
+CREATE TABLE IF NOT EXISTS version (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL UNIQUE,
+  version        varchar(8) NOT NULL UNIQUE,
+  fsize          int        DEFAULT 0,
+  fupdate        varchar(8) DEFAULT 'N',
+  description    varchar(1024) DEFAULT "",
+  updater        varchar(32) NOT NULL,
+  updated        timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  register       varchar(32) NOT NULL,
+  registered     timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+
 DROP TABLE admin_group;
 CREATE TABLE IF NOT EXISTS admin_group (
   id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -418,6 +433,43 @@ CREATE TABLE IF NOT EXISTS admin_class_history (
   division       varchar(32) DEFAULT "",
   description    varchar(32) DEFAULT ""
 );
+
+DROP TABLE admin_license_history;
+CREATE TABLE IF NOT EXISTS admin_license_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  menu           varchar(32) DEFAULT "",
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp NOT NULL,
+  done           varchar(32) DEFAULT "",
+  division       varchar(32) DEFAULT "",
+  description    varchar(32) DEFAULT ""
+);
+
+DROP TABLE admin_monitor_history;
+CREATE TABLE IF NOT EXISTS admin_monitor_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  menu           varchar(32) DEFAULT "",
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp NOT NULL,
+  done           varchar(32) DEFAULT "",
+  division       varchar(32) DEFAULT "",
+  description    varchar(32) DEFAULT ""
+);
+
+DROP TABLE admin_version_history;
+CREATE TABLE IF NOT EXISTS admin_version_history (
+  id             int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name           varchar(32) NOT NULL,
+  menu           varchar(32) DEFAULT "",
+  updater        varchar(32) DEFAULT "",
+  updated        timestamp NOT NULL,
+  done           varchar(32) DEFAULT "",
+  division       varchar(32) DEFAULT "",
+  description    varchar(32) DEFAULT ""
+);
+
 
 
 

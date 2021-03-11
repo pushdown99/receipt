@@ -212,6 +212,13 @@ module.exports = {
       info.page = 'admin/pos/version';
       return info;
 
+    case '/admin/pos/register':
+      info.title = 'POS Agent 등록';
+      info.name = 'admin/pos/register';
+      info.navigation = 'POS Agent 관리 / POS Agent 등록';
+      info.page = 'admin/pos/register';
+      return info;
+
     /////////////////////////////////////////////////
 
     case '/test':
