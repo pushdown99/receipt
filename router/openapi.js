@@ -457,7 +457,7 @@ module.exports = function(app) {
     var lng   = req.body.lng;
     if (email == undefined || lat == undefined || lng == undefined) return lib.response(req, res, 404);
 
-    var members = lib.mysql.searchMemberNear(lat, lng, 5);
+    var members = lib.mysql.searchMemberNear(lat, lng, 500);
     if(members.length < 1) return lib.response(req, res, 208);
 
     for(var i = 0; i < members.length; i++) {
@@ -469,6 +469,10 @@ module.exports = function(app) {
 
   });
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // DETAIL
+  //
   app.post('/member/detail/:rcn', function(req, res){
     let email = req.body.email;
     let rcn = req.params.rcn;
@@ -478,6 +482,13 @@ module.exports = function(app) {
     var member = lib.mysql.searchMemberDetailByRcn([rcn]);
     if(member.length < 1) return lib.response(req, res, 208);
 
+    var coupons = lib.mysql.searchCouponRcnType ([rcn, "프로모션"]);
+    if (coupons != null) {
+      coupons.forEach(coupon => {
+        coupon.cpurl = `/publish/coupon/promotion/${rcn}/${coupon.id}`;
+      });
+    }
+    member[0].coupon = coupons;
 //    var result = lib.mysql.getAdminMemberInfoRcn([rcn]);
 //    if(ret.length < 1) return lib.response(req, res, 200, { list: ret});
 
