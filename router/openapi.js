@@ -616,16 +616,45 @@ module.exports = function(app) {
     return res.json({code: 200, license: ret[0].license});
   });
 
-  app.post('/pos/sign-in/', function(req, res) {
+  app.post('/pos/latest/version', function(req, res) {
     let Rcn    = req.body.Rcn;
     let Mac    = req.body.Mac;
     if(Rcn == undefined || Mac == undefined) return lib.response(req, res, 404);
 
-    var ret = lib.mysql.getPosMacRcn ([Mac, Rcn]);
-    if(ret.length < 1) return lib.response(req, res, 404);
+    var Ver = lib.mysql.getMaxVersion()
+    return res.json(Ver);
+  });
 
-    lib.mysql.updPosHbeat ([moment().format("YYYY-MM-DD HH:mm:ss"), ret[0].license]);
-    return res.json({code: 200, license: ret[0].license});
+  app.post('/pos/heartbeat/', function(req, res) {
+    let Rcn    = req.body.Rcn;
+    let Mac    = req.body.Mac;
+    let Ver    = req.body.Ver;
+    if(Rcn == undefined || Mac == undefined || Ver == undefined) return lib.response(req, res, 404);
+
+    var pos = lib.mysql.getPosMacRcn ([Mac, Rcn]);
+    if(pos.length < 1) return lib.response(req, res, 404);
+
+    if (pos.name == null || pos.name == "") {
+      var member = lib.mysql.searchMemberByRcn ([Rcn])
+      if (member != null) {
+        lib.mysql.updPosMember ([member.name, pos[0].license])
+      }
+    }
+    lib.mysql.updPosHbeat ([moment().format("YYYY-MM-DD HH:mm:ss"), Ver, pos[0].license]);
+    return res.json({code: 200, license: pos[0].license});
+  });
+
+  app.post('/pos/sign-in/', function(req, res) {
+    let Rcn    = req.body.Rcn;
+    let Mac    = req.body.Mac;
+    let Ver    = req.body.Ver;
+    if(Rcn == undefined || Mac == undefined || Ver == undefined) return lib.response(req, res, 404);
+
+    var pos = lib.mysql.getPosMacRcn ([Mac, Rcn]);
+    if(pos.length < 1) return lib.response(req, res, 404);
+
+    lib.mysql.updPosHbeat ([moment().format("YYYY-MM-DD HH:mm:ss"), Ver, pos[0].license]);
+    return res.json({code: 200, license: pos[0].license});
   });
 
   app.post('/pos/sign-up/', function(req, res) {
@@ -701,13 +730,38 @@ module.exports = function(app) {
     })
   });
 
+  app.post('/json/pos/license/delete/id', function(req, res){
+    let id    = req.body.id;
+
+    var ret = lib.mysql.delPosLicenseId ([id]);
+    return lib.response(req, res, 200);
+  });
+
+  app.post('/json/pos/version/delete/id', function(req, res){
+    let id    = req.body.id;
+
+    var ret = lib.mysql.delPosVersionId ([id]);
+    return lib.response(req, res, 200);
+  });
+
+  app.get('/pos/update-check/:License', function(req, res) {
+    let License    = req.params.License;
+
+    var pos = lib.mysql.getPosLicense ([License]);
+    if(pos.length < 1) return lib.response(req, res, 404);
+
+    pos[0].registered = moment(pos[0].date2).format("YYYY-MM-DD HH:mm:ss");
+
+    var Ver = lib.mysql.getMaxVersion()
+    return res.render("pos-updates", { list: pos[0], version: Ver });
+  });
 
   app.post('/mac/:mac', function(req, res){
-    let mac = req.body.Mac;
+    let Mac = req.body.Mac;
 
-    var ret = lib.mysql.getLicense ([mac]);
-    if(ret.length < 1) return res.json ({code: 404});
-    return res.json({code: 200, license: ret[0].license});
+    var Lic = lib.mysql.getLicense ([Mac]);
+    if(Lic.length < 1) return res.json ({code: 404});
+    return res.json({code: 200, license: Lic[0].license});
   });
 
 }

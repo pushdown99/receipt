@@ -272,8 +272,9 @@ module.exports = function (app) {
     var phone    = req.body.phone;
     var role     = req.body.role;
     var status   = req.body.status;
+    var register = req.body.register;
 
-    var result = lib.mysql.putAdminAdmin ([email, password, name, mobile, phone, role, status]);
+    var result = lib.mysql.putAdminAdmin ([email, password, name, mobile, phone, role, status, register]);
     res.json (result);
   });
 
@@ -1042,6 +1043,15 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
+  app.post('/json/admin/pos/version/update', function (req, res) {
+    var id      = req.body.id;
+    var updater = req.body.updater;
+    var description = req.body.description;
+
+    var result = lib.mysql.updAdminPosVersion([description, updater, id]);
+    res.json(result);
+  });
+
   app.post('/json/member/coupon/update/status', function (req, res) {
     var id     = req.body.id;
     var status = req.body.status;
@@ -1219,7 +1229,7 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
-  app.post('/json/admin/member/history/:rcn', function (req, res) {
+  app.post('/json/admin/member/history/rcn/:rcn', function (req, res) {
     var rcn = req.params.rcn;
     var result = lib.mysql.searchMemberHistoryByRcn ([rcn]);
     res.json(result);
@@ -1244,6 +1254,10 @@ console.log("params", cash, stamp);
   app.post('/json/admin/class/history', function (req, res) {
     var cl = lib.mysql.searchClassHistory ([]);
     res.json(cl);
+  });
+  app.post('/json/admin/user/history', function (req, res) {
+    var user = lib.mysql.searchUserHistory ([]);
+    res.json(user);
   });
   app.post('/json/admin/Group/history', function (req, res) {
     var group = lib.mysql.searchGroupHistory ([]);
@@ -1321,11 +1335,12 @@ console.log("params", cash, stamp);
   });
 
   app.post('/json/admin/profile/update', function (req, res) {
+    var email  = req.body.email;
     var name   = req.body.name;
     var mobile = req.body.mobile;
     var phone  = req.body.phone;
 
-    var result = lib.mysql.updAdminUser ([name, mobile, phone]);
+    var result = lib.mysql.updAdminProfile ([name, mobile, phone, email]);
     res.json (result);
   });
 
@@ -1510,13 +1525,8 @@ console.log("params", cash, stamp);
 
     var result = lib.mysql.getAdminEventAll ([coupon, status, date1, date2]);
     res.json (result);
-
   });
 
-////////////////////////////////////////////////////////////////////////////////////////////
-//
-// MIGRATION
-//
   app.post('/json/import/admin/member/history', function (req, res) {
     var result = lib.mysql.allAdminMember ([]);
     result.forEach(e => {

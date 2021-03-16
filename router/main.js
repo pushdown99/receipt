@@ -246,6 +246,10 @@ function updateMemberDashboard () {
 
 }
 
+function updatePosNetwork () {
+  lib.mysql.query("UPDATE pos SET network='에러' WHERE TIMESTAMPDIFF(SECOND, hbeat, NOW())>=300 OR hbeat='0000-00-00 00:00:00'");
+  lib.mysql.query("UPDATE pos SET network='정상' WHERE TIMESTAMPDIFF(SECOND, hbeat, NOW())<=300");
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // SIMULATION
@@ -254,6 +258,7 @@ function cbFunc () {
   cbCounter = cbCounter + 1;
 
   if((cbCounter % 60) == 1) updateMemberDashboard ();
+  if((cbCounter % 60) == 1) updatePosNetwork ();
   //if(cbCounter <= 1) initData ();
   //if((cbCounter % 5) == 0) runUsersEvent ();
   //runMemberEvent ();
