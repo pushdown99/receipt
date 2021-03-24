@@ -469,6 +469,15 @@ module.exports = function(app) {
 
   });
 
+  app.post('/user/area/update', function(req, res){
+    let email = req.body.email;
+    let area1 = req.body.area1;
+    let area2 = req.body.area2;
+
+    var ret = lib.mysql.updUserAreaEmail([area1, area2, email]);
+    return lib.response(req, res, 200, { list: ret});
+  });
+
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   //
   // DETAIL
@@ -597,12 +606,12 @@ module.exports = function(app) {
 
   app.get('/use/coupon/:cpcode', function(req, res){
     let cpcode = req.params.cpcode;
-    var ret = lib.mysql.getUserCouponCode ([cpcode]);
-    if(ret.length < 1) return  lib.response(req, res, 404);
+    var coupon = lib.mysql.getUserCouponCode ([cpcode]);
+    if(coupon.length < 1) return  lib.response(req, res, 404);
 
     var ret = lib.mysql.updUserCouponUsedCode ([cpcode]);
-    if(ret.affectedRows < 1) return res.json({'message': '쿠폰 사용이 불가합니다.'});
-    return res.json({'message': '쿠폰이 정상적으로 사용되었습니다.'});
+    if(ret.affectedRows < 1) return res.json({'coupon': coupon, 'message': '쿠폰 사용이 불가합니다.'});
+    return res.json({'coupon': coupon, 'message': '쿠폰이 정상적으로 사용되었습니다.'});
   });
 
   app.post('/pos/current/version', function(req, res) {

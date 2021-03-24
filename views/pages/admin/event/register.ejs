@@ -36,14 +36,14 @@
             </div>
             <div class="form-group col-md-10">
               <div class="input-group">
-                <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fnotice" value="공지">&nbsp;&nbsp;공지/광고&nbsp;&nbsp;(가중치&nbsp;&nbsp;</label>
-                <button id="btn-fweight" class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">1</button>
-                <div id="weightropUsed" class="dropdown-menu">
+                <label class="checkbox-inline" hidden>&nbsp;<input type="checkbox" id="fnotice" value="공지">&nbsp;&nbsp;공지/광고&nbsp;&nbsp;(가중치&nbsp;&nbsp;</label>
+                <button id="btn-fweight" class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" hidden>1</button>
+                <div id="weightropUsed" class="dropdown-menu" hidden>
                   <a class="dropdown-item">1</a>
                   <a class="dropdown-item">2</a>
                   <a class="dropdown-item">3</a>
                 </div>
-                <label>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <label hidden>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fmain" value="메인">&nbsp;&nbsp;메인&nbsp;&nbsp;</label>
                 <label class="checkbox-inline">&nbsp;<input type="checkbox" id="fevent" value="이벤트">&nbsp;&nbsp;이벤트&nbsp;&nbsp;</label>
               </div>
@@ -221,19 +221,19 @@
             </div>
             <div class="form-group col-md-3">
               <div class="input-group">
-                <div class="input-group-prepend"><div class="input-group-text">상단</div></div>
+                <div class="input-group-prepend"><div class="input-group-text">배경색</div></div>
                 <input type="text" id="rgb1" class="form-control colorpicker-element" data-colorpicker-id="1" data-original-title="" title="" placeholder="#372a9a">
               </div>
             </div>
             <div class="form-group col-md-8"></div>
 
-            <div class="form-group offset-md-1 col-md-3">
+            <div class="form-group offset-md-1 col-md-3" hidden>
               <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text">하단</div></div>
                 <input type="text" id="rgb2" class="form-control colorpicker-element" data-colorpicker-id="1" data-original-title="" title="" placeholder="#372a9a">
               </div>
             </div>
-            <div class="form-group col-md-8"></div>
+            <div class="form-group col-md-8" hidden></div>
 
           </div>
 
@@ -262,7 +262,7 @@
                 <span id="validity1"></span> ~ <span id="validity2"></span>
               </div>
             </div>
-            <div class="form-group col-md-8"></div>
+            <div class="form-group col-md-8"><span id="m-cid" hidden></span></div>
 
           </div>
 

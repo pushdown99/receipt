@@ -41,9 +41,27 @@ $.extend({
 const shrink     = 640;
 const width      = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 const height     = (window.innerHeight > 0) ? window.innerHeight : screen.height;
-const today      = moment().format('YYYY-MM-DD');
-const before     = moment().subtract(1, 'months').format('YYYY-MM-DD');
+var today      = moment().format('YYYY-MM-DD');
+var before     = moment().subtract(6, 'months').format('YYYY-MM-DD');
 const pagelength = 10;
+
+var pageid = $('#pageid').text();
+  switch(pageid) {
+  case 'admin-profile'          : 
+  case 'admin-member-register'  :
+  case 'admin-coupon-register'  :
+  case 'admin-event-register'   :
+  case 'admin-notice-register'  :
+  case 'admin-admin-register'   :
+  case 'admin-class-register'   :
+  case 'admin-group-register'   :
+  case 'admin-pos-register'     :
+  case 'member-profile'         :
+  case 'member-coupon-register' :
+    before  = moment().format('YYYY-MM-DD');
+    today   = moment().add(12, 'months').format('YYYY-MM-DD');
+  }
+
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -160,6 +178,7 @@ $(function() {
 
   if ($("#dashboard-date").length) { $("#dashboard-date").datetimepicker({ format: 'YYYY-MM-DD' }); $("#dashboard-date").val(today); }
 
+  console.log ("date init");
   if ($("#date1").length) { $("#date1").datetimepicker({ format: 'YYYY-MM-DD' }); $("#date1").val(before); }
   if ($("#date2").length) { $("#date2").datetimepicker({ format: 'YYYY-MM-DD' }); $("#date2").val(today); }
   if ($("#date2").length == 0 && $("#date1").length > 0) { $("#date1").val(today); }
@@ -431,7 +450,7 @@ function admin_coupon_register () {
   if (params.valid == "0")     { dynamicAlert("사용가능한 쿠폰코드를 입력해주세요."); return }
   if (params.cpname == "")     { dynamicAlert("쿠폰명을 입력해주세요."); return }
   if (params.member == "선택") { dynamicAlert("교환가능한 가맹점을 선택해주세요."); return }
-  if (params.benefit == "")    { dynamicAlert("쿠폰혜택을 입력해주세요."); return }
+  //if (params.benefit == "")    { dynamicAlert("쿠폰혜택을 입력해주세요."); return }
   if (params.notice == "")     { dynamicAlert("유의사항을 입력해주세요."); return }
 
   console.log (params);
@@ -479,9 +498,10 @@ function admin_event_register () {
   var coupon  = ($("#btn-admin-coupon1").html() == "선택")? "선택":$("#btn-admin-coupon1").html();
   var date3   = $("#validity1").html();
   var date4   = $("#validity2").html();
+  var cid     = $("#m-cid").html();
 
   if (title   == "") { dynamicAlert("이벤트명을 입력해주세요.");                  return }
-  //if (rgb1   == "")  { dynamicAlert("상단 네비게이션 컬러를 지정해주세요.");      return }
+  if (fmain == 1 && rgb1   == "")  { dynamicAlert("네비게이션 컬러를 지정해주세요.");      return }
   //if (rgb2   == "")  { dynamicAlert("하단 네비게이션 컬러를 지정해주세요.");      return }
 
   var formData = new FormData();
@@ -512,9 +532,22 @@ function admin_event_register () {
   formData.append('coupon',  coupon);
   formData.append('date3',   date3);
   formData.append('date4',   date4);
+  formData.append('cid',     cid);
   $.postFORM ('/json/admin/event/register', formData);
   dynamicAlert("이벤트/공지 정보가 정상적으로 등록되었습니다.");
   logAdminEvent(title, "", userInfo.name, getCur(), "생성", "이벤트", "");
+
+  $("#title").val("");
+  $("#btn-gender").html("전체");
+  $("#btn-age").html("전체");
+  $("#btn-area1").html("전체");
+  $("#btn-area2").html("전체");
+  $("#rgb1").val("");
+  $("#btn-admin-coupon1").html("선택");
+  $("#validity1").html("");
+  $("#validity2").html("");
+  $("#m-cid").html("");
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -633,10 +666,8 @@ function admin_admin_register () {
     $("#password2").val("");
     $("#name").val("");
     $("#mobile1").val();
-    $("#mobile1").val("");
+    $("#mobile2").val("");
     $("#mobile3").val("");
-    $("#mobile3").val("");
-    $("#phone1").val("");
     $("#phone1").val("");
     $("#phone2").val("");
     $("#phone3").val("");
@@ -790,6 +821,25 @@ console.log (params);
 //
 // SEARCH
 //
+var modal_pageid = "";
+
+$(document).on('click', '#m-search', function (event) {
+  var pageid = $('#pageid').text();
+  console.log("modal-search", pageid, modal_pageid);
+  switch(pageid) {
+  case 'admin-user-search'       : return admin_modal_user_search  ();
+  }
+});
+
+function admin_modal_user_search () {
+  console.log("modal_pageid", modal_pageid);
+  switch (modal_pageid) {
+  case "m-user-hist-deal":   return $("#m-user-hist-deal").trigger("click" );
+  case "m-user-hist-coupon": return $("#m-user-hist-coupon").trigger("click" );
+  case "m-user-hist-stamp":  return $("#m-user-hist-stamp").trigger("click" );
+  }
+}
+
 $(document).on('click', '#search', function (event) {
   var pageid = $('#pageid').text();
   switch(pageid) {
@@ -948,7 +998,7 @@ function admin_dashboard_member () {
     $("#results").html(html);
     $('#dashboard-user-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
       'buttons': [ { extend: 'excelHtml5', title: '가맹점가입통계' }, { extend: 'print', title: '가맹점가입통계' } ],
@@ -997,7 +1047,7 @@ function admin_dashboard_user () {
     $("#results").html(html);
     $('#dashboard-user-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
       'buttons': [ { extend: 'excelHtml5', title: '사용자가입통계' }, { extend: 'print', title: '사용자가입통계' } ],
@@ -1047,7 +1097,7 @@ function admin_dashboard_deal () {
     $("#results").html(html);
     $('#dashboard-user-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
       'buttons': [ { extend: 'excelHtml5', title: '사용자거래통계' }, { extend: 'print', title: '사용자거래통계' } ],
@@ -1091,7 +1141,7 @@ function admin_dashboard_stamp () {
     $("#results").html(html);
     $('#dashboard-user-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
       'buttons': [ { extend: 'excelHtml5', title: '사용자스탬프통계' }, { extend: 'print', title: '사용자스탬프통계' } ],
@@ -1112,56 +1162,45 @@ function admin_member_search () {
     date2 : $("#date2").val() + ' 23:59:59'
   }
   $.postJSON('/json/admin/member/search', params).then(res => {
+    console.log(res);
     html = '<div class="table-responsive table-hover">';
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
     html += '<tr>';
-    if (width > shrink)
     html += '<th style="text-align: center;">No</th>';
     html += '<th style="text-align: center;">사업자번호</th>';
     html += '<th style="text-align: center;"></th>';
     html += '<th style="text-align: center;">가맹점상호</th>';
     html += '<th style="text-align: center;"></th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">상태</th>';
-    if (width > shrink)
+    html += '<th style="text-align: center;">노출</th>';
     html += '<th style="text-align: center;">전화번호</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">수정</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">수정일</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록자</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록일</th>';
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
     $.each(res, function(i, t) {
       html += '<tr>';
-      if (width > shrink)
       html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
       html += `<td style="text-align: center;"><a id="member-detail"  modal-id="${t.id}" href="javascript:void(0);" data-toggle="tooltip" title="가맹점상세정보 (${t.name})"><div class="ropa">${t.rcn}</div></a></td>`;
       html += `<td style="text-align: center;"><a id="member-history" modal-id="${t.id}" modal-rcn="${t.rcn}" href="javascript:void(0);" data-toggle="tooltip" title="가맹점이력조회 (${t.name})"><i class="fas fa-history fa-sm"></i></a></td>`;
       html += `<td style="text-align: center;"><a id="member-detail"  modal-id="${t.id}" href="javascript:void(0);" data-toggle="tooltip" title="가맹점상세정보 (${t.name})">${t.name}</a></td>`;
       html += `<td style="text-align: center;"><a id="member-goto"    modal-id="${t.id}" href="/member/${t.id}" data-toggle="tooltip" title="가맹점관리 (${t.name})"><i class="fas fa-sliders-h fa-sm"></i></a></td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${t.status}</td>`;
-      if (width > shrink)
+      html += `<td style="text-align: center;">${t.exposure}</td>`;
       html += `<td style="text-align: center;"><div class="ropa"><a href="tel:${t.phone}">${t.phone}</a></div></td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${t.updater}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;"><div class="ropa">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${t.register}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
     });
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
       'buttons': [ { extend: 'excelHtml5', title: '가맹점조회' }, { extend: 'print', title: '가맹점조회' } ],
@@ -1195,6 +1234,7 @@ function admin_user_search () {
     html += '<th style="text-align: center;">연령대</th>';
     html += '<th style="text-align: center;">지역</th>';
     html += '<th style="text-align: center;">시군구</th>';
+    html += '<th style="text-align: center;">메일인증</th>';
     html += '<th style="text-align: center;">수정자</th>';
     html += '<th style="text-align: center;">수정일</th>';
     html += '<th style="text-align: center;">가입일</th>';
@@ -1213,6 +1253,7 @@ function admin_user_search () {
       html += `<td style="text-align: center;">${t.age}</td>`;
       html += `<td style="text-align: center;"><div class="ropa">${t.area1}</div></td>`;
       html += `<td style="text-align: center;"><div class="ropa">${t.area2}</div></td>`;
+      html += `<td style="text-align: center;">${(t.activated=='Y')? '인증완료':'미인증'}</td>`;
       html += `<td style="text-align: center;">${t.updater}</td>`;
       html += `<td style="text-align: center;"><div class="ropa">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
       html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
@@ -1220,7 +1261,7 @@ function admin_user_search () {
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       'dom': 'Bfrtip',
       'buttons': [ { extend: 'excelHtml5', title: '사용자조회' }, { extend: 'print', title: '사용자조회' } ],
       "searching": false,
@@ -1268,7 +1309,7 @@ function admin_user_join_search () {
     $("#results").html(html);
     $('#dashboard-user-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
       'buttons': [ { extend: 'excelHtml5', title: '가맹점가입통계' }, { extend: 'print', title: '가맹점가입통계' } ],
@@ -1313,10 +1354,10 @@ function admin_user_gender_search () {
     $("#results").html(html);
     $('#dashboard-user-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
-      'buttons': [ { extend: 'excelHtml5', title: '사용자연령통계' }, { extend: 'print', title: '사용자연령통계' } ],
+      'buttons': [ { extend: 'excelHtml5', title: '사용자성별통계' }, { extend: 'print', title: '사용자성별통계' } ],
       "pageLength": pagelength
     });
   });
@@ -1365,11 +1406,10 @@ function admin_user_age_search () {
     $("#results").html(html);
     $('#dashboard-user-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
-      //'buttons': [ 'copy', 'csv', 'excel', 'pdf', 'print' ],
-      'buttons': [ 'excel', 'print' ],
+      'buttons': [ { extend: 'excelHtml5', title: '사용자연령통계' }, { extend: 'print', title: '사용자연령통계' } ],
       "pageLength": pagelength
     });
   });
@@ -1419,7 +1459,7 @@ console.log(t);
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -1442,7 +1482,6 @@ function admin_event_search () {
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
     html += '<tr>';
-    if (width > shrink)
     html += '<th style="text-align: center;">No</th>';
     html += '<th style="text-align: center;">이벤트명</th>';
     html += '<th style="text-align: center;">상태</th>';
@@ -1450,13 +1489,9 @@ function admin_event_search () {
     html += '<th style="text-align: center;">메인</th>';
     html += '<th style="text-align: center;">이벤트</th>';
     html += '<th style="text-align: center;">쿠폰</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">수정자</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">수정일</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록자</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록일</th>';
     html += '</tr>';
     html += '</thead>';
@@ -1466,7 +1501,6 @@ function admin_event_search () {
       var fmain   = (t.fmain)? 'Y':'N';
       var fevent  = (t.fevent)? 'Y':'N';
       html += '<tr>';
-      if (width > shrink)
       html += `<td style="text-align: center;">${i}</td>`;
       html += `<td style="text-align: left;"><a id="event-detail" modal-id="${t.id}" href="javascript:void(0);">${t.title}</a></td>`;
       html += `<td style="text-align: center;">${t.status}</td>`;
@@ -1474,19 +1508,15 @@ function admin_event_search () {
       html += `<td style="text-align: center;">${fmain}</td>`;
       html += `<td style="text-align: center;">${fevent}</td>`;
       html += `<td style="text-align: center;">${t.coupon}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${t.updater}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${t.register}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
     });
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -1507,60 +1537,45 @@ function admin_notice_search () {
   }
 
   $.postJSON('/json/admin/notice/search', params).then(res => {
+console.log(res);
     html = '<div class="table-responsive">';
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
     html += '<tr>';
-    if (width > shrink)
     html += '<th style="text-align: center;">No</th>';
     html += '<th style="text-align: center;">제목</th>';
-      if (width > shrink)
     html += '<th style="text-align: center;">성별</th>';
-      if (width > shrink)
     html += '<th style="text-align: center;">나이</th>';
-      if (width > shrink)
     html += '<th style="text-align: center;">지역</th>';
     html += '<th style="text-align: center;">시작</th>';
     html += '<th style="text-align: center;">종료</th>';
     html += '<th style="text-align: center;">조회수</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">수정자</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">수정일</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록자</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록일</th>';
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
     $.each(res, function(i, t) {
       html += '<tr>';
-      if (width > shrink)
       html += `<td style="text-align: center;">${i}</td>`;
       html += `<td style="text-align: left;"><a id="notice-detail" modal-id="${t.id}" href="javascript:void(0);">${t.title}</a></td>`;
-      if (width > shrink)
       html += `<td style="text-align: left;">${t.gender}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: left;">${t.age}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: left;">${t.area1}</td>`;
       html += `<td style="text-align: center;">${moment(t.date1).format('YYYY-MM-DD')}</td>`;
       html += `<td style="text-align: center;">${moment(t.date2).format('YYYY-MM-DD')}</td>`;
       html += `<td style="text-align: center;">${t.views}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${t.updater}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${t.register}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
     });
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -1583,7 +1598,6 @@ function admin_admin_search () {
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
     html += '<tr>';
-    if (width > shrink)
     html += '<th style="text-align: center;">No</th>';
     html += '<th style="text-align: center;">ID</th>';
     html += '<th style="text-align: center;">이름</th>';
@@ -1591,16 +1605,13 @@ function admin_admin_search () {
     html += '<th style="text-align: center;">상태</th>';
     html += '<th style="text-align: center;">최종수정자</th>';
     html += '<th style="text-align: center;">수정일</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록자</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록일</th>';
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
     $.each(res, function(i, t) {
       html += '<tr>';
-      if (width > shrink)
       html += `<td style="text-align: center;">${i}</td>`;
       html += `<td style="text-align: left;"><a id="admin-detail" modal-id="${t.id}" href="javascript:void(0);">${t.email}</a></td>`;
       html += `<td style="text-align: left;"><a id="admin-detail" modal-id="${t.id}" href="javascript:void(0);">${t.name}</a></td>`;
@@ -1608,15 +1619,13 @@ function admin_admin_search () {
       html += `<td style="text-align: left;">${t.status}</td>`;
       html += `<td style="text-align: center;">${t.updater}</td>`;
       html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${t.register}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
     });
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -1661,7 +1670,7 @@ console.log (res);
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -1683,38 +1692,32 @@ function admin_group_search () {
     html += '<table id="admin-member-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
     html += '<tr>';
-    if (width > shrink)
     html += '<th style="text-align: center;">No</th>';
     html += '<th style="text-align: center;">권한경로</th>';
     html += '<th style="text-align: center;">권한그룹명</th>';
     html += '<th style="text-align: center;">분류</th>';
     html += '<th style="text-align: center;">수정</th>';
     html += '<th style="text-align: center;">수정일</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록자</th>';
-    if (width > shrink)
     html += '<th style="text-align: center;">등록일</th>';
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
     $.each(res, function(i, t) {
       html += '<tr>';
-      if (width > shrink)
       html += `<td style="text-align: center;">${i}</td>`;
       html += `<td style="text-align: left;"><a id="group-detail" modal-id="${t.id}" href="javascript:void(0);">${t.pattern}</a></td>`;
       html += `<td style="text-align: left;"><a id="group-detail" modal-id="${t.id}" href="javascript:void(0);">${t.name}</a></td>`;
       html += `<td style="text-align: left;">${t.gtype}</td>`;
       html += `<td style="text-align: center;">${t.updater}</td>`;
       html += `<td style="text-align: center;">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${t.register}</td>`;
-      if (width > shrink)
       html += `<td style="text-align: center;">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</td>`;
     });
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -1761,7 +1764,7 @@ console.log (params);
     $("#results").html(html);
     $('#admin-license-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -1809,7 +1812,7 @@ console.log (params);
     $("#results").html(html);
     $('#admin-monitor-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -1856,7 +1859,7 @@ function admin_pos_version () {
     $("#results").html(html);
     $('#admin-version-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -1887,7 +1890,11 @@ function pos_version_update () {
 
 function member_stamp_update () {
   var params = {
+    register:  memberInfo.member,
+    member:    memberInfo.member,
     rcn:       memberInfo.rcn,
+    bzcode:    memberInfo.rcn,
+    cpcoe:     memberInfo.rcn,
     status:    $('input[type=radio][name=status]:checked').val(),
     stamp:     $("#btn-stamp").html(),
     limits:    $("#limits").val(),
@@ -1976,6 +1983,7 @@ $(document).on('click', '#delete', function (event) {
   var pageid = $('#pageid').text();
   switch(pageid) {
   case 'member-detail-search' : return member_detail_delete ();
+  case 'member-event-search'  : return member_event_delete ();
   }
 });
 
@@ -1987,6 +1995,19 @@ function member_detail_delete () {
     console.log(res);
     dynamicAlert("가맹점정보를 해지했습니다");
     location.href = '/logout';
+  });
+}
+
+function member_event_delete () {
+  var params = {
+    rcn:        memberInfo.rcn
+  }
+  $.postJSON('/json/member/event/delete', params).then(res => {
+    console.log(res);
+    $("#img1").attr("src", "");
+    $("#img2").attr("src", "");
+    $("#img3").attr("src", "");
+    dynamicAlert("가맹점 대표이미지를 삭제했습니다");
   });
 }
 
@@ -2023,6 +2044,7 @@ function admin_member_update () {
     id:        modal_member.id,
     updater:   userInfo.name,
     status:    $(':radio[name=m-status]').filter(':checked').val(),
+    exposure:  $(':radio[name=m-exposure]').filter(':checked').val(),
     name:      $("#m-name").val(),
     owner:     $("#m-owner").val(),
     bzcond:    $("#m-bzcond").val(),
@@ -2047,6 +2069,8 @@ function admin_member_update () {
 
   $.postJSON('/json/admin/member/update', params).then(res => {
     console.log(res);
+    if(params.status   != modal_member.status)   logAdminMember(modal_member.name, modal_member.rcn, "", userInfo.name, getCur(), "수정", "가맹점", `상태변경: ${modal_member.status} => ${params.status}`);
+    if(params.exposure != modal_member.exposure) logAdminMember(modal_member.name, modal_member.rcn, "", userInfo.name, getCur(), "수정", "가맹점", `노출변경: ${modal_member.exposure} => ${params.exposure}`);
     if(params.name   != modal_member.name)   logAdminMember(modal_member.name, modal_member.rcn, "", userInfo.name, getCur(), "수정", "가맹점", `상호명변경: ${modal_member.name} => ${params.name}`);
     if(params.owner  != modal_member.owner)  logAdminMember(modal_member.name, modal_member.rcn, "", userInfo.name, getCur(), "수정", "가맹점", `대표자명변경: ${modal_member.owner} => ${params.owner}`);
     if(params.bzname != modal_member.bzname) logAdminMember(modal_member.name, modal_member.rcn, "", userInfo.name, getCur(), "수정", "가맹점", `업종명변경: ${modal_member.bzname} => ${params.bzname}`);
@@ -2417,6 +2441,7 @@ function member_coupon_update () {
   }
   $.postJSON('/json/member/coupon/update/status', params).then(res => {
     console.log(res);
+    if(params.status != modal_coupon.status) logAdminCoupon(modal_coupon.name, "", userInfo.name, getCur(), "수정", modal_coupon.ctype, `상태: ${modal_coupon.status} => ${params.status}`);
     dynamicAlert("쿠폰정보가 정상적으로 변경되었습니다");
   });
 
@@ -2546,7 +2571,7 @@ $(document).on('click', '#m-delete', function (event) {
   var pageid = $('#pageid').text();
   switch(pageid) {
   case 'admin-member-search'  : return admin_member_delete ();
-  case 'admin-user-search'    : return;
+  case 'admin-user-search'    : return admin_user_delete   ();
   case 'admin-coupon-search'  : return admin_coupon_delete ();
   case 'admin-event-search'   : return admin_event_delete  ();
   case 'admin-notice-search'  : return admin_notice_delete ();
@@ -2571,6 +2596,29 @@ function admin_member_delete () {
     console.log(res);
     logAdminMember(modal_member.name, modal_member.rcn, "", userInfo.name, getCur(), "삭제", "가맹점", "가맹점정보 삭제");
     deleteDeactivated ("가맹점정보가 정상적으로 삭제되었습니다");
+  });
+}
+
+function admin_user_delete () {
+  console.log (modal_member);
+  var params = {
+    id:   modal_user.id,
+    email:   modal_user.email,
+    updater: userInfo.name
+  }
+  $.postJSON('/json/admin/user/delete/id/', params).then(res => {
+    console.log(res);
+    logAdminUser(modal_user.email, userInfo.name, getCur(), "삭제", "사용자", "사용자 정보삭제");
+    deleteDeactivated ("가맹점정보가 정상적으로 삭제되었습니다");
+
+    $("#m-email").val("");
+    $("#m-os").val("");
+    $("#m-date1").val("");
+    $("#m-date2").val("");
+    $("#m-area1").val("");
+    $("#m-area2").val("");
+    $("#m-updated").val("");
+    $("#m-registered").val("");
   });
 }
 
@@ -2635,6 +2683,16 @@ function admin_admin_delete () {
     console.log(res);
     deleteDeactivated ("관리자정보가 정상적으로 삭제되었습니다");
     logAdminAdmin(modal_admin.name, "", userInfo.name, getCur(), "삭제", "관리자", "");
+    $("#m-email").val("");
+    $("#m-name").val("");
+    $("#m-mobile1").val("");
+    $("#m-mobile2").val("");
+    $("#m-mobile3").val("");
+    $("#m-phone1").val("");
+    $("#m-phone2").val("");
+    $("#m-phone3").val("");
+    $("#m-date2").val("");
+    $("#btn-m-grade").html("선택");
   });
 }
 
@@ -2648,6 +2706,13 @@ function admin_class_delete () {
     console.log(res);
     deleteDeactivated ("업종명이 정상적으로 삭제되었습니다");
     logAdminClass(modal_class.name, "", userInfo.name, getCur(), "삭제", "업종분류코드", "");
+    $("#m-name").val("") ;
+    $("#file1").val("") ;
+    $("#file2").val("") ;
+    $("#file3").val("") ;
+    $("#img1").attr("src", "");
+    $("#img2").attr("src", "");
+    $("#img3").attr("src", "");
   });
 }
 
@@ -2690,6 +2755,10 @@ function pos_version_delete () {
 
 function member_coupon_delete () {
   console.log (memberInfo);
+  if(modal_coupon.admin == "Y") {
+    dynamicAlert("관리자가 등록한 쿠폰은 삭제할수 없습니다.");
+    return;
+  }
   var params = {
     id:   $("#m-id").val()
   }
@@ -2717,13 +2786,14 @@ $(document).on('click', '#history', function (event) {
   case 'admin-pos-license'       : return admin_license_history ();
   case 'admin-pos-monitor'       : return admin_monitor_history ();
   case 'admin-pos-version'       : return admin_version_history ();
+
+  case 'member-coupon-search'    : return member_coupon_history ();
   }
 });
 
 function admin_member_history () {
   $("#modal-member-hist-detail").modal('show');
   $.postJSON('/json/admin/member/history', {}).then(res => {
-    console.log (res);
     html = '<div class="table-responsive">';
     html += '<table id="modal-member-hist-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
     html += '<thead>';
@@ -2738,7 +2808,6 @@ function admin_member_history () {
     html += '</thead>';
     html += '<tbody>';
     $.each(res, function(i, t) {
-consolelog (t);
       html += '<tr>';
       html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
       html += `<td style="text-align: center;"><div class="ropa">${t.name}</div></td>`;
@@ -2747,10 +2816,11 @@ consolelog (t);
       html += `<td style="text-align: center;">${(t.description == null)? "":t.description}</td>`;
       html += `<td style="text-align: center;"><div class="ropa">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
     });
-    $("#m-hist-results").html(html);
+    
+    $('#m-hist-results').html(html);
     $('#modal-member-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -2786,7 +2856,7 @@ function admin_event_history () {
     $("#m-hist-results").html(html);
     $('#modal-event-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -2822,7 +2892,7 @@ function admin_coupon_history () {
     $("#m-hist-results").html(html);
     $('#modal-coupon-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -2858,7 +2928,7 @@ function admin_notice_history () {
     $("#m-hist-results").html(html);
     $('#modal-notice-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -2894,7 +2964,7 @@ function admin_admin_history () {
     $("#m-hist-results").html(html);
     $('#modal-admin-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -2930,7 +3000,7 @@ function admin_class_history () {
     $("#m-hist-results").html(html);
     $('#modal-class-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -2966,7 +3036,7 @@ function admin_user_history () {
     $("#m-hist-results").html(html);
     $('#modal-class-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -3002,7 +3072,7 @@ function admin_group_history () {
     $("#m-hist-results").html(html);
     $('#modal-group-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -3038,7 +3108,7 @@ function admin_license_history () {
     $("#m-hist-results").html(html);
     $('#modal-group-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -3074,7 +3144,7 @@ function admin_monitor_history () {
     $("#m-hist-results").html(html);
     $('#modal-group-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -3110,7 +3180,43 @@ function admin_version_history () {
     $("#m-hist-results").html(html);
     $('#modal-group-hist-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
+      "searching": false,
+      "pageLength": pagelength
+    });
+  });
+}
+
+function member_coupon_history () {
+  $("#modal-coupon-hist-detail").modal('show');
+  $.postJSON(`/json/member/coupon/history/${userInfo.rcn}`, {}).then(res => {
+    console.log (res);
+    html = '<div class="table-responsive">';
+    html += '<table id="modal-coupon-hist-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th style="text-align: center;">No</th>';
+    html += '<th style="text-align: center;">쿠폰명</th>';
+    html += '<th style="text-align: center;">액션</th>';
+    html += '<th style="text-align: center;">범위</th>';
+    html += '<th style="text-align: center;">수정상세</th>';
+    html += '<th style="text-align: center;">수정일</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    $.each(res, function(i, t) {
+      html += '<tr>';
+      html += `<td style="text-align: center;"><div class="ropa">${i}</div></td>`;
+      html += `<td style="text-align: left;"><div class="ropa">${t.name}</div></td>`;
+      html += `<td style="text-align: center;">${t.done}</td>`;
+      html += `<td style="text-align: center;">${(t.menu == null)? "":t.menu}</td>`;
+      html += `<td style="text-align: center;">${(t.description == null)? "":t.description}</td>`;
+      html += `<td style="text-align: center;"><div class="ropa">${moment(t.updated).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
+    });
+    $("#m-hist-results").html(html);
+    $('#modal-coupon-hist-table').DataTable({
+      "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -3126,12 +3232,13 @@ function admin_version_history () {
 // MODAL-HISTORY
 //
 $(document).on('click', '#m-user-hist-deal', function (event) {
+  modal_pageid = "m-user-hist-deal";
   console.log (modal_user);
   $("#modal-user-hist-deal").modal('show');
   var params = {
     id   : modal_user.id,
     email: modal_user.email,
-    rcn  : $("#m-rcn").val (),
+    rcn  : $("#m-rcn1").val (),
     date1: $("#m-date3").val () + ' 00:00:00',
     date2: $("#m-date4").val () + ' 23:59:59'
   }
@@ -3158,17 +3265,17 @@ $(document).on('click', '#m-user-hist-deal', function (event) {
       html += `<td style="text-align: center;"><div class="ropa">${t.member}</div></td>`;
       html += `<td style="text-align: center;">${numberWithCommas(t.amount)}</td>`;
       html += `<td style="text-align: center;">${numberWithCommas(t.n_stamp)}</td>`;
-      html += `<td style="text-align: center;">${numberWithCommas(t.n_reward)}</td>`;
+      html += `<td style="text-align: center;">${numberWithCommas((t.c_reward == 0)? t.n_reward:0)}</td>`;
       html += `<td style="text-align: center;"><a href="${t.pdf}" target="_blank">조회</a></td>`;
       html += `<td style="text-align: center;"><div class="ropa">${moment(t.registered).format('YYYY-MM-DD HH:mm:ss')}</div></td>`;
     });
     $("#m-deal-results").html(html);
     $('#modal-admin-user-hist-deal-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
-      'buttons': [ 'excel', 'print' ],
+      'buttons': [ { extend: 'excelHtml5', title: '사용자거래이력조회' }, { extend: 'print', title: '사용자거래이력조회' } ],
       "pageLength": pagelength
     });
 
@@ -3176,12 +3283,13 @@ $(document).on('click', '#m-user-hist-deal', function (event) {
 });
 
 $(document).on('click', '#m-user-hist-coupon', function (event) {
+  modal_pageid = "m-user-hist-coupon";
   console.log (modal_user);
   $("#modal-user-hist-coupon").modal('show');
   var params = {
     id   : modal_user.id,
     email: modal_user.email,
-    rcn  : $("#m-rcn").val (),
+    rcn  : $("#m-rcn2").val (),
     date1: $("#m-date5").val () + ' 00:00:00',
     date2: $("#m-date6").val () + ' 23:59:59'
   }
@@ -3213,8 +3321,10 @@ $(document).on('click', '#m-user-hist-coupon', function (event) {
     $("#m-coupon-results").html(html);
     $('#modal-admin-user-hist-coupon-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
+      'dom': 'Bfrtip',
+      'buttons': [ { extend: 'excelHtml5', title: '사용자쿠폰이력조회' }, { extend: 'print', title: '사용자쿠폰이력조회' } ],
       "pageLength": pagelength
     });
 
@@ -3222,12 +3332,13 @@ $(document).on('click', '#m-user-hist-coupon', function (event) {
 });
 
 $(document).on('click', '#m-user-hist-stamp', function (event) {
+  modal_pageid = "m-user-hist-stamp";
   console.log (modal_user);
   $("#modal-user-hist-stamp").modal('show');
   var params = {
     id   : modal_user.id,
     email: modal_user.email,
-    rcn  : $("#m-rcn").val (),
+    rcn  : $("#m-rcn3").val (),
     date1: $("#m-date7").val () + ' 00:00:00',
     date2: $("#m-date8").val () + ' 23:59:59'
   }
@@ -3259,10 +3370,11 @@ $(document).on('click', '#m-user-hist-stamp', function (event) {
     $("#m-stamp-results").html(html);
     $('#modal-admin-user-hist-stamp-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
-      'buttons': [ 'excel', 'print' ],
+      'dom': 'Bfrtip',
+      'buttons': [ { extend: 'excelHtml5', title: '사용자스탬프이력조회' }, { extend: 'print', title: '사용자스탬프이력조회' } ],
       "pageLength": pagelength
     });
 
@@ -3402,11 +3514,10 @@ function admin_user_area_search () {
     $("#results").html(html);
     $('#user-area-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
-      //'buttons': [ 'copy', 'csv', 'excel', 'pdf', 'print' ],
-      'buttons': [ 'excel', 'print' ],
+      'buttons': [ { extend: 'excelHtml5', title: '사용자지역통계' }, { extend: 'print', title: '사용자통계' } ],
       "pageLength": pagelength
     });
 
@@ -3471,7 +3582,7 @@ function member_dashbaord_search () {
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
       'buttons': [ { extend: 'excelHtml5', title: '가맹점대시보드' }, { extend: 'print', title: '가맹점대시보드' } ],
@@ -3527,7 +3638,7 @@ console.log(t);
     $("#results").html(html);
     $('#admin-member-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -3547,6 +3658,7 @@ function member_stamp_search () {
     $("#btn-overagain").html(res.overagain);
     $("#benefit").html(res.benefit);
     $("#notice").html(res.notice);
+    //if($("#benefit").html() == "") dynamicAlert("스탬프 쿠폰(쿠폰관리) 등록을 해주세요"); 
   });
 }
 
@@ -3680,7 +3792,7 @@ $(document).on('click', '#item-member-dashboard', function (event) {
     $("#modal-results").html(html);
     $('#dashboard-deal-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       'dom': 'Bfrtip',
       'buttons': [ 'excel', 'print' ],
@@ -3696,6 +3808,7 @@ $(document).on('click', '#item-member-coupon', function (event) {
     id: $(this).attr('modal-id')
   }
   $.postJSON('/json/member/coupon/search/id', params).then(res => {
+    modal_coupon = res;
     console.log(res);
     $("#m-id").val (res.id); 
     $("#m-ctype").val (res.ctype); 
@@ -4021,6 +4134,8 @@ $(document).on('click', '#member-detail', function (event) {
     console.log (res);
     if(res.status == '가입') $("#m-status1").prop('checked', true);
     else $("#m-status2").prop('checked', true);
+    if(res.exposure == '노출') $("#m-exposure1").prop('checked', true);
+    else $("#m-exposure2").prop('checked', true);
     $("#m-rcn").val (res.rcn);
     $("#m-name").val (res.name);
     $("#m-owner").val (res.owner);
@@ -4073,7 +4188,7 @@ console.log (t);
     $("#m-hist-results").html(html);
     $('#modal-admin-user-hist-deal-table').DataTable({
       "pagingType": "numbers", // "simple" option for 'Previous' and 'Next' buttons only
-      "order": [[ 0, "desc" ]],
+//      "order": [[ 0, "desc" ]],
       "searching": false,
       "pageLength": pagelength
     });
@@ -4532,6 +4647,8 @@ $(document).on('click', '.admin-coupon1-item', function (event) {
   $("#m-cid").html (cid);
   $("#m-validity1").html (date1);
   $("#m-validity2").html (date2);
+  $("#validity1").html (date1);
+  $("#validity2").html (date2);
 });
 
 $(function () {
@@ -4663,6 +4780,7 @@ console.log("logAdminMember");
 
 function logAdminCoupon(name, menu, updater, updated, done, division, description) {
   var formData = new FormData();
+  formData.append('rcn',         userInfo.rcn);
   formData.append('name',        name);
   formData.append('menu',        menu);
   formData.append('updater',     updater);

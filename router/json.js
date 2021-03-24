@@ -179,6 +179,7 @@ module.exports = function (app) {
     var coupon  = req.body.coupon;
     var date3   = req.body.date3;
     var date4   = req.body.date4;
+    var cid     = req.body.cid;
 
     var id = lib.mysql.getAdminEventAutoInc();
     var event = "";
@@ -207,7 +208,8 @@ module.exports = function (app) {
       detail = `/rc/banner/event-detail-${id}`;
     }
 
-    var result = lib.mysql.putAdminEvent ([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, event, main, detail, rgb1, rgb2, coupon, date3, date4, "", register]);
+console.log ([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, event, main, detail, rgb1, rgb2, coupon, date3, date4,  `/publish/event/coupon/${cid}`, register]);
+    var result = lib.mysql.putAdminEvent ([title, status, fnotice, fweight, fmain, fevent, gender, age, area1, area2, date1, date2, event, main, detail, rgb1, rgb2, coupon, date3, date4,  `/publish/event/coupon/${cid}`, register]);
     res.json(result[0]);
   });
 
@@ -301,6 +303,8 @@ module.exports = function (app) {
   // ADMIN-GROUP-REGISTER
   app.post('/json/admin/group/register', function (req, res) {
     var gname    = req.body.gname;
+    var pattern  = req.body.pattern;
+    var depth    = req.body.depth;
     var name     = req.body.name;
     var fcoupon  = req.body.fcoupon;
     var fevent   = req.body.fevent;
@@ -310,7 +314,9 @@ module.exports = function (app) {
     var homepage = req.body.homepage;
     var register = req.body.register;
 
-    var result = lib.mysql.putAdminGroup ([gname, name, fcoupon, fevent, fnotice, fadmin, fgroup, homepage, register]);
+    var gtype    = (gname == '시스템관리자' || gname == '운영관리자')? 'SYSTEM':'관리자';
+
+    var result = lib.mysql.putAdminGroup ([gname, pattern, gtype, depth, name, fcoupon, fevent, fnotice, fadmin, fgroup, homepage, register]);
     res.json (result);
   });
 
@@ -555,6 +561,8 @@ console.log("params", cash, stamp);
     var rcn   = (req.body.rcn=="")? '%%':'%'+req.body.rcn+'%';
     var date1 = req.body.date1;
     var date2 = req.body.date2;
+
+console.log([rcn, rcn, date1, date2, email]);
 
     var result = lib.mysql.searchAdminUserReceipt([rcn, rcn, date1, date2, email]);
     res.json(result);
@@ -839,6 +847,7 @@ console.log("params", cash, stamp);
   app.post('/json/admin/member/update', function (req, res) {
     var id     = req.body.id;
     var status = req.body.status;
+    var exposure = req.body.exposure;
     var updater= req.body.updater;
     var name   = req.body.name;
     var owner  = req.body.owner;
@@ -853,7 +862,7 @@ console.log("params", cash, stamp);
     var lat    = req.body.lat;
     var lng    = req.body.lng;
 
-    var result = lib.mysql.updAdminMember([status, name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr, lat, lng, updater, id]);
+    var result = lib.mysql.updAdminMember([status, exposure, name, owner, bzcond, bztype, bzname, phone, date1, area1, area2, addr, lat, lng, updater, id]);
     res.json(result);
   });
 
@@ -1159,6 +1168,15 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
+  app.post('/json/admin/user/delete/id', function (req, res) {
+    var id = req.body.id;
+    var email = req.body.email;
+
+    var result = lib.mysql.delAdminUserEmail([email]);
+    var result = lib.mysql.delAdminUserId([id]);
+    res.json(result);
+  });
+
   app.post('/json/admin/coupon/delete/id', function (req, res) {
     var id = req.body.id;
 
@@ -1219,6 +1237,14 @@ console.log("params", cash, stamp);
     res.json(result);
   });
 
+  app.post('/json/member/event/delete', function (req, res) {
+    var rcn        = req.body.rcn;
+
+    var result = lib.mysql.delMemberLeaflet ([rcn]);
+    res.json(result);
+  });
+
+
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //
   // HISTORY
@@ -1262,6 +1288,12 @@ console.log("params", cash, stamp);
   app.post('/json/admin/Group/history', function (req, res) {
     var group = lib.mysql.searchGroupHistory ([]);
     res.json(group);
+  });
+
+  app.post('/json/member/coupon/history/:rcn', function (req, res) {
+    var rcn = req.params.rcn;
+    var result = lib.mysql.searchCouponHistoryRcn ([rcn]);
+    res.json(result);
   });
 
 
@@ -1572,6 +1604,7 @@ console.log("params", cash, stamp);
   });
 
   app.post('/json/admin/coupon/history/register', function (req, res) {
+    var rcn         = req.body.rcn;
     var name        = req.body.name;
     var menu        = req.body.menu;
     var updater     = req.body.updater;
@@ -1580,7 +1613,8 @@ console.log("params", cash, stamp);
     var division    = req.body.division;
     var description = req.body.description;
 
-    lib.mysql.putAdminCouponHistory([name, menu, updater, updated, done, division, description]);
+console.log ([rcn, name, menu, updater, updated, done, division, description]);
+    lib.mysql.putAdminCouponHistory([rcn, name, menu, updater, updated, done, division, description]);
     res.json ({});
   });
 
@@ -1696,6 +1730,20 @@ console.log("params", cash, stamp);
 //
   app.get('/generate/receipt/:email', function (req, res) {
     var email = req.params.email; 
+
+    console.log ('email', email);
+    lib.utils.postJSON('/qrcode', {email: email}).catch(err => console.log('err', err)).then(function (result) { // QRcode
+      console.log (result.data);
+      lib.utils.getJSON ('/issue/1234/' + result.data.data.qrcode, {email: email}).catch(err => console.log('err', err)).then(function (result) {
+        lib.utils.postJSON('/receipt/probe/1234', {Data:lib.utils.genReceiptBody()});
+        return res.json({});
+      });
+    });
+  });
+
+
+  app.get('/generate/coupon/:email', function (req, res) {
+    var email = req.params.email;
 
     console.log ('email', email);
     lib.utils.postJSON('/qrcode', {email: email}).catch(err => console.log('err', err)).then(function (result) {
