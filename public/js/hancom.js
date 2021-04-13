@@ -193,6 +193,8 @@ $(function() {
   if ($("#m-date6").length) { $("#m-date6").datetimepicker({ format: 'YYYY-MM-DD' }); $("#m-date6").val(today); }
   if ($("#m-date7").length) { $("#m-date7").datetimepicker({ format: 'YYYY-MM-DD' }); $("#m-date7").val(before); }
   if ($("#m-date8").length) { $("#m-date8").datetimepicker({ format: 'YYYY-MM-DD' }); $("#m-date8").val(today); }
+  if ($("#m-date9").length) { $("#m-date9").datetimepicker({ format: 'YYYY-MM-DD' }); $("#m-date9").val(before); }
+  if ($("#m-date10").length) { $("#m-date10").datetimepicker({ format: 'YYYY-MM-DD' }); $("#m-date10").val(today); }
 
   if ($("#modal-date1").length) { $("#modal-date1").datetimepicker({ format: 'YYYY-MM-DD' }); }
   if ($("#modal-date2").length) { $("#modal-date2").datetimepicker({ format: 'YYYY-MM-DD' }); }
@@ -834,9 +836,10 @@ $(document).on('click', '#m-search', function (event) {
 function admin_modal_user_search () {
   console.log("modal_pageid", modal_pageid);
   switch (modal_pageid) {
-  case "m-user-hist-deal":   return $("#m-user-hist-deal").trigger("click" );
-  case "m-user-hist-coupon": return $("#m-user-hist-coupon").trigger("click" );
-  case "m-user-hist-stamp":  return $("#m-user-hist-stamp").trigger("click" );
+  case "m-user-hist-deal":    return $("#m-user-hist-deal").trigger("click" );
+  case "m-user-hist-coupon":  return $("#m-user-hist-coupon").trigger("click" );
+  case "m-user-hist-stamp":   return $("#m-user-hist-stamp").trigger("click" );
+  case "m-user-hist-detail":  console.log("m-user-hist-detail");
   }
 }
 
@@ -3008,6 +3011,7 @@ function admin_class_history () {
 }
 
 function admin_user_history () {
+  modal_pageid = "m-user-hist-detail";
   $("#modal-user-hist-detail").modal('show');
   $.postJSON('/json/admin/user/history', {}).then(res => {
     console.log (res);

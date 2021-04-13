@@ -1285,7 +1285,7 @@ console.log([rcn, rcn, date1, date2, email]);
     var user = lib.mysql.searchUserHistory ([]);
     res.json(user);
   });
-  app.post('/json/admin/Group/history', function (req, res) {
+  app.post('/json/admin/group/history', function (req, res) {
     var group = lib.mysql.searchGroupHistory ([]);
     res.json(group);
   });
